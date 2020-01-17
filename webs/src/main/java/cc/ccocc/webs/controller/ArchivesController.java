@@ -1,5 +1,6 @@
 package cc.ccocc.webs.controller;
 
+import cc.ccocc.service.IArchiveService;
 import cc.ccocc.service.IArticleService;
 import cc.ccocc.service.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *  归档跳转控制器
  * @author Weleness
  */
-@RequestMapping("/")
+
 @Controller
 public class ArchivesController {
-    @Autowired
-    private ITagService tagService;
-    @Autowired
-    private IArticleService articleService;
 
 
-    @RequestMapping("/archives")
-    public String showArchives(Model model){
-        model.addAttribute("article_List",articleService.findArticleOrderByYear());
-        System.out.println(articleService.findArticleOrderByYear());
-        return "archives";
-    }
+
+
 }

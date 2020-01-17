@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS tb_archive;
+
+CREATE TABLE tb_archive(
+archive_id INT(11) NOT NULL AUTO_INCREMENT COMMENT '归档主键',
+archive_name VARCHAR(255) NOT NULL COMMENT '归档日期',
+PRIMARY KEY(archive_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT = '归档表'

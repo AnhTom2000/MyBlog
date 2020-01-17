@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
@@ -93,8 +93,9 @@
                     </ul>
                 </div>
                 <div class="navbar-nav text-justify  text-nowrap text-monospace text-sm-left mr-auto">
-                    <a href="write.html" style="text-decoration: none" target="_blank">
+                    <a href="/markdown" style="text-decoration: none" target="_blank">
                         <span class="write-word fonts nav-link">写博客</span>
+
                     </a>
                 </div>
                 <div class=" navbar-nav justify-content-center ">
@@ -483,7 +484,9 @@
                            ${article.a_createTime}</span>&nbsp;&nbsp;<svg t="1578579077390" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14118" width="18" height="18 "><path d="M926.000524 338.592578 687.387008 107.195418c-43.826158-42.493813-114.802676-43.030026-159.351288-1.326205L71.441611 531.173688c-4.923126 4.585435-7.269567 10.885931-7.019881 17.117866-0.023536 0.416486-0.037862 0.835018-0.037862 1.257643l0 288.372803c0 61.457724 49.552579 111.124913 110.817921 111.124913l299.771411 0c5.968945 0 11.694343-2.407839 15.874549-6.67298L927.985738 495.519654C970.902176 451.640284 970.058972 381.306402 926.000524 338.592578zM303.350424 821.294298c-54.953589 0-99.510388-44.545542-99.510388-99.503225 0-54.956659 44.556798-99.503225 99.510388-99.503225 54.955636 0 99.511411 44.546565 99.511411 99.503225C402.860812 776.747733 358.305037 821.294298 303.350424 821.294298z" p-id="14119"></path></svg>
                     <#list article.tag as tag>
                         <span class="text-secondary  ">
-                           <a href="/showTags?tag=${tag.tag_id}" class="showTags">${tag.tag_name}</a></span>
+                           <a href="/showTags?tag=${tag.tag_id}" class="showTags">${tag.tag_name?cap_first}</a></span>
+                    <#sep >
+                    ,
                 </#list>
                 </div>
                 <p class="showSome lead text-sm-7 text-xd-7 mb-4">${article.a_text}
@@ -498,7 +501,6 @@
                 </div>
             </div>
             </#list>
-
         </div>
         <!-- content-right -->
         <div class="col-md-3 d-none d-sm-block d-sm-none d-md-block ">
@@ -526,7 +528,7 @@
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
                 <h4 style="font-weight: bold;" >最新文章</h4>
                 <hr>
-                <#list article_new_List as artilce><a href="/showArticle?article_id=${artilce.a_id}">${artilce.a_name}</a></#list>
+                <#list article_new_List as article><a href="/showArticle?article_id=${article.a_id}">${article.a_name}</a></#list>
             </div>
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
                 <h4 style="font-weight: bold;" >留言区</h4>
@@ -538,7 +540,7 @@
             <div class="content-left tagclound taglist">
                 <div class="container " id="tags">
                     <#list tag_List as tags>
-                    <a href="/getArticle?tag_id=${tags.tag_id}">${tags.tag_name}</a>
+                    <a href="/getArticle?tag_id=${tags.tag_id}">${tags.tag_name?cap_first}</a>
                     </#list>
                 </div>
 
