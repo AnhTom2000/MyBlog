@@ -40,8 +40,9 @@
 </head>
 
 <body>
- <#list archive_List as archive>
+
 <div class="am-container .am-scrollable-vertical">
+<#list archive_List as archive>
     <div class="am-g am-g-fixed blog-content">
         <!-- 响应式，适应中小屏幕  和bootstrap一个道理 -->
      <div class="am-u-sm-12 am-u-md-9">
@@ -49,13 +50,9 @@
              <h1>${archive}年</h1>
              <hr>
              <ul>
-                 <#if Session["article_List"]?exists>
-                     <#assign article_List = Session["article_List"]/>
-                     ${Session.get("article_List")}
-                     <!-- 声明变量,转换JSON格式 -->
-    <#assign article_ListJson=article_List?eval />
-                    <#list article_ListJson as article>
-                        <#if article.a_year== archive>
+                    <#list article_List as article>
+
+                        <#if article.a_year == archive>
                         <li>
                             <div class="am-u-md-12 am-u-sm-12 timeline-row-marjor">
                                 <!-- each-blcok  am-comment-main-->
@@ -89,13 +86,12 @@
                         </li>
                         </#if>
                     </#list>
-                 </#if>
              </ul>
          </div>
      </div>
- </#list>
-</div>
 
+</div>
+</#list>
 </div>
 
 

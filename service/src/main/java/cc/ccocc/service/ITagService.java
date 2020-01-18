@@ -18,4 +18,6 @@ public interface ITagService {
     Integer tag_Count();
 
     List<Tag> findAll();
+
+    void  save(List<Tag> tags);
 }

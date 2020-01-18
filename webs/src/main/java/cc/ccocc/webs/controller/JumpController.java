@@ -1,21 +1,17 @@
 package cc.ccocc.webs.controller;
 
-import cc.ccocc.pojo.Article;
+
 import cc.ccocc.service.IArchiveService;
 import cc.ccocc.service.IArticleService;
 import cc.ccocc.service.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.List;
+
 
 /**
  * Created on 22:04  17/01/2020
@@ -25,8 +21,8 @@ import java.util.List;
  */
 
 @Controller
-@SessionAttributes({"article_List","tag_List","article_new_List","article_count","tag_count"})
 public class JumpController {
+
     @Autowired
     private IArchiveService archiveService;
     @Autowired
@@ -34,6 +30,18 @@ public class JumpController {
     @Autowired
     private ITagService tagService;
 
+
+
+    // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
+    @ModelAttribute
+    public void beforePage(Model model , HttpServletRequest request){
+        model.addAttribute("article_List", articleService.findAll());
+        model.addAttribute("tag_List",tagService.findAll());
+        model.addAttribute("article_new_List",articleService.findArticleNew());
+        model.addAttribute("article_count",articleService.article_Count());
+        model.addAttribute("tag_count",tagService.tag_Count());
+        model.addAttribute("archive_List",archiveService.findArchives());
+    }
     /**
      * @Method
      * Description:
@@ -44,11 +52,6 @@ public class JumpController {
      */
     @RequestMapping("/")
     public String main(Model model) {
-        model.addAttribute("article_List", articleService.findAll());
-        model.addAttribute("tag_List",tagService.findAll());
-        model.addAttribute("article_new_List",articleService.findArticleNew());
-        model.addAttribute("article_count",articleService.article_Count());
-        model.addAttribute("tag_count",tagService.tag_Count());
         return "main";
     }
 
@@ -61,14 +64,8 @@ public class JumpController {
      * @Return
      */
     @RequestMapping("/archives")
-    public String archives(Model model,@SessionAttribute("article_List") List<Article> article_List){
-
+    public String archives(Model model){
         return "archives";
-    }
-    @RequestMapping("/test")
-    public String test(@SessionAttribute("article_List") List<Article> article_List,Model model){
-       model.addAttribute("article_List",article_List);
-        return "test";
     }
 
     /**
@@ -81,13 +78,19 @@ public class JumpController {
      */
     @RequestMapping("/markdown")
     public String markdown(Model model) {
-
         return "markdown";
     }
 
+    /**
+     * @Method
+     * Description:
+     *  富文本编辑器路由
+     * @Author weleness
+     *
+     * @Return
+     */
     @RequestMapping("/rich")
     public String rich(Model model){
-
         return "rich";
     }
 

@@ -1,10 +1,7 @@
 package cc.ccocc.dao;
 
 import cc.ccocc.pojo.Tag;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,6 +20,7 @@ public interface ITagDao {
      * 根据文章id查询对应的标签
      * @Author weleness
      * @Return
+     * @param article_id 文章id
      */
     @Select("SELECT t.tag_id,t.tag_name FROM tb_tag t INNER JOIN tb_article_tag_category_middle m ON t.tag_id=m.tag_id WHERE m.article_id= #{article_id} ")
     List<Tag> findByArticleId(@Param("article_id") Integer article_id);
@@ -32,6 +30,7 @@ public interface ITagDao {
      * 查询所有的标签总数
      * @Author weleness
      * @Return
+     *
      */
     @Select("SELECT COUNT(*) FROM tb_tag")
     Integer tag_Count();
@@ -43,7 +42,20 @@ public interface ITagDao {
      * @Author weleness
      *
      * @Return
+     *
      */
     @Select("SELECT tag_id,tag_name FROM tb_tag")
     List<Tag> findAll();
+
+/**
+ * @Method
+ * Description:
+ *  保存标签
+ * @Author weleness
+ *
+ * @Return
+ * @param tag  标签类
+ */
+    @Insert("INSERT INTO tb_tag('tag_name') VALUE(#{tag.tag_name})")
+    void saveTag(@Param("tag") Tag tag);
 }

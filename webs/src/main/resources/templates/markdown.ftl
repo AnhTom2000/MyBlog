@@ -19,14 +19,14 @@
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/20170730104929_y5Fi2.thumb.700_0.jpeg">
     <title>创作</title>
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/jQuery/jquery-3.4.1.min.js"></script>
-    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/blogs/js/editormd.min.js"></script>
+    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/editormd.min.js"></script>
     <link rel="stylesheet"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/amazeUI/amazeui.min.css">
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/amazeUI/amazeui.min.js"></script>
-    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/blogs/css/editormd.preview.css">
-    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/blogs/css/editormd.min.css">
-    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/blogs/css/mark.css">
-    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/blogs/js/markdown.js"></script>
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/editormd.preview.css">
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/editormd.min.css">
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/mark.css">
+    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/markdown.js"></script>
 </head>
 
 <body>
@@ -35,25 +35,25 @@
     <div class="am-navbar am-navbar-default am-show-sm-only" data-am-widget="navbar">
         <ul class="am-navbar-nav">
             <li>
-                <a href="main.html">
+                <a href="/">
                     <span class="am-icon-home"></span>
                     <span class="am-navbar-label">首页</span>
                 </a>
             </li>
             <li>
-                <a href="archives.html">
+                <a href="/archives">
                     <span class="am-icon-server"></span>
                     <span class="am-navbar-label">归档</span>
                 </a>
             </li>
             <li>
-                <a href="write copy.html">
+                <a href="/rich">
                     <span class="am-icon-modx"></span>
                     <span class="am-navbar-label">富文本编辑器</span>
                 </a>
             </li>
             <li data-am-navbar-share>
-                <a href="main.html">
+                <a href="/">
                     <span class="am-icon-angellist"></span>
                     <span class="am-navbar-label">返回</span>
                 </a>
@@ -80,12 +80,12 @@
                 <ul class="am-dropdown-content">
                     <li class="am-dropdown-header">选择方式</li>
                     <li class="am-divider"></li>
-                    <li class="am-active"><a href="main.html">首页</a></li>
+                    <li class="am-active"><a href="/">首页</a></li>
                     <li class="am-divider"></li>
                     <li class="am-divider"></li>
-                    <li><a href="archives.html">归档</a></li>
+                    <li><a href="/archives">归档</a></li>
                     <li class="am-divider"></li>
-                    <li><a href="write copy.html">富文本编辑</a></li>
+                    <li><a href="/rich">富文本编辑</a></li>
                 </ul>
             </div>
         </div>
@@ -95,7 +95,7 @@
         <div class="editormd" id="test-editormd">
             <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc"></textarea>
             <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
-            <textarea class="editormd-html-textarea" name="text"></textarea>
+            <textarea class="editormd-html-textarea" name="text" id="htmlContent"></textarea>
         </div>
     </div>
     <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
@@ -126,9 +126,9 @@
                                     <span class="am-icon-caret-down"></span></button>
                                 <ul class="am-dropdown-content">
                                     <li class="am-dropdown-header">历史标签</li>
-                                    <li><a href="javascript: void(0)">Spring</a></li>
-                                    <li><a href="javascript: void(0)">Maven</a></li>
-                                    <li><a href="javascript: void(0)">SpringBoot</a></li>
+                                    <#list tag_List as tag>
+                                    <li><a href="javascript: void(0)" id="${tag_index}">${tag.tag_name}</a></li>
+                                    </#list>
                                 </ul>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                     </div>
                 </div>
                 <div class="am-modal-bd  foot" style="margin-top: 30px;">
-                    <button class="am-btn am-btn-default am-round " data-am-modal-close type="button" role="button">取消</button> <button class="am-btn am-btn-primary am-round" type="submit" role="button">发布</button>
+                    <button class="am-btn am-btn-default am-round " data-am-modal-close type="button" role="button">取消</button> <button class="am-btn am-btn-primary am-round " id="btn-upload" type="submit" role="button">发布</button>
                 </div>
             </form>
 

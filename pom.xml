@@ -11,6 +11,7 @@
         <module>dao</module>
         <module>service</module>
         <module>webs</module>
+        <module>utils</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -131,6 +132,12 @@
                 <artifactId>webs</artifactId>
                 <version>${modules.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cc.ccocc</groupId>
+                <artifactId>utils</artifactId>
+                <version>${modules.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

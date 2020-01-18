@@ -1,5 +1,6 @@
 package cc.ccocc.service;
 
+import cc.ccocc.dto.ResultDTO;
 import cc.ccocc.pojo.Article;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,5 +22,6 @@ public interface IArticleService {
 
     List<Article> findArticleNew();
 
-    List<Article> findArticleOrderByYear();
+    ResultDTO saveArticle(Article article);
+
 }

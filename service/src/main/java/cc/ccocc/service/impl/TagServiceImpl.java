@@ -5,6 +5,9 @@ import cc.ccocc.pojo.Tag;
 import cc.ccocc.service.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,5 +35,13 @@ public class TagServiceImpl implements ITagService {
     @Override
     public List<Tag> findAll() {
         return dao.findAll();
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED,rollbackFor = Throwable.class)
+    @Override
+    public void save(List<Tag> tags) {
+        for (Tag tag : tags) {
+            dao.saveTag(tag);
+        }
     }
 }
