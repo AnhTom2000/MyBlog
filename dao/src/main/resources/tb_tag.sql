@@ -1,0 +1,6 @@
+--  标签表
+CREATE TABLE tb_tag(
+tag_id BIGINT(20) UNSIGNED NOT NULL  COMMENT '标签id',
+tag_name VARCHAR(30) NOT NULL COMMENT '标签名称',
+PRIMARY KEY(tag_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='标签表'

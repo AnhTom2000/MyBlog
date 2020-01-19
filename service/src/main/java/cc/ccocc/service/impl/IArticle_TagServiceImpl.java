@@ -31,9 +31,10 @@ public class IArticle_TagServiceImpl implements IArticle_TagService {
      * @param article 文章类，包含两个表的所有信息
      */
     @Override
-    public void saveInMiddle(Article article) {
-        List<Tag> tags = article.getTag();
+    public void saveInMiddle(Article article,List<Tag> tags) {
         for (Tag tag : tags) {
+            System.out.println(article.getA_id());
+            System.out.println(tag);
             dao.saveInMiddle(article.getA_id(),tag.getTag_id());
         }
     }

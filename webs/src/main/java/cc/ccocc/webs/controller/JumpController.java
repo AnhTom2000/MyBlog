@@ -3,8 +3,10 @@ package cc.ccocc.webs.controller;
 
 import cc.ccocc.service.IArchiveService;
 import cc.ccocc.service.IArticleService;
+import cc.ccocc.service.ICategoryService;
 import cc.ccocc.service.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,16 +26,23 @@ import javax.servlet.http.HttpServletRequest;
 public class JumpController {
 
     @Autowired
+    @Qualifier("archiveService")
     private IArchiveService archiveService;
     @Autowired
+    @Qualifier("articleService")
     private IArticleService articleService;
     @Autowired
+    @Qualifier("tagService")
     private ITagService tagService;
+    @Autowired
+    @Qualifier("categoryService")
+    private ICategoryService categoryService;
+
 
 
 
     // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
-    @ModelAttribute
+        @ModelAttribute
     public void beforePage(Model model , HttpServletRequest request){
         model.addAttribute("article_List", articleService.findAll());
         model.addAttribute("tag_List",tagService.findAll());
@@ -41,6 +50,7 @@ public class JumpController {
         model.addAttribute("article_count",articleService.article_Count());
         model.addAttribute("tag_count",tagService.tag_Count());
         model.addAttribute("archive_List",archiveService.findArchives());
+        model.addAttribute("category_List",categoryService.findAll());
     }
     /**
      * @Method

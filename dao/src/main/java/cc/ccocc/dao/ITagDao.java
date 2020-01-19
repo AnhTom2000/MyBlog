@@ -23,7 +23,11 @@ public interface ITagDao {
      * @param article_id 文章id
      */
     @Select("SELECT t.tag_id,t.tag_name FROM tb_tag t INNER JOIN tb_article_tag_category_middle m ON t.tag_id=m.tag_id WHERE m.article_id= #{article_id} ")
-    List<Tag> findByArticleId(@Param("article_id") Integer article_id);
+    @Results(id = "tag_map",value = {
+            @Result(id = true,property = "tag_id",column ="tag_id",javaType = Long.class),
+            @Result(property = "tag_name",column = "tag_name")
+    })
+    List<Tag> findByArticleId(@Param("article_id") Long article_id);
 
     /**
      * @Method Description:
@@ -54,8 +58,21 @@ public interface ITagDao {
  * @Author weleness
  *
  * @Return
- * @param tag  标签类
+ * @param tag_name  新增标签名
  */
-    @Insert("INSERT INTO tb_tag('tag_name') VALUE(#{tag.tag_name})")
-    void saveTag(@Param("tag") Tag tag);
+    @Insert("INSERT INTO tb_tag(tag_id,tag_name) VALUE(#{tag_id},#{tag_name})")
+    void saveTag(@Param("tag_name") String tag_name,@Param("tag_id") Long tag_id);
+
+    /**
+     * @Method
+     * Description:
+     *  根据标签名查找标签
+     * @Author weleness
+     *
+     * @Return
+     * @param tagName 标签名称
+     */
+    @Select("SELECT tag_id,tag_name FROM tb_tag WHERE tag_name = #{tagName}")
+    @ResultMap("tag_map")
+    Tag findByTagName(String tagName);
 }

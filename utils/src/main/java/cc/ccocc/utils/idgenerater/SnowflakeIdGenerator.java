@@ -67,7 +67,7 @@ public class SnowflakeIdGenerator implements IdGenerator {
      * @Return
      */
     public SnowflakeIdGenerator() {
-        this(0L,0L);
+        this(1L,1L);
     }
 
     /**

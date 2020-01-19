@@ -11,6 +11,20 @@ import lombok.Data;
  */
 @Data
 public class Category {
+
+   private  static Category category = null;
+
+    public static Category getInstance(){
+        if(category==null){
+            //加上同步锁，保证线程安全
+            synchronized(Category.class){
+               category = new Category();
+            }
+        }
+        return category;
+    }
+
+    private Category(){}
     private  Integer categoryid; // 分类id
     private  String categoryname; // 分类名称
 }

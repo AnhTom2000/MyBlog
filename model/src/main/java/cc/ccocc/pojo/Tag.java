@@ -10,7 +10,14 @@ import lombok.Data;
  */
 @Data
 public class Tag {
+    public Tag() {
+    }
 
-    private  Integer tag_id;
+    public Tag(Long tag_id, String tag_name) {
+        this.tag_id = tag_id;
+        this.tag_name = tag_name;
+    }
+
+    private  Long tag_id;
     private  String tag_name;
 }

@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Weleness
  */
-@Service
+@Service("archiveService")
 public class ArchiveServiceImpl implements IArchiveService {
     @Autowired
     private IArchiveDao archiveDao;

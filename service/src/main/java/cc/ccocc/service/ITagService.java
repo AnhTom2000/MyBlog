@@ -13,11 +13,13 @@ import java.util.List;
  */
 public interface ITagService {
 
-    List<Tag> findByArticleId(Integer article_id);
+    List<Tag> findByArticleId(Long article_id);
 
     Integer tag_Count();
 
     List<Tag> findAll();
 
-    void  save(List<Tag> tags);
+   List<Tag>  saveTags(String[] newTag);
+
+    List<Tag> findByTagName(String[] tags);
 }

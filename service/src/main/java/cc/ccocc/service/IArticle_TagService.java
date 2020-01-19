@@ -1,6 +1,9 @@
 package cc.ccocc.service;
 
 import cc.ccocc.pojo.Article;
+import cc.ccocc.pojo.Tag;
+
+import java.util.List;
 
 /**
  * Created on 22:40  18/01/2020
@@ -18,7 +21,8 @@ public interface IArticle_TagService {
      * @Author weleness
      *
      * @Return
-     * @param article  文章类，包含两个表所需要的所有信息
+     * @param article  文章类
+     * @param tags  文章的标签
      */
-    void saveInMiddle(Article article);
+    void saveInMiddle(Article article, List<Tag> tags);
 }

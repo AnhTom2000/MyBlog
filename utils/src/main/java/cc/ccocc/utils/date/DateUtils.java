@@ -59,10 +59,10 @@ public class DateUtils {
      * @param patten  格式
      * @Return
      */
-    public static Date parse(String dateStr , String patten){
+    public static java.util.Date parse(String dateStr , String patten){
         LocalDateTime localDateTime = LocalDateTime.parse(dateStr,DateTimeFormatter.ofPattern(patten));
         Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
-        return (Date) Date.from(instant);
+        return  Date.from(instant);
     }
 
     /**
@@ -71,8 +71,8 @@ public class DateUtils {
      * @param localDateTime LocalDateTime object
      * @return Date object
      */
-    public static Date localDateTime2Date(LocalDateTime localDateTime) {
-        return (Date) Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    public static java.util.Date localDateTime2Date(LocalDateTime localDateTime) {
+        return  Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     /**
@@ -85,9 +85,9 @@ public class DateUtils {
         LocalDateTime localDateTime = LocalDateTime.now();
 
         if (StringUtils.isEmpty(pattern)) {
-            pattern = "yyyyMMdd";
+            pattern = "yyyy-MM-dd";
         }
 
-        return format(localDateTime2Date(localDateTime), pattern);
+        return format((Date) localDateTime2Date(localDateTime), pattern);
     }
 }
