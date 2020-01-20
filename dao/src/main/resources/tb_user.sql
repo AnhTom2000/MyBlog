@@ -1,7 +1,7 @@
 CREATE TABLE tb_user (
   user_id  BIGINT(20)  UNSIGNED   NOT NULL AUTO_INCREMENT  COMMENT '用户ID,不用于查询',
   username   VARCHAR(16)           NOT NULL  COMMENT '用户名',
-  avatar_url  VARCHAR(255)          NOT NULL  COMMENT '用户头像地址长度',
+  avatar_url  VARCHAR(255)          NOT NULL  COMMENT '用户头像地址',
   password   VARCHAR(75)           NOT NULL  COMMENT '用户密码',
   salt     VARCHAR(50)           NOT NULL  COMMENT 'password salt',
   phone    VARCHAR(11)           NOT NULL DEFAULT '0'  COMMENT '不要求用户绑定手机号，0表示没有',
@@ -13,11 +13,10 @@ CREATE TABLE tb_user (
   description     VARCHAR(33)           NOT NULL DEFAULT '0'  COMMENT '用户自定义描述，0表示没有填写',
   article_count   MEDIUMINT(9) UNSIGNED NOT NULL DEFAULT 0  COMMENT '用户文章数量',
   follower_count  INT(11) UNSIGNED      NOT NULL DEFAULT 0  COMMENT '用户读者数量',
-  attention_count INT(11) UNSIGNED      NOT NULL DEFAULT 0  COMMENT '这个字段作为扩展，表示用户关注的作者数量',
   login_count     INT(11) UNSIGNED      NOT NULL DEFAULT 1  COMMENT '用户登陆次数',
-  last_login      DATETIME     NOT NULL  COMMENT '用户最后一次登陆的时间',
-  last_update     DATETIME     NOT NULL  COMMENT '用户最后一次修改账号信息的时间',
-  create_time     DATETIME     NOT NULL  COMMENT '账号创建时间',
+  last_login      TIMESTAMP     NOT NULL  COMMENT '用户最后一次登陆的时间',
+  last_update     TIMESTAMP     NOT NULL  COMMENT '用户最后一次修改账号信息的时间',
+  create_time     TIMESTAMP     NOT NULL  COMMENT '账号创建时间',
   locked          BIT          NOT NULL DEFAULT 0  COMMENT '账号是否被锁定',
   PRIMARY KEY (user_id),
   UNIQUE KEY unique_key (username)

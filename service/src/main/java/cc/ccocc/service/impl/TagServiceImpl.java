@@ -53,10 +53,9 @@ public class TagServiceImpl implements ITagService {
     @Override
     public List<Tag> saveTags(String[] tags) {
         //将传过来的新标签字符串解析为集合
-        List<String> list = TagUtils.stringToList_COMMA(tags);
         List<Tag> tagList = new ArrayList<>();
         //遍历集合保存标签
-        for (String tag : list) {
+        for (String tag : tags) {
             Long snowId = SNOWFLAKE_ID_GENERATOR.generateId();
             dao.saveTag(tag, snowId);
             tagList.add(TagUtils.getTag(tag, snowId));
@@ -75,8 +74,7 @@ public class TagServiceImpl implements ITagService {
     @Override
     public List<Tag> findByTagName(String[] tags) {
         List<Tag> tag_List = new ArrayList<>();
-        List<String> tagName_List = TagUtils.stringToList_COMMA(tags);
-        for (String tagName : tagName_List) {
+        for (String tagName : tags) {
             tag_List.add(dao.findByTagName(tagName));
         }
         return tag_List;

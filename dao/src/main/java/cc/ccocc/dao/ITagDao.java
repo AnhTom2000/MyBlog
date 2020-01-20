@@ -2,6 +2,7 @@ package cc.ccocc.dao;
 
 import cc.ccocc.pojo.Tag;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,10 +23,10 @@ public interface ITagDao {
      * @Return
      * @param article_id 文章id
      */
-    @Select("SELECT t.tag_id,t.tag_name FROM tb_tag t INNER JOIN tb_article_tag_category_middle m ON t.tag_id=m.tag_id WHERE m.article_id= #{article_id} ")
+    @Select("SELECT t.tag_id,t.tag_name FROM tb_tag t INNER JOIN tb_article_tag_middle m ON t.tag_id=m.tag_id WHERE m.article_id= #{article_id} ")
     @Results(id = "tag_map",value = {
-            @Result(id = true,property = "tag_id",column ="tag_id",javaType = Long.class),
-            @Result(property = "tag_name",column = "tag_name")
+            @Result(id = true,property = "tag_id",column ="tag_id",jdbcType = JdbcType.BIGINT,javaType = Long.class),
+            @Result(property = "tag_name",column = "tag_name",jdbcType = JdbcType.VARCHAR , javaType = String.class)
     })
     List<Tag> findByArticleId(@Param("article_id") Long article_id);
 

@@ -1,6 +1,8 @@
 package cc.ccocc.pojo;
 
-import lombok.Data;
+import lombok.*;
+
+import java.io.Serializable;
 
 /**
  * Created on 22:17  18/01/2020
@@ -9,22 +11,15 @@ import lombok.Data;
  * @author Weleness
  *
  */
-@Data
-public class Category {
 
-   private  static Category category = null;
-
-    public static Category getInstance(){
-        if(category==null){
-            //加上同步锁，保证线程安全
-            synchronized(Category.class){
-               category = new Category();
-            }
-        }
-        return category;
-    }
-
-    private Category(){}
+@Setter
+@Getter
+@Builder //声明实体，表示可以进行Builder方式初始化，对外保持private setter 而对属性的赋值采用builder的方式
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class Category implements Serializable {
+    private static final long serialVersionUID = 13521654784L;
     private  Integer categoryid; // 分类id
     private  String categoryname; // 分类名称
 }

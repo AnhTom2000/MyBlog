@@ -1,8 +1,9 @@
 package cc.ccocc.dto;
 
 import cc.ccocc.pojo.WebInfo;
-import lombok.Data;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,8 +13,16 @@ import java.util.List;
  * @author Weleness
  */
 
-@Data
-public class WebInfoDTO {
+@Setter
+@Getter
+@Builder //声明实体，表示可以进行Builder方式初始化，对外保持private setter 而对属性的赋值采用builder的方式
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class WebInfoDTO implements Serializable {
+
+    private static final long serialVersionUID = -654654654L;
+
     public static final Integer SUCCESS_CODE = 1;
     public static final Integer ERROR_CODE = -1;
 

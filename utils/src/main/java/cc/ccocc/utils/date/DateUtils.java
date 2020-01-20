@@ -44,7 +44,7 @@ public class DateUtils {
      * @Return
      */
 
-    public static String format(Date date, String patten) {
+    public static String format(java.util.Date date, String patten) {
         Instant instant = date.toInstant();
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return localDateTime.format(DateTimeFormatter.ofPattern(patten));

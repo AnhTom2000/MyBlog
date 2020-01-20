@@ -12,22 +12,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 
 
 /**
  * Created on 22:04  17/01/2020
  * Description:
- *  跳转路由
+ * 跳转路由
+ *
  * @author Weleness
  */
 
 @Controller
 public class JumpController {
-
-    @Autowired
-    @Qualifier("archiveService")
-    private IArchiveService archiveService;
     @Autowired
     @Qualifier("articleService")
     private IArticleService articleService;
@@ -37,53 +35,50 @@ public class JumpController {
     @Autowired
     @Qualifier("categoryService")
     private ICategoryService categoryService;
-
-
-
+    @Autowired
+    @Qualifier("archiveService")
+    private IArchiveService archiveService;
 
     // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
-        @ModelAttribute
-    public void beforePage(Model model , HttpServletRequest request){
+    @ModelAttribute
+    public void beforePage(Model model, HttpServletRequest request) {
         model.addAttribute("article_List", articleService.findAll());
-        model.addAttribute("tag_List",tagService.findAll());
-        model.addAttribute("article_new_List",articleService.findArticleNew());
-        model.addAttribute("article_count",articleService.article_Count());
-        model.addAttribute("tag_count",tagService.tag_Count());
-        model.addAttribute("archive_List",archiveService.findArchives());
-        model.addAttribute("category_List",categoryService.findAll());
+        model.addAttribute("tag_List", tagService.findAll());
+        model.addAttribute("article_new_List", articleService.findArticleNew());
+        model.addAttribute("article_count", articleService.article_Count());
+        model.addAttribute("tag_count", tagService.tag_Count());
+        model.addAttribute("category_List", categoryService.findAll());
+        model.addAttribute("archive_List", archiveService.findArchives());
     }
+
     /**
-     * @Method
-     * Description:
-     *  主页路由
+     * @Method Description:
+     * 主页路由
      * @Author weleness
-     *
      * @Return
      */
     @RequestMapping("/")
     public String main(Model model) {
+        System.out.println(model.getAttribute("article_List"));
         return "main";
     }
 
+
     /**
-     * @Method
-     * Description:
-     *  归档路由
+     * @Method Description:
+     * 归档路由
      * @Author weleness
-     *
      * @Return
      */
     @RequestMapping("/archives")
-    public String archives(Model model){
+    public String archives(Model model) {
         return "archives";
     }
 
     /**
-     * @Method
-     * Description:
-     *  markdown编辑器路由
+     * @Method Description:
+     * markdown编辑器路由
      * @Author weleness
-     *
      * @Return
      */
     @RequestMapping("/markdown")
@@ -92,15 +87,13 @@ public class JumpController {
     }
 
     /**
-     * @Method
-     * Description:
-     *  富文本编辑器路由
+     * @Method Description:
+     * 富文本编辑器路由
      * @Author weleness
-     *
      * @Return
      */
     @RequestMapping("/rich")
-    public String rich(Model model){
+    public String rich(Model model) {
         return "rich";
     }
 

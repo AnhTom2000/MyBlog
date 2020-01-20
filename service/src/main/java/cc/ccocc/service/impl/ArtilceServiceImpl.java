@@ -2,13 +2,12 @@ package cc.ccocc.service.impl;
 
 import cc.ccocc.dao.IArticleDao;
 import cc.ccocc.dto.ResultDTO;
+import cc.ccocc.pojo.Archive;
 import cc.ccocc.pojo.Article;
 import cc.ccocc.pojo.Category;
 import cc.ccocc.pojo.Tag;
-import cc.ccocc.service.IArticleService;
-import cc.ccocc.service.IArticle_TagService;
-import cc.ccocc.service.ICategoryService;
-import cc.ccocc.service.ITagService;
+import cc.ccocc.service.*;
+import cc.ccocc.utils.date.DateUtils;
 import cc.ccocc.utils.idgenerater.SnowflakeIdGenerator;
 import cc.ccocc.utils.result.ResultCode;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 
 import java.sql.Date;
 import java.time.Clock;
@@ -44,8 +44,11 @@ public class ArtilceServiceImpl implements IArticleService {
     @Qualifier("IArticle_TagService")
     private IArticle_TagService iArticle_tagService;
     @Autowired
+    @Qualifier("categoryService")
     private ICategoryService categoryService;
-
+    @Autowired
+    @Qualifier("archiveService")
+    private IArchiveService archiveService;
 
 
     /**
@@ -87,30 +90,38 @@ public class ArtilceServiceImpl implements IArticleService {
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public ResultDTO saveArticle(Article article, String[] tag, String category_id ,String[] newTag) {
+    public ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag) {
         ResultDTO resultDTO = null;
         if (!Objects.isNull(article)) {
-            List<Tag> tagList= tagService.findByTagName(tag);
-            if(tagList.contains(null)){
+            List<Tag> tagList = tagService.findByTagName(tag);
+            if (tagList.contains(null)) {
                 tagList = tagService.saveTags(tag);
             }
-            System.out.println(tagList);
-            if(!Objects.isNull(newTag)){
+            if (!Objects.isNull(newTag)) {
                 tagList.addAll(tagService.saveTags(newTag));
             }
+
+            //转移html字符串
+            article.setA_text(HtmlUtils.htmlEscapeHex(article.getA_text()));
             // 这里localDateTime.now（）要加上系统时钟，不然可能会造成精度不准
             article.setA_createTime((LocalDateTime.now(Clock.systemDefaultZone())));
+            //保存归档日期
+            Archive archive = Archive.builder().archiveName(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")).build();
+            //初始化最后一次的修改时间
             article.setA_last_update(article.getA_createTime());
             //生成文章雪花id
             article.setA_id(SNOWFLAKE_ID_GENERATOR.generateId());
+            // 添加用户id
             article.setU_id(1L);
+            // 初始化点赞和观看值为0
             article.setA_likeNums(0);
             article.setA_viewNums(0);
-            Category category = categoryService.findById(Integer.parseInt(category_id)+2);
+            // 查找对应的分类
+            Category category = categoryService.findById(Integer.parseInt(category_id) + 2);
             //保存文章
             articleDao.saveArticle(article, category);
             // 将文章信息和标签信息存入中间表
-            iArticle_tagService.saveInMiddle(article,tagList);
+            iArticle_tagService.saveInMiddle(article, tagList);
 
             resultDTO = new ResultDTO(ResultCode.OK_CODE.getCode(), "发布成功", true);
         } else {

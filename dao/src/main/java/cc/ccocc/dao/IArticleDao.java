@@ -38,7 +38,7 @@ public interface IArticleDao {
             @Result(property = "a_year", column = "YEAR(create_time)", javaType = String.class),
             @Result(property = "a_month", column = "MONTH(create_time)", javaType = String.class),
             // 这里要记得制定以下javaType  不然查询回来的数据没有办法正确的接收到   column就是发过去的id  根据文章的id号查找标签
-            @Result(property = "tag", javaType = List.class, column = "article_id", many = @Many(select = "cc.ccocc.dao.ITagDao.findByArticleId", fetchType = FetchType.LAZY)),
+            @Result(property = "tags", javaType = List.class, column = "article_id", many = @Many(select = "cc.ccocc.dao.ITagDao.findByArticleId", fetchType = FetchType.LAZY)),
             @Result(property = "category", column = "category_id", one = @One(select = "cc.ccocc.dao.ICategoryDao.findById", fetchType = FetchType.LAZY),javaType = Category.class)
     })
     @Select("SELECT article_id,u_id,article_name,article_text,markdown,create_time," +

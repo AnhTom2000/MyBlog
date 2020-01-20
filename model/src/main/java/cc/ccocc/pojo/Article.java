@@ -1,6 +1,6 @@
 package cc.ccocc.pojo;
 
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -15,9 +15,14 @@ import java.util.List;
  *  文章类
  * @author Weleness
  */
-@Data
+@Setter
+@Getter
+@Builder //声明实体，表示可以进行Builder方式初始化，对外保持private setter 而对属性的赋值采用builder的方式
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Article implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8498159619L;
     //文章id
     private Long a_id;
     //文章标题

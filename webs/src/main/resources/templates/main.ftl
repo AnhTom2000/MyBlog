@@ -475,14 +475,14 @@
             <!-- each-blcok -->
             <#list article_List as article>
             <div class="content-blcok shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
-                <h1 class="mb-3 ml-4" ><a href="" target="_blank" class="articleTitle">${article.a_name}</a></h1>
+                <h1 class="mb-3 ml-4" ><a href="" target="_blank" class="articleTitle">${article.a_Title}</a></h1>
                 <div class="second-div mb-4 text-center">
                         <span class="text-secondary"><svg t="1578578950975" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="13365" width="18" height="18"><path d="M724.8 314.2c2.8 1.6 5.5 3.2 8.2 5.1l8.2 5.6 0.1 9.8c0.4 28.5-3 52.6-10.4 71.1-6.9 17-17.1 29.7-30.7 37.3-9.3 33.1-20.2 63.8-35.6 89.6-17.8 29.7-41.2 52.5-74.4 64.8-14.8 5.4-52.7 8-89.1 7.4-35.2-0.5-70.5-4-84.5-10.5-30.1-13.9-51.3-37.2-67.4-66.3-13.8-24.8-23.6-53.7-32.1-84.2-14.1-7.4-24.7-20-31.8-37.1-7.8-18.7-11.4-43.2-10.9-72.2l0.1-9.9 8.2-5.5c2.1-1.4 4.2-2.7 6.3-3.9-9.2-114.1-5.7-156.3 36.6-204.5 82.6-67.7 272-65.3 355.7-3.9 57 53.8 61 114.1 43.5 207.3zM551.3 644.1l1.2 26.1-15.5 25.6 21.6 141.8L647 647.5l134.7-4.6c69.6 65.8 114.2 220.8 103.2 321.9H134.2c1.9-88.8 18.2-240.4 106.6-317.6l121.7 1.1 114 188 21.4-140.6-15.5-25.5 1.2-26.1c29.5-1.6 38.2-1.6 67.7 0zM652 273.7c-53.5 10.5-133.2 19.6-196.2-15.8-24.2-13.6-59.7 14.3-88.7 11.4-9 17.8-15.7 37.3-19.6 58l-3.2 17.1-17.2-1.7c-3.2-0.3-6.5 0.1-10 1.3-1.6 0.5-3.1 1.1-4.7 1.9 0.5 19 3.1 34.7 8 46.5 4.3 10.4 10.4 17.1 18.2 19.6l10.1 3.1 2.8 10.1c8.4 31.3 17.9 60.8 31.2 84.8 12.3 22.3 28.1 40 50 50.1 9.2 4.2 38.4 6.6 69 7.1 32.5 0.5 64.9-1.3 75.6-5.2 24.1-8.9 41.4-26.1 54.9-48.6 14.5-24.2 24.8-54.9 33.8-88.6l2.6-9.6 9.6-3.3c7.6-2.7 13.5-9.6 17.6-20 4.7-11.7 7.3-27.2 7.7-45.8-1.4-0.7-2.8-1.3-4.2-1.7-3.4-1.1-6.6-1.7-9.7-1.5l-16.8 1.1-3.1-16.5c-3.8-19.2-9.7-37.2-17.7-53.8z m0 0" fill="#1890FF" p-id="13366"></path></svg>
                         </span><span
                         class="font-weight-bold text-info">Welneess</span> &nbsp;&nbsp; <span
                         class="text-secondary"><svg t="1578578791842" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6608" width="18" height="18"><path d="M829.44 95.232v66.56H712.704V95.232H311.296v66.56H194.56V95.232H61.44v183.296h901.12V95.232z" fill="#F44336" p-id="6609"></path><path d="M194.56 278.528H61.44v716.8h901.12v-716.8H311.296z" fill="#CFD8DC" p-id="6610"></path><path d="M194.56 28.672h116.736v133.12H194.56z m518.144 0H829.44v133.12H712.704z" fill="#E8E8E8" p-id="6611"></path><path d="M194.56 407.552h115.712V522.24H194.56V407.552z m173.056 0h115.712V522.24H367.616V407.552z m173.056 0h115.712V522.24H540.672V407.552z m173.056 0H829.44V522.24H713.728V407.552zM194.56 580.608h115.712V696.32H194.56V580.608z m173.056 0h115.712V696.32H367.616V580.608z m173.056 0h115.712V696.32H540.672V580.608z m173.056 0H829.44V696.32H713.728V580.608zM194.56 752.64h115.712v115.712H194.56V752.64z m173.056 0h115.712v115.712H367.616V752.64z m173.056 0h115.712v115.712H540.672V752.64z m173.056 0H829.44v115.712H713.728V752.64z" fill="#90A4AE" p-id="6612"></path></svg>
                            ${article.a_createTime}</span>&nbsp;&nbsp;<svg t="1578579077390" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14118" width="18" height="18 "><path d="M926.000524 338.592578 687.387008 107.195418c-43.826158-42.493813-114.802676-43.030026-159.351288-1.326205L71.441611 531.173688c-4.923126 4.585435-7.269567 10.885931-7.019881 17.117866-0.023536 0.416486-0.037862 0.835018-0.037862 1.257643l0 288.372803c0 61.457724 49.552579 111.124913 110.817921 111.124913l299.771411 0c5.968945 0 11.694343-2.407839 15.874549-6.67298L927.985738 495.519654C970.902176 451.640284 970.058972 381.306402 926.000524 338.592578zM303.350424 821.294298c-54.953589 0-99.510388-44.545542-99.510388-99.503225 0-54.956659 44.556798-99.503225 99.510388-99.503225 54.955636 0 99.511411 44.546565 99.511411 99.503225C402.860812 776.747733 358.305037 821.294298 303.350424 821.294298z" p-id="14119"></path></svg>
-                    <#list article.tag as tag>
+                    <#list article.tags as tag>
                         <span class="text-secondary  ">
                            <a href="/showTags?tag=${tag.tag_id}" class="showTags">${tag.tag_name?cap_first}</a></span>
                     <#sep >
@@ -528,7 +528,7 @@
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
                 <h4 style="font-weight: bold;" >最新文章</h4>
                 <hr>
-                <#list article_new_List as article><a href="/showArticle?article_id=${article.a_id}">${article.a_name}</a></#list>
+                <#list article_new_List as article><a href="/showArticle?article_id=${article.a_id}">${article.a_Title}</a></#list>
             </div>
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
                 <h4 style="font-weight: bold;" >留言区</h4>

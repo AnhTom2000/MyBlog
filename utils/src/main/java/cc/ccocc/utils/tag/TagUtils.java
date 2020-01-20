@@ -15,13 +15,8 @@ import java.util.List;
 
 public class TagUtils {
     public static Tag getTag(String tags, Long snowId) {
-       return new Tag(snowId,tags);
+       return Tag.builder().tag_id(snowId).tag_name(tags).build();
     }
-
-    public static List<String> stringToList_BLANK(String[] stayConver_String) {
-        return new ArrayList<>(Arrays.asList(stayConver_String));
-    }
-
 
     public static List<String> stringToList_COMMA(String[] stayConver_String) {
         return new ArrayList<>(Arrays.asList(stayConver_String));

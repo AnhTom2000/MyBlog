@@ -45,13 +45,12 @@
 <#list archive_List as archive>
     <div class="am-g am-g-fixed blog-content">
         <!-- 响应式，适应中小屏幕  和bootstrap一个道理 -->
-     <div class="am-u-sm-12 am-u-md-9">
-         <div class="timeline-year">
-             <h1>${archive}年</h1>
-             <hr>
-             <ul>
+        <div class="am-u-sm-12 am-u-md-9">
+            <div class="timeline-year">
+                <h1>${archive}年</h1>
+                <hr>
+                <ul>
                     <#list article_List as article>
-
                         <#if article.a_year == archive>
                         <li>
                             <div class="am-u-md-12 am-u-sm-12 timeline-row-marjor">
@@ -59,7 +58,7 @@
                                 <div class="content  am-animation-slide-top animation-element slide-top testimonial">
                                     <header class="am-comment-hd" style="background: #fff;">
                                         <div class="contentTittle am-comment-meta">
-                                            <a href="#">${article.a_name}</a>
+                                            <a href="#">${article.a_Title}</a>
                                         </div>
                                     </header>
 
@@ -68,29 +67,26 @@
                                             <a href="#">${article.a_createTime}</a>
                                         </i>
                                         <i class="am-icon-folder">
-                                            <a href="#">javaee</a>
+                                            <a href="#">${article.category.categoryname}</a>
                                         </i>
 
-                                        <i class="am-comment-bd-tags am-icon-tag">  <#list article.tag as tag>
-                                            <a href="showArtilceByTag?tag=${tag.tag_id}">${tag.tag_name?cap_first}</a>
+                                        <i class="am-comment-bd-tags am-icon-tag">
+                                            <#list article.tags as tag>
+                                                <a href="showArtilceByTag?tag=${tag.tag_id}">${tag.tag_name?cap_first}</a>
                                         <#sep >
-
                                         ,
-                                        </#list>
-                                            ,
-                                            <a href="#">原创</a>
+                                            </#list>
                                         </i>
-
                                     </div>
                                 </div>
                         </li>
                         </#if>
                     </#list>
-             </ul>
-         </div>
-     </div>
+                </ul>
+            </div>
+        </div>
 
-</div>
+    </div>
 </#list>
 </div>
 

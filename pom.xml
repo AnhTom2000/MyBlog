@@ -33,6 +33,10 @@
         <mysql.version>8.0.18</mysql.version>
         <lombok.version>1.16.18</lombok.version>
         <spring.mybatis.boot.version>2.1.1</spring.mybatis.boot.version>
+        <cos.version>5.6.14</cos.version>
+        <junit.version>4.12</junit.version>
+        <tencent-cos-api.version>2.0.0</tencent-cos-api.version>
+        <oauth.version>1.13.2</oauth.version>
     </properties>
 
     <!--版本统一管理-->
@@ -85,17 +89,28 @@
             </dependency>
             <!--引入mysql连接依赖-->
             <dependency>
-                <groupId>MySQL</groupId>
+                <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
+                <version>8.0.18</version>
             </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>com.tecent-cos</groupId>-->
+                <!--<artifactId>tencent-cos-api</artifactId>-->
+                <!--<version>2.0.0</version>-->
+            <!--</dependency>-->
             <!--引入lombok插件依赖-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
-
+            <!--引入cos云服务依赖-->
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api</artifactId>
+                <version>${cos.version}</version>
+            </dependency>
             <!--mybatis整合Springboot-->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
@@ -110,6 +125,7 @@
                 <version>${modules.version}</version>
             </dependency>
 
+            <!--引入cos jar包-->
             <dependency>
                 <groupId>cc.ccocc</groupId>
                 <artifactId>model</artifactId>
@@ -137,6 +153,20 @@
                 <artifactId>utils</artifactId>
                 <version>${modules.version}</version>
             </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <!--导入oauth依赖-->
+            <dependency>
+                <groupId>me.zhyd.oauth</groupId>
+                <artifactId>JustAuth</artifactId>
+                <version>${oauth.version}</version>
+            </dependency>
+
+
+
 
         </dependencies>
     </dependencyManagement>

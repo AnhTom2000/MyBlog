@@ -1,6 +1,6 @@
 package cc.ccocc.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,7 +11,12 @@ import java.util.Objects;
  *
  * @author Weleness
  */
-@Data
+@Setter
+@Getter
+@Builder //声明实体，表示可以进行Builder方式初始化，对外保持private setter 而对属性的赋值采用builder的方式
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResultDTO implements Serializable {
 
     private static final long serialVersionUID = 654654654L;
@@ -22,9 +27,5 @@ public class ResultDTO implements Serializable {
 
     private boolean status;
 
-    public ResultDTO(Integer code, String message, boolean status) {
-        this.code = code;
-        this.message = message;
-        this.status = status;
-    }
+
 }

@@ -1,6 +1,7 @@
 package cc.ccocc.service.impl;
 
 import cc.ccocc.dao.IArchiveDao;
+import cc.ccocc.pojo.Archive;
 import cc.ccocc.service.IArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,10 @@ public class ArchiveServiceImpl implements IArchiveService {
     @Override
     public List<String> findArchives() {
         return archiveDao.findArchives();
+    }
+
+    @Override
+    public void saveArchive(Archive archive) {
+        archiveDao.saveArchive(archive);
     }
 }

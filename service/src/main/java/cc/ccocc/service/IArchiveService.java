@@ -1,5 +1,7 @@
 package cc.ccocc.service;
 
+import cc.ccocc.pojo.Archive;
+
 import java.util.List;
 
 /**
@@ -12,4 +14,6 @@ import java.util.List;
 public interface IArchiveService {
 
     List<String>  findArchives();
+
+    void saveArchive(Archive archive);
 }
