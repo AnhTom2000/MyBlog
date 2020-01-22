@@ -1,7 +1,8 @@
 CREATE TABLE tb_user (
   user_id  BIGINT(20)  UNSIGNED   NOT NULL AUTO_INCREMENT  COMMENT '用户ID,不用于查询',
   username   VARCHAR(16)           NOT NULL  COMMENT '用户名',
-  avatar_url  VARCHAR(255)          NOT NULL  COMMENT '用户头像地址',
+  avatar_url  VARCHAR(255)          NOT NULL
+    DEFAULT 'https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/photo.jpg' COMMENT '用户头像地址',
   password   VARCHAR(75)           NOT NULL  COMMENT '用户密码',
   salt     VARCHAR(50)           NOT NULL  COMMENT 'password salt',
   phone    VARCHAR(11)           NOT NULL DEFAULT '0'  COMMENT '不要求用户绑定手机号，0表示没有',
@@ -18,6 +19,8 @@ CREATE TABLE tb_user (
   last_update     TIMESTAMP     NOT NULL  COMMENT '用户最后一次修改账号信息的时间',
   create_time     TIMESTAMP     NOT NULL  COMMENT '账号创建时间',
   locked          BIT          NOT NULL DEFAULT 0  COMMENT '账号是否被锁定',
+  message_count SMALLINT(6) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户收到的消息数',
+  oauth_id BIGINT(20) UNSIGNED NOT NULL  DEFAULT  0 COMMENT '用户第三方平台认证ID,0代表用户没有第三方平台认证',
   PRIMARY KEY (user_id),
   UNIQUE KEY unique_key (username)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '用户表';

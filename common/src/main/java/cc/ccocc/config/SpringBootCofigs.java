@@ -18,8 +18,8 @@ import javax.sql.DataSource;
  */
 
 @PropertySource("classpath:jdbc.properties")
-@EnableTransactionManagement // 开启spring 声明式事务注解支持
-@EnableAspectJAutoProxy // 开始aop注解支持
+//@EnableTransactionManagement // 开启spring 声明式事务注解支持
+//@EnableAspectJAutoProxy // 开始aop注解支持
 @SpringBootConfiguration // 声明为springboot的配置类
 public class SpringBootCofigs {
 

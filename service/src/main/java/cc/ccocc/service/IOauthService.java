@@ -1,7 +1,8 @@
 package cc.ccocc.service;
 
 import cc.ccocc.dto.ResultDTO;
-
+import cc.ccocc.dto.UserDTO;
+import cc.ccocc.pojo.Oauth;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,5 +19,10 @@ public interface IOauthService {
 
     public ResultDTO callback(String state, String code, HttpServletRequest request, HttpServletResponse response);
 
+    public Oauth getOauthUserInfo(String state, String code);
+
+    public UserDTO getUserByOauth(Oauth oauth);
+
+    public boolean addOauth(Oauth oauth);
 
 }

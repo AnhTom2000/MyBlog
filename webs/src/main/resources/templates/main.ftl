@@ -100,11 +100,11 @@
                 </div>
                 <div class=" navbar-nav justify-content-center ">
                     <div class="end">
-                        <a href="login.html" class="btn btn-primary btn-sm active rounded btn-block ">登陆</a>
+                        <a href="/login" class="btn btn-primary btn-sm active rounded btn-block ">登陆</a>
                     </div>
 
                     <div class="end">
-                        <a href="register.html" class="btn btn-primary btn-sm active rounded btn-block ">注册</a>
+                        <a href="/register" class="btn btn-primary btn-sm active rounded btn-block ">注册</a>
                     </div>
                 </div>
 

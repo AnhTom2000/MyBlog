@@ -22,7 +22,7 @@
     <groupId>cc.ccocc</groupId>
     <artifactId>mypersonalblogs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>mypersonalblogs</name>
+    <name>Weleness_Blog</name>
     <description>父工程</description>
 
     <properties>
@@ -35,8 +35,7 @@
         <spring.mybatis.boot.version>2.1.1</spring.mybatis.boot.version>
         <cos.version>5.6.14</cos.version>
         <junit.version>4.12</junit.version>
-        <tencent-cos-api.version>2.0.0</tencent-cos-api.version>
-        <oauth.version>1.13.2</oauth.version>
+        <cglib.version>3.3.0</cglib.version>
     </properties>
 
     <!--版本统一管理-->
@@ -91,14 +90,9 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.18</version>
+                <version>${mysql.version}</version>
             </dependency>
 
-            <!--<dependency>-->
-                <!--<groupId>com.tecent-cos</groupId>-->
-                <!--<artifactId>tencent-cos-api</artifactId>-->
-                <!--<version>2.0.0</version>-->
-            <!--</dependency>-->
             <!--引入lombok插件依赖-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -158,14 +152,24 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
-            <!--导入oauth依赖-->
+            <!--引入cglib-->
             <dependency>
-                <groupId>me.zhyd.oauth</groupId>
-                <artifactId>JustAuth</artifactId>
-                <version>${oauth.version}</version>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
             </dependency>
-
-
+            <!--导入邮箱的依赖-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <!--导入springboot继承redis的依赖-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
 
 
         </dependencies>

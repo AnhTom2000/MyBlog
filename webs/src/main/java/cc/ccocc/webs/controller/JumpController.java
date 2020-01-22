@@ -59,7 +59,6 @@ public class JumpController {
      */
     @RequestMapping("/")
     public String main(Model model) {
-        System.out.println(model.getAttribute("article_List"));
         return "main";
     }
 
@@ -97,5 +96,39 @@ public class JumpController {
         return "rich";
     }
 
+    /**
+     * @Method
+     * Description:
+     *  登陆路由
+     * @Author weleness
+     *
+     * @Return
+     */
+    @RequestMapping("/login")
+    public String login(Model model){return "login";}
+
+    /**
+     * @Method
+     * Description:
+     *  注册路由
+     * @Author weleness
+     *
+     * @Return
+     */
+    @RequestMapping("/register")
+    public String register(Model model){return  "register";}
+
+    /**
+     * @Method
+     * Description:
+     *  用户完善信息页路由
+     * @Author weleness
+     *
+     * @Return
+     */
+    @RequestMapping("/oauth/information/complete")
+    public String informationComplete(){
+        return "oauth_Information";
+    }
 
 }

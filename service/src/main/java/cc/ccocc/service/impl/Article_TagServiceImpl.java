@@ -33,8 +33,6 @@ public class Article_TagServiceImpl implements IArticle_TagService {
     @Override
     public void saveInMiddle(Article article,List<Tag> tags) {
         for (Tag tag : tags) {
-            System.out.println(article.getA_id());
-            System.out.println(tag);
             dao.saveInMiddle(article.getA_id(),tag.getTag_id());
         }
     }

@@ -40,7 +40,7 @@ public class User implements Serializable {
 
     private Boolean gender;
 
-    private Integer age;
+    private Short age;
 
     private String area;
 
@@ -61,6 +61,11 @@ public class User implements Serializable {
     private LocalDateTime createTime;
 
     private Boolean locked;
+    //用户消息数量
+    private Integer messageCount;
+
+    //第三方认证ID
+    private Long oauthId;
 
     @Override
     public boolean equals(Object o) {

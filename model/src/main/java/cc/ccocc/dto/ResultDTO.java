@@ -28,4 +28,6 @@ public class ResultDTO implements Serializable {
     private boolean status;
 
 
+
+
 }

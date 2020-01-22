@@ -1,11 +1,15 @@
 package cc.ccocc.utils.idgenerater;
 
+import java.security.SecureRandom;
+
 /**
  * @Description : TODO          基于雪花算法的ID生成器
  * @Author :    yangguang
  * @Date :      2019/12/13
  */
 public class SnowflakeIdGenerator implements IdGenerator {
+
+
 
     //起始的时间戳
     private final long startStamp = 964108800000L;

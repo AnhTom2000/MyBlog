@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Repository;
 
-@SpringBootApplication(scanBasePackages = {"cc.ccocc.service","cc.ccocc.dao","cc.ccocc.pojo","cc.ccocc.webs.controller"})
+@SpringBootApplication(scanBasePackages = {"cc.ccocc.service","cc.ccocc.dao","cc.ccocc.pojo","cc.ccocc.webs.controller","cc.ccocc.config"})
 @MapperScan(basePackages = "cc.ccocc.dao",basePackageClasses = Repository.class)
 public class WebsApplication {
 
