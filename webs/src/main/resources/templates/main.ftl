@@ -27,7 +27,8 @@
             crossorigin="anonymous"></script>
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/bootstrap/bootstrap.min.js"></script>
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/sticky-sidebar-master/dist/sticky-sidebar.js"></script>
-    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/blogs/js/index.js"></script>
+    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/index.js"></script>
+
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/blogs/js/sidebar.js"></script>
     <title>Weleness的博客</title>
 </head>
@@ -37,14 +38,19 @@
 
     <nav
             class="navbar navbar-default navbar-expand-sm navbar-expand-lg navbar-expand-xl navbar-light bg-light  navbar-static-top shadow-lg  mb-4 bg-white  ">
+        <#if user??>
         <div class="navbar-barand mr-auto " width="100">
-            <a href="G:\bootstarp\main.html">
-
-                <img src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/photo.jpg"
+            <a href="/">
+                <img src="${user.avatarUrl}"
                      class="img-thumbnail navbar-brand img-responsive rounded-circle" width="50" height="60"
-                     alt="Welneess"><span>Welneess</span>
+                    ><span>${user.userName}</span>
             </a>
         </div>
+        <#else >
+         <div class="navbar-barand mr-auto " width="100">
+
+         </div>
+        </#if>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 1="Toggle navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -55,7 +61,7 @@
                     <ul class="navbar-nav">
                         <li class="divider"></li>
                         <li class="nav-item fonts">
-                            <a class="nav-link" href="G:\bootstarp\main.html">首页</a>
+                            <a class="nav-link" href="/">首页</a>
                         </li>
 
                         <li class="nav-item fonts">
@@ -92,21 +98,31 @@
                         <li class="divier"></li>
                     </ul>
                 </div>
+
                 <div class="navbar-nav text-justify  text-nowrap text-monospace text-sm-left mr-auto">
                     <a href="/markdown" style="text-decoration: none" target="_blank">
                         <span class="write-word fonts nav-link">写博客</span>
 
                     </a>
                 </div>
+                <#if user??>
                 <div class=" navbar-nav justify-content-center ">
-                    <div class="end">
-                        <a href="/login" class="btn btn-primary btn-sm active rounded btn-block ">登陆</a>
+                    <div class=" navbar-nav justify-content-center ">
+                        <div class="end" >
+                            <button  id="exit" type="button"  class="btn btn-primary btn-sm active rounded btn-block ">退出登录</button>
+                        </div>
                     </div>
+                </div>
+                <#else >
+                  <div class="end">
+                      <a href="/login" class="btn btn-primary btn-sm active rounded btn-block ">登陆</a>
+                  </div>
 
                     <div class="end">
                         <a href="/register" class="btn btn-primary btn-sm active rounded btn-block ">注册</a>
                     </div>
-                </div>
+
+             </#if>
 
             </div>
     </nav>

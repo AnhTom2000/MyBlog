@@ -36,7 +36,7 @@ public class UserDTO implements Serializable {
     private Long userId;
 
     //用户名
-    private String username;
+    private String userName;
 
     //用户头像地址
     private String avatarUrl;
@@ -44,8 +44,6 @@ public class UserDTO implements Serializable {
     //密码
     private String password;
 
-    //password salt
-    private String salt;
 
     //用户手机号
     private String phone;

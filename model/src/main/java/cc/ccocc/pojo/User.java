@@ -32,7 +32,6 @@ public class User implements Serializable {
 
     private String password;
 
-    private String salt;
 
     private String phone;
 
@@ -75,7 +74,6 @@ public class User implements Serializable {
         return Objects.equals(userId, user.userId) &&
                 Objects.equals(userName, user.userName) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(salt, user.salt) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(lastLogin, user.lastLogin) &&
                 Objects.equals(lastUpdate, user.lastUpdate);
@@ -83,6 +81,6 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userName, password, salt, lastLogin, lastUpdate);
+        return Objects.hash(userId, userName, password,  lastLogin, lastUpdate);
     }
 }

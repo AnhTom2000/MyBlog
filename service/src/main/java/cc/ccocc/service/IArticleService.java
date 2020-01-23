@@ -18,7 +18,7 @@ public interface IArticleService {
 
     Integer article_Count();
 
-    List<Article> findArticleByTagId(Integer tag_id);
+    List<Article> findArticleByTagId(Long tag_id);
 
     List<Article> findArticleNew();
 

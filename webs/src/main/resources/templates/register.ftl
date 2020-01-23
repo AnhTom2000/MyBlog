@@ -36,6 +36,7 @@
     <!--responsive.css-->
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/assets/css/responsive.css">
 
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/toastr.css">
 
 </head>
 
@@ -53,20 +54,20 @@
                         <div class=" ">
                             <form action="signin.html">
                                 <div class="form-group">
-                                    <label for="signin_form">用户名</label>
-                                    <input type="text" class="form-control" id="signin_form" placeholder="请输入唯一的用户名">
+                                    <label for="username">用户名</label>
+                                    <input type="text" class="form-control" id="username" placeholder="请输入唯一的用户名">
                                 </div><!--/.form-group -->
                                 <div class="form-group">
-                                    <label for="signin_form">email</label>
-                                    <input type="email" class="form-control" id="signin_form" placeholder="请输入你的邮箱">
+                                    <label for="email">email</label>
+                                    <input type="email" class="form-control" id="email" placeholder="请输入你的邮箱">
                                 </div><!--/.form-group -->
                                 <div class="form-group">
-                                    <label for="signin_form">验证码</label>
-                                    <input type="email" class="form-control" id="signin_form" placeholder="请输入验证码"><button class="btn btn-primary">点击获取验证码</button>
+                                    <label for="checkCode">验证码</label>
+                                    <input type="email" class="form-control" id="checkCode" placeholder="请输入验证码"><button class="btn btn-primary" type="button" id="getCode">点击获取验证码</button>
                                 </div><!--/.form-group -->
                                 <div class="form-group">
-                                    <label for="signin_form">密码</label>
-                                    <input type="password" class="form-control" id="signin_form" placeholder="请输入你的密码">
+                                    <label for="password">密码</label>
+                                    <input type="password" class="form-control" id="password" placeholder="请输入你的密码">
                                 </div><!--/.form-group -->
                             </form><!--/form -->
                         </div><!--/.col -->
@@ -74,12 +75,12 @@
 
                 </div><!--/.signin-form -->
                 <div class="signin-footer">
-                    <button type="button" class="btn signin_btn signin_btn_two">
+                    <button type="button" id="register" class="btn signin_btn signin_btn_two">
                         注册
                     </button>
                     <p>
                         已有账号？
-                        <a href="signin.html">进去试试</a>
+                        <a href="/login">进去试试</a>
                     </p>
                 </div><!--/.signin-footer -->
             </div><!-- .popup-in-txt -->
@@ -120,6 +121,10 @@
 
 <!--Custom JS-->
 <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/assets/js/custom.js"></script>
+
+<script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
+
+<script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/register.js"></script>
 
 </body>
 

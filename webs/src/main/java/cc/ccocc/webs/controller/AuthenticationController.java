@@ -71,16 +71,28 @@ public class AuthenticationController {
      */
     @RequestMapping("/oauth/information/complete")
     @ResponseBody
-    public ResultDTO oauthInformationComplete(@Length(max = 50, message = "邮箱格式不能超过五十位")
+    public ResultDTO oauthInformationComplete(@Pattern(regexp = "^\\D+?.*$", message = "用户名不能以数字开头")
+                                              @Length(max = 20, message = "用户名长度必须在1-20位之间")
+                                              @NotBlank(message = "用户名不能为空")
+                                              @RequestParam("username") String username,
+
+                                              @Length(max = 50, message = "邮箱格式不能超过五十位")
                                               @Email(message = "邮箱格式不正确")
                                               @NotBlank(message = "邮箱不能为空")
                                               @RequestParam("email") String email,
 
                                               @Pattern(regexp = "^\\d{6}$", message = "验证码不正确")
                                               @NotBlank(message = "验证码不能为空")
-                                              @RequestParam("verificationCode") String verificationCode) {
+                                              @RequestParam("verificationCode") String verificationCode,
 
-        return userService.oauthInformationComplete(email, verificationCode);
+                                              HttpServletRequest request,
+
+                                              HttpServletResponse response) {
+        System.out.println(username);
+        System.out.println(email);
+        System.out.println(verificationCode);
+
+        return userService.oauthInformationComplete(username, email, verificationCode, request, response);
     }
 
 
@@ -94,14 +106,18 @@ public class AuthenticationController {
      */
     @ResponseBody
     @RequestMapping("/login")
-    public ResultDTO login(@Length(max = 50, message = "用户名不能超过50个字符")
+    public ResultDTO login(@Pattern(regexp = "^\\D+?.*$", message = "用户名不能以数字开头")
+                           @Length(max = 20, message = "用户名长度必须在1-20位之间")
                            @NotBlank(message = "用户名不能为空")
                            @RequestParam("username") String username,
 
                            @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$", message = "密码必须由7-20位大小写英文字母,数字(允许中文和特殊字符)组成")
                            @NotBlank(message = "密码不能为空")
-                           @RequestParam("password") String password) {
-        return userService.login(username, password);
+                           @RequestParam("password") String password,
+                           HttpServletRequest request,
+
+                           HttpServletResponse response) {
+        return userService.login(username, password,request,response);
     }
 
     /**
@@ -115,7 +131,8 @@ public class AuthenticationController {
      */
     @ResponseBody
     @RequestMapping("/register")
-    public ResultDTO register(@Length(max = 50, message = "用户名不能超过50个字符")
+    public ResultDTO register(@Pattern(regexp = "^\\D+?.*$", message = "用户名不能以数字开头")
+                              @Length(max = 20, message = "用户名长度必须在1-20位之间")
                               @NotBlank(message = "用户名不能为空")
                               @RequestParam("username") String username,
 
@@ -130,9 +147,11 @@ public class AuthenticationController {
 
                               @Pattern(regexp = "^\\d{6}$", message = "验证码不正确")
                               @NotBlank(message = "验证码不能为空")
-                              @RequestParam("verificationCode") String verificationCode) {
-
-        return userService.register(username, email, password,verificationCode);
+                              @RequestParam("verificationCode") String verificationCode,
+                              HttpServletRequest request,
+                              HttpServletResponse response) {
+        System.out.println(username);
+        return userService.register(username, email, password, verificationCode,request,response);
     }
 
 }

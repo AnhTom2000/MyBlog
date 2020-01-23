@@ -34,7 +34,7 @@
     <!--responsive.css-->
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/assets/css/responsive.css">
 
-
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/toastr.css">
 
 </head>
 
@@ -51,12 +51,12 @@
                         <div class="signin-form">
                             <form action="signin.html">
                                 <div class="form-group">
-                                    <label for="signin_form">用户名</label>
-                                    <input type="text" class="form-control" id="signin_form" placeholder="请输入用户名">
+                                    <label for="username">用户名</label>
+                                    <input type="text" class="form-control" id="username" placeholder="请输入用户名">
                                 </div><!--/.form-group -->
                                 <div class="form-group">
-                                    <label for="signin_form">密码</label>
-                                    <input type="password" class="form-control" id="signin_form" placeholder="请输入密码">
+                                    <label for="password">密码</label>
+                                    <input type="password" class="form-control" id="password" placeholder="请输入密码">
                                 </div><!--/.form-group -->
                             </form><!--/form -->
                         </div><!--/.signin-form -->
@@ -87,7 +87,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="signin-footer">
-                            <button type="button" class="btn signin_btn signin_btn_two" data-toggle="modal" data-target=".signin_modal">
+                            <button type="button" id="login" class="btn signin_btn signin_btn_two" data-toggle="modal" data-target=".signin_modal">
                                 登陆
                             </button>
                             <div class="c3-2 clearfix">
@@ -165,6 +165,10 @@
 <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/assets/js/custom.js"></script>
 
 <script type="text/javascript" src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/login.js"></script>
+
+<script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
+
+<script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/login.js"></script>
 </body>
 
 </html>

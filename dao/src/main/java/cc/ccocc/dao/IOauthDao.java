@@ -24,7 +24,7 @@ public interface IOauthDao {
      * @param oauth 第三方登陆信息
      */
     @Insert("INSERT INTO tb_oauth(oauth_id,oauth_type,github_open_id,qq_open_id,wechat_open_id) " +
-            "VALUES(${oauth.oauthId},${oauth.oauthType},${oauth.githubOpenId},${oauth.qqOpenId},${oauth.weChatOpenId})")
+            "VALUES(#{oauth.oauthId},#{oauth.oauthType},#{oauth.githubOpenId},#{oauth.qqOpenId},#{oauth.weChatOpenId})")
     public Integer addOauth(@Param("oauth") Oauth oauth);
 
 }

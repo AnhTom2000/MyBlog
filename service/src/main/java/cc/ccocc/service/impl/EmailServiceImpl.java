@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,16 +30,15 @@ public class EmailServiceImpl implements IEmailService {
 
     // freemarker模板引擎的配置类
     @Autowired
-   private FreeMarkerConfigurer configurer;
+    private FreeMarkerConfigurer configurer;
 
     @Value("${mail.from}")
-    private String mailFrom ;
+    private String mailFrom;
 
     @Value("${mail.subject}")
     private String subject;
 
     /**
-     *
      * @param to         发送对象
      * @param verifyCode 生成的验证码
      * @Method Description:
@@ -62,39 +62,33 @@ public class EmailServiceImpl implements IEmailService {
     }
 
     /**
-     *
-     * @param to 发送地址
+     * @param to         发送地址
      * @param verifyCode 验证码
-     * @Method
-     * Description:
-     *  发送模板邮件
+     * @Method Description:
+     * 发送模板邮件
      * @Author weleness
-     *
      * @Return
      */
-    public void sendTemplateEmail(String to,  String verifyCode) {
+    public void sendTemplateEmail(String to, String verifyCode) {
         MimeMessage mimeMessage = null;
         Configuration configuration = configurer.getConfiguration();
-        try
-        {
+        try {
             //获取模板对象
             Template template = configuration.getTemplate("email.ftl");
             //模板对象的参数
-            Map<String,Object> model = new HashMap<>();
-            model.put("verifyCode",verifyCode);
+            Map<String, Object> model = new HashMap<>();
+            model.put("verifyCode", verifyCode);
             // 整合参数
-            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template,model);
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
             //创建邮件
             mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true);
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(mailFrom);
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject(subject);
-            mimeMessageHelper.setText(html,true);
-           mailSender.send(mimeMessage);
-        }
-        catch (Exception e)
-        {
+            mimeMessageHelper.setText(html, true);
+            mailSender.send(mimeMessage);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

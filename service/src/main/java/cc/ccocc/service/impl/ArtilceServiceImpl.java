@@ -59,21 +59,58 @@ public class ArtilceServiceImpl implements IArticleService {
      */
     private static final SnowflakeIdGenerator SNOWFLAKE_ID_GENERATOR = SnowflakeIdGenerator.getInstance();
 
+    /**
+     * @Method
+     * Description:
+     *  查找所有文章
+     * @Author weleness
+     *
+     * @Return
+     */
     @Override
     public List<Article> findAll() {
-        return articleDao.findALL();
+        List<Article> all = articleDao.findALL();
+        for (Article article : all) {
+            // 把html特殊字符转换为html
+            article.setA_text(HtmlUtils.htmlUnescape(article.getA_text()));
+        }
+        return all;
     }
 
+    /**
+     * @Method
+     * Description:
+     *  统计文章总数
+     * @Author weleness
+     *
+     * @Return
+     */
     @Override
     public Integer article_Count() {
         return articleDao.article_Count();
     }
 
+    /**
+     * @Method
+     * Description:
+     *  根据文章id查找文章
+     * @Author weleness
+     *
+     * @Return
+     */
     @Override
-    public List<Article> findArticleByTagId(Integer tag_id) {
+    public List<Article> findArticleByTagId(Long tag_id) {
         return articleDao.findArticleByTagId(tag_id);
     }
 
+    /**
+     * @Method
+     * Description:
+     *  查找最新文章
+     * @Author weleness
+     *
+     * @Return
+     */
     @Override
     public List<Article> findArticleNew() {
         return articleDao.findArticleNew();

@@ -50,8 +50,10 @@ public class VerifyCodeEmailServiceImpl implements IVerifyCodeEmailService {
             // 将验证码放进缓存
             redisTemplate.opsForValue().set(email, verifyCode, timeOut, TimeUnit.SECONDS);
             emailService.sendTemplateEmail(email, verifyCode);
+            System.out.println("发送成功");
             return ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("验证码发送成功，请在邮箱查看").status(true).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("发送验证码失败").status(false).build();
         }
     }
@@ -72,6 +74,7 @@ public class VerifyCodeEmailServiceImpl implements IVerifyCodeEmailService {
         ResultDTO result = null;
         if (verifyCodeInCache != null) {
             if (verifyCode.equals(verifyCodeInCache)) {
+                System.out.println("验证成功");
                 result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("验证成功").status(true).build();
             } else {
                 result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("验证失败，可能是验证码不正确").status(false).build();

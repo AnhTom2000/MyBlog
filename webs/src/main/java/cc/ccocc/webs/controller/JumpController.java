@@ -1,10 +1,8 @@
 package cc.ccocc.webs.controller;
 
 
-import cc.ccocc.service.IArchiveService;
-import cc.ccocc.service.IArticleService;
-import cc.ccocc.service.ICategoryService;
-import cc.ccocc.service.ITagService;
+import cc.ccocc.dto.UserDTO;
+import cc.ccocc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+
+import static cc.ccocc.service.impl.AbstructOauthService.*;
 
 
 /**
@@ -39,9 +40,26 @@ public class JumpController {
     @Qualifier("archiveService")
     private IArchiveService archiveService;
 
+    @Autowired
+    @Qualifier("cookieService")
+    private ICookieService cookieService;
+
+    @Autowired
+    @Qualifier("userService")
+    private IUserService userService;
+
     // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
     @ModelAttribute
     public void beforePage(Model model, HttpServletRequest request) {
+        Cookie userCookie = null;
+        UserDTO userDTO = null;
+        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
+            Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
+            System.out.println(userId);
+            userDTO = userService.findUserById(userId);
+        }
+
+        if (userDTO != null) model.addAttribute("user", userDTO);
         model.addAttribute("article_List", articleService.findAll());
         model.addAttribute("tag_List", tagService.findAll());
         model.addAttribute("article_new_List", articleService.findArticleNew());
@@ -97,37 +115,35 @@ public class JumpController {
     }
 
     /**
-     * @Method
-     * Description:
-     *  登陆路由
+     * @Method Description:
+     * 登陆路由
      * @Author weleness
-     *
      * @Return
      */
     @RequestMapping("/login")
-    public String login(Model model){return "login";}
+    public String login(Model model) {
+        return "login";
+    }
 
     /**
-     * @Method
-     * Description:
-     *  注册路由
+     * @Method Description:
+     * 注册路由
      * @Author weleness
-     *
      * @Return
      */
     @RequestMapping("/register")
-    public String register(Model model){return  "register";}
+    public String register(Model model) {
+        return "register";
+    }
 
     /**
-     * @Method
-     * Description:
-     *  用户完善信息页路由
+     * @Method Description:
+     * 用户完善信息页路由
      * @Author weleness
-     *
      * @Return
      */
     @RequestMapping("/oauth/information/complete")
-    public String informationComplete(){
+    public String informationComplete() {
         return "oauth_Information";
     }
 

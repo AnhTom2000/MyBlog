@@ -4,7 +4,6 @@ CREATE TABLE tb_user (
   avatar_url  VARCHAR(255)          NOT NULL
     DEFAULT 'https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/photo.jpg' COMMENT '用户头像地址',
   password   VARCHAR(75)           NOT NULL  COMMENT '用户密码',
-  salt     VARCHAR(50)           NOT NULL  COMMENT 'password salt',
   phone    VARCHAR(11)           NOT NULL DEFAULT '0'  COMMENT '不要求用户绑定手机号，0表示没有',
   email     VARCHAR(33)           NOT NULL  COMMENT '用户邮箱',
   gender   BIT                   NOT NULL  COMMENT '用户性别',

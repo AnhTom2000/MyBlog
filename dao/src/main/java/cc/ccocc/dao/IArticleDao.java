@@ -66,7 +66,7 @@ public interface IArticleDao {
     @Select("SELECT article_id,u_id,article_name,article_text,markdown,create_time, " +
             "last_update,YEAR(create_time),MONTH(create_time),View_statistics, " +
             "Likes_statistics  FROM tb_article a INNER JOIN tb_article_tag_middle m ON a.article_id = m.article_id WHERE m.tag_id = #{tag_id} ")
-    List<Article> findArticleByTagId(@Param("tag_id") Integer tag_id);
+    List<Article> findArticleByTagId(@Param("tag_id") Long tag_id);
 
 
     /**

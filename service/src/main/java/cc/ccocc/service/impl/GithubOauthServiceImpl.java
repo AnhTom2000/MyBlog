@@ -4,6 +4,7 @@ import cc.ccocc.dto.ResultDTO;
 import cc.ccocc.dto.UserDTO;
 import cc.ccocc.pojo.Oauth;
 import cc.ccocc.pojo.User;
+import cc.ccocc.service.ICookieService;
 import cc.ccocc.utils.result.ResultCode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
@@ -32,8 +34,11 @@ import java.util.UUID;
 public class GithubOauthServiceImpl extends AbstructOauthService {
 
     @Autowired
-    @Qualifier("restTemplates")
     private RestTemplate restTemplate;
+
+    @Autowired
+    @Qualifier("cookieService")
+    private ICookieService cookieService;
 
     //github客户端ID
     private final String CLIENT_ID = "39acafc8c78e9aee72e1";
@@ -70,6 +75,9 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
 
     @Override
     public ResultDTO callback(String state, String code, HttpServletRequest request, HttpServletResponse response) {
+        //cookieService.removeCookie(cookieService.getCookie(SIMPLE_COOKIE_KEY,request),response);
+        //cookieService.removeCookie(cookieService.getCookie(OAUTH_COOKIE_KEY,request),response);
+
         // 调用获取用户信息的方法
         Oauth userInfo = getOauthUserInfo(state, code);
 
@@ -77,19 +85,26 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
         UserDTO user = getUserByOauth(userInfo);
 
         if (userInfo == null) {
-           throw new RuntimeException("获取用户信息失败");
+            throw new RuntimeException("获取用户信息失败");
         }
         ResultDTO result = null;
+        Cookie cookie = null;
         //如果用户在本平台认证过
-        if(user.getUserId() != null){
+        if (user.getUserId() != null) {
+            cookie = cookieService.generateCookie(SIMPLE_COOKIE_KEY);
             // 存放用户的id
-            request.getSession().setAttribute("user",user.getUserId());
+            request.getSession().setAttribute(cookie.getValue(), user.getUserId());
+            System.out.println("new Cookie : "+cookie.getValue());
+            response.addCookie(cookie);
             result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).status(true).build();
-        }else {
+        } else {
+            // 把oauth放进session ，等待用户完善信息后再取出来完善
+            cookie = cookieService.generateCookie(OAUTH_COOKIE_KEY);
+            request.getSession().setAttribute(cookie.getValue(),userInfo);
             // 让用户完善信息
             result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).status(false).build();
+            response.addCookie(cookie);
         }
-
         return result;
 
     }
@@ -141,8 +156,6 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
     public UserDTO getUserByOauth(Oauth oauth) {
         return userService.findUserByOauth(oauth);
     }
-
-
 
 
 }

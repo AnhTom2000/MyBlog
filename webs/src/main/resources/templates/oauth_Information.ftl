@@ -36,6 +36,7 @@
     <!--responsive.css-->
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/assets/css/responsive.css">
 
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/toastr.css">
 
 </head>
 
@@ -51,18 +52,18 @@
                 <div class="signin-form">
                     <div class=" ">
                         <div class=" ">
-                            <form action="signin.html">
+                            <form action="/oauth/information/complete">
                                 <div class="form-group">
-                                    <label for="signin_form">用户名</label>
+                                    <label for="username">用户名</label>
                                     <input type="text" class="form-control" id="username" placeholder="请输入唯一的用户名">
                                 </div><!--/.form-group -->
                                 <div class="form-group">
-                                    <label for="signin_form">email</label>
+                                    <label for="email">email</label>
                                     <input type="email" class="form-control" id="email" placeholder="请输入你的邮箱">
                                 </div><!--/.form-group -->
                                 <div class="form-group">
-                                    <label for="signin_form">验证码</label>
-                                    <input type="email" class="form-control" id="checkCode" placeholder="请输入验证码"><button class="btn btn-primary" id="getCode">点击获取验证码</button>
+                                    <label for="checkCode">验证码</label>
+                                    <input type="email" class="form-control" id="checkCode" placeholder="请输入验证码"><button class="btn btn-primary" type="button" id="getCode">点击获取验证码</button>
                                 </div><!--/.form-group -->
                             </form><!--/form -->
                         </div><!--/.col -->
@@ -70,7 +71,9 @@
 
                 </div><!--/.signin-form -->
                 <div class="signin-footer">
-
+                    <button type="button" id="complete" class="btn signin_btn signin_btn_two">
+                        完成注册
+                    </button>
                 </div><!--/.signin-footer -->
             </div><!-- .popup-in-txt -->
         </div><!--/.sign-content -->
@@ -111,6 +114,9 @@
 <!--Custom JS-->
 <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/assets/js/custom.js"></script>
 
+<script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
+
+<script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/userInfoComplete.js"></script>
 </body>
 
 </html>

@@ -10,6 +10,9 @@ import cc.ccocc.utils.idgenerater.SnowflakeIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +27,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstructOauthService implements IOauthService {
 
+    // 第三方登陆用户标识
+    public static final String OAUTH_COOKIE_KEY = "oauth-user";
+    // 本地登录用户标识
+    public static final String SIMPLE_COOKIE_KEY = "user";
+    // 第三方平台github标识
     public static final String GITHUB_TYPE = "github";
-
+    // 第三方平台 qq 标识
     public static final String QQ_TYPE = "qq";
+    // 第三方平台登陆的默认密码
+    public static final  String DEFAULT_PASSWORD = "8761797!";
 
     @Autowired
     protected IOauthDao oauthDao;
@@ -57,6 +67,7 @@ public abstract class AbstructOauthService implements IOauthService {
         return null;
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
     public boolean addOauth(Oauth oauth) {
         return oauthDao.addOauth(oauth) > 0;
