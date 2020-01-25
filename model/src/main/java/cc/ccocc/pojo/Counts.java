@@ -3,6 +3,7 @@ package cc.ccocc.pojo;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created on 15:59  16/01/2020
@@ -25,4 +26,20 @@ public class Counts implements Serializable {
     private int tag_Count;
     // 留言总数统计
     private int comment_Count;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Counts)) return false;
+        Counts counts = (Counts) o;
+        return article_Count == counts.article_Count &&
+                tag_Count == counts.tag_Count &&
+                comment_Count == counts.comment_Count;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(article_Count, tag_Count, comment_Count);
+    }
 }

@@ -26,8 +26,8 @@ public interface ICategoryDao {
      */
     @Select("SELECT category_id , category_name FROM tb_category ")
     @Results(id = "category_map",value = {
-            @Result(id = true,column = "category_id",property = "categoryid"),
-            @Result(column = "category_name",property = "categoryname")
+            @Result(id = true,column = "category_id",property = "categoryid",javaType = Integer.class),
+            @Result(column = "category_name",property = "categoryname",javaType = String.class)
     })
     List<Category> findAll();
 

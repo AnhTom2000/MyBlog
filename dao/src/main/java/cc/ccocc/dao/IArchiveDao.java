@@ -36,7 +36,7 @@ public interface IArchiveDao {
      * @Return
      * @param archive  归档信息
      */
-    @Insert("INSERT INTO tb_archive('archive_name') VALUES(#{archive.archiveName})")
+    @Insert("INSERT INTO tb_archive(archive_name) VALUES(#{archive.archiveName})")
     void saveArchive(@Param("archive") Archive archive);
 
 }

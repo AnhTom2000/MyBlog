@@ -1,17 +1,18 @@
 package cc.ccocc.webs.controller;
 
+import cc.ccocc.dto.ArticleDTO;
 import cc.ccocc.dto.ResultDTO;
-import cc.ccocc.service.ICookieService;
-import cc.ccocc.service.IOauthService;
-import cc.ccocc.service.IUserService;
-import cc.ccocc.service.IVerifyCodeEmailService;
+import cc.ccocc.dto.UserDTO;
+import cc.ccocc.service.*;
 import cc.ccocc.utils.result.ResultCode;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Email;
@@ -46,7 +47,23 @@ public class CommonApiController {
     @Qualifier("cookieService")
     private ICookieService cookieService;
 
-    private final  Long timeOut = 120L;
+    @Autowired
+    @Qualifier("article_userService")
+    private IArticle_UserService article_userService;
+
+    private final Long timeOut = 120L;
+
+    // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
+    @ModelAttribute
+    public void beforePage(Model model, HttpServletRequest request) {
+        Cookie userCookie = null;
+        UserDTO userDTO = null;
+        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
+            Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
+            userDTO = userService.findUserById(userId);
+        }
+        if (userDTO != null) model.addAttribute("user", userDTO);
+    }
 
     /**
      * @Method Description:
@@ -104,16 +121,15 @@ public class CommonApiController {
                                    @Email(message = "邮箱格式不正确")
                                    @NotBlank(message = "邮箱不能为空")
                                    @PathVariable("email") String email) {
-        System.out.println(email);
-        return verifyCodeEmailService.sendEmailWithVerifyCode(email,timeOut);
+        return verifyCodeEmailService.sendEmailWithVerifyCode(email, timeOut);
     }
 
     @RequestMapping("/exit/userExit")
     @ResponseBody
-    public ResultDTO exit(HttpServletRequest request, HttpServletResponse response){
-        ResultDTO result  = null;
+    public ResultDTO exit(HttpServletRequest request, HttpServletResponse response) {
+        ResultDTO result = null;
         try {
-            cookieService.removeCookie(cookieService.getCookie(SIMPLE_COOKIE_KEY,request),response);
+            cookieService.removeCookie(cookieService.getCookie(SIMPLE_COOKIE_KEY, request), response);
             result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("退出成功").status(true).build();
         } catch (Exception e) {
             result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("操作失败").status(false).build();

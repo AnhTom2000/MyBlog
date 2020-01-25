@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created on 12:57  18/01/2020
@@ -24,4 +25,18 @@ public class WebInfo implements Serializable {
     private Integer code;
     private String msg;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WebInfo)) return false;
+        WebInfo webInfo = (WebInfo) o;
+        return Objects.equals(code, webInfo.code) &&
+                Objects.equals(msg, webInfo.msg);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, msg);
+    }
 }

@@ -1,6 +1,7 @@
 package cc.ccocc.service.impl;
 
 import cc.ccocc.dao.IArticleDao;
+import cc.ccocc.dto.ArticleDTO;
 import cc.ccocc.dto.ResultDTO;
 import cc.ccocc.pojo.Archive;
 import cc.ccocc.pojo.Article;
@@ -13,6 +14,7 @@ import cc.ccocc.utils.result.ResultCode;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,6 +26,8 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created on 22:14  15/01/2020
@@ -49,6 +53,9 @@ public class ArtilceServiceImpl implements IArticleService {
     @Autowired
     @Qualifier("archiveService")
     private IArchiveService archiveService;
+    @Autowired
+    @Qualifier("article_userService")
+    private IArticle_UserService article_userService;
 
 
     /**
@@ -60,29 +67,20 @@ public class ArtilceServiceImpl implements IArticleService {
     private static final SnowflakeIdGenerator SNOWFLAKE_ID_GENERATOR = SnowflakeIdGenerator.getInstance();
 
     /**
-     * @Method
-     * Description:
-     *  查找所有文章
+     * @Method Description:
+     * 查找所有文章
      * @Author weleness
-     *
      * @Return
      */
     @Override
     public List<Article> findAll() {
-        List<Article> all = articleDao.findALL();
-        for (Article article : all) {
-            // 把html特殊字符转换为html
-            article.setA_text(HtmlUtils.htmlUnescape(article.getA_text()));
-        }
-        return all;
+        return articleDao.findALL();
     }
 
     /**
-     * @Method
-     * Description:
-     *  统计文章总数
+     * @Method Description:
+     * 统计文章总数
      * @Author weleness
-     *
      * @Return
      */
     @Override
@@ -91,11 +89,9 @@ public class ArtilceServiceImpl implements IArticleService {
     }
 
     /**
-     * @Method
-     * Description:
-     *  根据文章id查找文章
+     * @Method Description:
+     * 根据文章id查找文章
      * @Author weleness
-     *
      * @Return
      */
     @Override
@@ -104,11 +100,9 @@ public class ArtilceServiceImpl implements IArticleService {
     }
 
     /**
-     * @Method
-     * Description:
-     *  查找最新文章
+     * @Method Description:
+     * 查找最新文章
      * @Author weleness
-     *
      * @Return
      */
     @Override
@@ -137,13 +131,11 @@ public class ArtilceServiceImpl implements IArticleService {
             if (!Objects.isNull(newTag)) {
                 tagList.addAll(tagService.saveTags(newTag));
             }
-
-            //转移html字符串
-            article.setA_text(HtmlUtils.htmlEscapeHex(article.getA_text()));
             // 这里localDateTime.now（）要加上系统时钟，不然可能会造成精度不准
             article.setA_createTime((LocalDateTime.now(Clock.systemDefaultZone())));
             //保存归档日期
             Archive archive = Archive.builder().archiveName(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")).build();
+            archiveService.saveArchive(archive);
             //初始化最后一次的修改时间
             article.setA_last_update(article.getA_createTime());
             //生成文章雪花id
@@ -154,7 +146,7 @@ public class ArtilceServiceImpl implements IArticleService {
             article.setA_likeNums(0);
             article.setA_viewNums(0);
             // 查找对应的分类
-            Category category = categoryService.findById(Integer.parseInt(category_id) + 2);
+            Category category = categoryService.findById(Integer.parseInt(category_id));
             //保存文章
             articleDao.saveArticle(article, category);
             // 将文章信息和标签信息存入中间表
@@ -166,5 +158,39 @@ public class ArtilceServiceImpl implements IArticleService {
         }
         return resultDTO;
     }
+
+    @Override
+    public ArticleDTO findArticleById(Long articleId) {
+        ArticleDTO articleDTO = new ArticleDTO();
+        Article article = articleDao.findArticleById(articleId);
+        if (article != null) {
+            BeanCopier beanCopier = BeanCopier.create(Article.class, ArticleDTO.class, false);
+            beanCopier.copy(article, articleDTO, null);
+            return articleDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public ResultDTO addArticleLike(Long articleId,Long userId) {
+        ResultDTO result = null;
+        //还没有点赞过这篇文章
+        if(!article_userService.checkArticleIsLikeByUser(articleId,userId).isStatus()) {
+            try {
+                articleDao.addArticleLike(articleId);
+                article_userService.addInMiddle(articleId,userId);
+              result =   ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("操作成功").status(true).build();
+            } catch (Exception e) {
+                result =   ResultDTO.builder().code(ResultCode.SERVER_ERROR_CODE.getCode()).message("服务器异常").status(false).build();
+                e.printStackTrace();
+            }
+        }else {
+            result =   ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("已经点赞过了，不可以再点赞了").status(false).build();
+        }
+
+        return result;
+    }
+
+
 
 }

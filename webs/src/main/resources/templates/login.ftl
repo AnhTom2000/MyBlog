@@ -121,7 +121,7 @@
                             </div>
                             <p>
                                 还没有账号？
-                                <a href="popupsignup.html">点击注册</a>
+                                <a href="/register">点击注册</a>
                             </p>
                         </div><!--/.signin-footer -->
                     </div><!--/.col -->

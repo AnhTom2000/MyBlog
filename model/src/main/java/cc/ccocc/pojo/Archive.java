@@ -3,6 +3,7 @@ package cc.ccocc.pojo;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created on 19:56  17/01/2020
@@ -23,4 +24,18 @@ public class Archive implements Serializable {
     private int id;
 
     private String archiveName;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Archive)) return false;
+        Archive archive = (Archive) o;
+        return id == archive.id &&
+                Objects.equals(archiveName, archive.archiveName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, archiveName);
+    }
 }

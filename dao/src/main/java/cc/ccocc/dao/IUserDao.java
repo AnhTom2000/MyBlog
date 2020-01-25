@@ -116,4 +116,6 @@ public interface IUserDao {
     @ResultMap("user_map")
     @Select("SELECT user_id,username,password,avatar_url,email,phone,gender,age,area,profession,description,login_count,last_login,last_update,create_time,locked,message_count FROM tb_user WHERE email = #{email}")
     public User findUserByEamil(@Param("email") String email);
+
+
 }

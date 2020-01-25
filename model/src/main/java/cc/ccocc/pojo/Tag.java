@@ -4,6 +4,7 @@ import lombok.*;
 import org.apache.ibatis.annotations.ConstructorArgs;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created on 23:05  15/01/2020
@@ -26,4 +27,19 @@ public class Tag implements Serializable {
 
     private  Long tag_id;
     private  String tag_name;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tag)) return false;
+        Tag tag = (Tag) o;
+        return Objects.equals(tag_id, tag.tag_id) &&
+                Objects.equals(tag_name, tag.tag_name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tag_id, tag_name);
+    }
 }

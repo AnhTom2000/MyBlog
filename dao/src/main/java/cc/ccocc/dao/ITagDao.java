@@ -73,7 +73,7 @@ public interface ITagDao {
      * @Return
      * @param tagName 标签名称
      */
-    @Select("SELECT tag_id,tag_name FROM tb_tag WHERE tag_name = #{tagName}")
+    @Select("SELECT tag_id,tag_name FROM tb_tag WHERE tag_name = #{tagName} limit 0,1")
     @ResultMap("tag_map")
     Tag findByTagName(String tagName);
 }

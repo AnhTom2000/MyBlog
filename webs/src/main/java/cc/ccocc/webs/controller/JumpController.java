@@ -1,6 +1,8 @@
 package cc.ccocc.webs.controller;
 
 
+import cc.ccocc.dto.ArticleDTO;
+import cc.ccocc.dto.ResultDTO;
 import cc.ccocc.dto.UserDTO;
 import cc.ccocc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -48,6 +51,11 @@ public class JumpController {
     @Qualifier("userService")
     private IUserService userService;
 
+    @Autowired
+    @Qualifier("article_userService")
+    private IArticle_UserService article_userService;
+
+
     // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
     @ModelAttribute
     public void beforePage(Model model, HttpServletRequest request) {
@@ -58,6 +66,7 @@ public class JumpController {
             System.out.println(userId);
             userDTO = userService.findUserById(userId);
         }
+
 
         if (userDTO != null) model.addAttribute("user", userDTO);
         model.addAttribute("article_List", articleService.findAll());
@@ -146,5 +155,22 @@ public class JumpController {
     public String informationComplete() {
         return "oauth_Information";
     }
+
+    @RequestMapping("/article/{articleId}")
+    public String article(@PathVariable("articleId") String articleId,Model model,HttpServletRequest request){
+        UserDTO userDTO= null;
+        if((userDTO = (UserDTO) model.getAttribute("user"))!=null){
+            ResultDTO resultDTO = article_userService.checkArticleIsLikeByUser(Long.parseLong(articleId), userDTO.getUserId());
+            //如果用户点赞过这篇文章
+            if(resultDTO.isStatus()){
+                model.addAttribute("isLike","isLike");
+                model.addAttribute("heart","heart");
+            }
+        }
+        model.addAttribute("article_info",articleService.findArticleById(Long.parseLong(articleId)));
+        return "article";
+    }
+
+
 
 }

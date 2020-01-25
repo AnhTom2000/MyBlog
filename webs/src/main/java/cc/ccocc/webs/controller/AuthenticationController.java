@@ -88,9 +88,6 @@ public class AuthenticationController {
                                               HttpServletRequest request,
 
                                               HttpServletResponse response) {
-        System.out.println(username);
-        System.out.println(email);
-        System.out.println(verificationCode);
 
         return userService.oauthInformationComplete(username, email, verificationCode, request, response);
     }

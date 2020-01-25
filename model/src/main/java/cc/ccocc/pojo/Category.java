@@ -3,6 +3,7 @@ package cc.ccocc.pojo;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created on 22:17  18/01/2020
@@ -22,4 +23,19 @@ public class Category implements Serializable {
     private static final long serialVersionUID = 13521654784L;
     private  Integer categoryid; // 分类id
     private  String categoryname; // 分类名称
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return Objects.equals(categoryid, category.categoryid) &&
+                Objects.equals(categoryname, category.categoryname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryid, categoryname);
+    }
 }

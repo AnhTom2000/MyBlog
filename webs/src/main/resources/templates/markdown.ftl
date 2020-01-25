@@ -36,6 +36,10 @@
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/jquery.tagsinput.js "></script>
 
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/jquery.tagsinput.css">
+
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/toastr.css">
+
+    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
 </head>
 
 <body>
@@ -44,25 +48,25 @@
     <div class="am-navbar am-navbar-default am-show-sm-only" data-am-widget="navbar">
         <ul class="am-navbar-nav">
             <li>
-                <a href="main.html">
+                <a href="/">
                     <span class="am-icon-home"></span>
                     <span class="am-navbar-label">首页</span>
                 </a>
             </li>
             <li>
-                <a href="archives.html">
+                <a href="/archives">
                     <span class="am-icon-server"></span>
                     <span class="am-navbar-label">归档</span>
                 </a>
             </li>
             <li>
-                <a href="write copy.html">
+                <a href="/rich">
                     <span class="am-icon-modx"></span>
                     <span class="am-navbar-label">富文本编辑器</span>
                 </a>
             </li>
             <li data-am-navbar-share>
-                <a href="main.html">
+                <a href="/">
                     <span class="am-icon-angellist"></span>
                     <span class="am-navbar-label">返回</span>
                 </a>
@@ -89,12 +93,12 @@
                 <ul class="am-dropdown-content">
                     <li class="am-dropdown-header">选择方式</li>
                     <li class="am-divider"></li>
-                    <li class="am-active"><a href="main.html">首页</a></li>
+                    <li class="am-active"><a href="/">首页</a></li>
                     <li class="am-divider"></li>
                     <li class="am-divider"></li>
-                    <li><a href="archives.html">归档</a></li>
+                    <li><a href="/archives">归档</a></li>
                     <li class="am-divider"></li>
-                    <li><a href="write copy.html">富文本编辑</a></li>
+                    <li><a href="/rich">富文本编辑</a></li>
                 </ul>
             </div>
         </div>
@@ -136,11 +140,11 @@
                                         data-am-dropdown-toggle>
                                     请选择
                                     <span class="am-icon-caret-down"></span></button> <br>
-                                <ul class="am-dropdown-content " id="tag_List">
+                                <ul class="am-dropdown-content tag_list" id="tag_List">
                                     <li class="am-dropdown-header">历史标签</li>
-                                    <li><a href="javascript: void(0)" id="1">Spring</a></li>
-                                    <li><a href="javascript: void(0)" id="2">Maven</a></li>
-                                    <li><a href="javascript: void(0)" id="3">SpringBoot</a></li>
+                                    <#list tag_List as tag>
+                                    <li  id="${tag.tag_id}"><a href="javascript: void(0)">${tag.tag_name}</a></li>
+                                    </#list>
                                 </ul>
 
                             </div>
@@ -154,11 +158,11 @@
                                 <button class="am-btn am-btn-success am-dropdown-toggle" style="width: 113px;"
                                         data-am-dropdown-toggle>请选择
                                     <span class="am-icon-caret-down"></span></button>
-                                <ul class="am-dropdown-content" id="cates">
+                                <ul class="am-dropdown-content category_list" id="cates">
                                     <li class="am-dropdown-header">全部类型</li>
-                                    <li><a href="javascript: void(0)" id="1">原创</a></li>
-                                    <li><a href="javascript: void(0)" id="2">转载</a></li>
-                                    <li><a href="javascript: void(0)" id="3">翻译</a></li>
+                                    <li id="1"><a href="javascript: void(0)" >原创</a></li>
+                                    <li id="2"><a href="javascript: void(0)" >转载</a></li>
+                                    <li id="3"><a href="javascript: void(0)" >翻译</a></li>
                                 </ul>
 
                             </div>
