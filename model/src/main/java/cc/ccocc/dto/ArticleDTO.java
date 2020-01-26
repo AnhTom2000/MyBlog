@@ -2,6 +2,10 @@ package cc.ccocc.dto;
 
 import cc.ccocc.pojo.Category;
 import cc.ccocc.pojo.Tag;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 
 import java.io.Serializable;
@@ -21,15 +25,18 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(value = {"handler"})
 public class ArticleDTO implements Serializable {
 
     private static final long serialVersionUID = 7658159619L;
 
     //文章id
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long a_id;
     //文章标题
     private String a_Title;
     // 用户id
+    @JsonSerialize(using=ToStringSerializer.class)
     private Long u_id;
     //文章内容
     private String a_text;

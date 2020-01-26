@@ -2,6 +2,7 @@ package cc.ccocc.service.impl;
 
 import cc.ccocc.dao.IArticleDao;
 import cc.ccocc.dto.ArticleDTO;
+import cc.ccocc.dto.CommentDTO;
 import cc.ccocc.dto.ResultDTO;
 import cc.ccocc.pojo.Archive;
 import cc.ccocc.pojo.Article;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -115,7 +118,7 @@ public class ArtilceServiceImpl implements IArticleService {
      * @param tag         等待解析的文章标签
      * @param category_id 文章的分类
      * @Method Description:
-     * 保存文章方法
+     * 保存文章
      * @Author weleness
      * @Return
      */
@@ -159,6 +162,14 @@ public class ArtilceServiceImpl implements IArticleService {
         return resultDTO;
     }
 
+    /**
+     * @Method
+     * Description:
+     *  查看文章
+     * @Author weleness
+     *
+     * @Return
+     */
     @Override
     public ArticleDTO findArticleById(Long articleId) {
         ArticleDTO articleDTO = new ArticleDTO();
@@ -170,6 +181,14 @@ public class ArtilceServiceImpl implements IArticleService {
         }
         return null;
     }
+    /**
+     * @Method
+     * Description:
+     *  点赞
+     * @Author weleness
+     *
+     * @Return
+     */
 
     @Override
     public ResultDTO addArticleLike(Long articleId,Long userId) {
@@ -190,7 +209,6 @@ public class ArtilceServiceImpl implements IArticleService {
 
         return result;
     }
-
 
 
 }

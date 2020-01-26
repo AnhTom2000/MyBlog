@@ -1,5 +1,9 @@
 package cc.ccocc.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sun.xml.internal.ws.api.pipe.Fiber;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -20,9 +24,12 @@ import java.util.Objects;
 @Setter
 //注解用来配置lombok如何产生和显示getters和setters的方法。
 @Accessors(chain = true) // 2. chain 一个布尔值。如果为真，产生的setter返回的this而不是void。默认是假。如果fluent=true，那么chain默认为真。
+@JsonIgnoreProperties(value = {"handler"})
 public class Oauth implements Serializable {
 
     private static final  Long serialVersionUID = -3213516541L;
+
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long oauthId;
 
     private String oauthType;

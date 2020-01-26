@@ -1,5 +1,7 @@
-package cc.ccocc.pojo;
+package cc.ccocc.dto;
 
+import cc.ccocc.pojo.Reply;
+import cc.ccocc.pojo.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * Created on 21:53  25/01/2020
+ * Created on 21:46  26/01/2020
  * Description:
  *
  * @author Weleness
@@ -22,8 +24,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(value = {"handler"})
-public class Reply implements Serializable {
-
+public class ReplyDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // 评论回复的主键
@@ -45,14 +46,14 @@ public class Reply implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Reply)) return false;
-        Reply reply = (Reply) o;
-        return Objects.equals(replyId, reply.replyId) &&
-                Objects.equals(user, reply.user) &&
-                Objects.equals(articleId, reply.articleId) &&
-                Objects.equals(commentId, reply.commentId) &&
-                Objects.equals(replyTime, reply.replyTime) &&
-                Objects.equals(replyContent, reply.replyContent);
+        if (!(o instanceof ReplyDTO)) return false;
+        ReplyDTO replyDTO = (ReplyDTO) o;
+        return Objects.equals(replyId, replyDTO.replyId) &&
+                Objects.equals(user, replyDTO.user) &&
+                Objects.equals(articleId, replyDTO.articleId) &&
+                Objects.equals(commentId, replyDTO.commentId) &&
+                Objects.equals(replyTime, replyDTO.replyTime) &&
+                Objects.equals(replyContent, replyDTO.replyContent);
     }
 
     @Override

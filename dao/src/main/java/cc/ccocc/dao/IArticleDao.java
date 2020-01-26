@@ -103,7 +103,7 @@ public interface IArticleDao {
     @ResultMap("article_map")
     @Select("SELECT article_id,u_id,article_name,article_text,markdown,create_time, " +
             "last_update,YEAR(create_time),MONTH(create_time),View_statistics, " +
-            "Likes_statistics  FROM tb_article WHERE article_id = #{articleId}")
+            "Likes_statistics,category_id  FROM tb_article WHERE article_id = #{articleId}")
     Article findArticleById(@Param("articleId") Long articleId);
 
 

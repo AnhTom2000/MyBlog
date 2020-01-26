@@ -1,5 +1,9 @@
 package cc.ccocc.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 
 import java.io.Serializable;
@@ -20,10 +24,12 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"handler"})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 3213516541L;
 
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long userId;
 
     private String userName;
@@ -64,6 +70,7 @@ public class User implements Serializable {
     private Integer messageCount;
 
     //第三方认证ID
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long oauthId;
 
     @Override

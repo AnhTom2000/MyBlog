@@ -1,5 +1,8 @@
 package cc.ccocc.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 import org.apache.ibatis.annotations.ConstructorArgs;
 
@@ -19,12 +22,13 @@ import java.util.Objects;
 @Builder //声明实体，表示可以进行Builder方式初始化，对外保持private setter 而对属性的赋值采用builder的方式
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Tag implements Serializable {
 
     private static final long serialVersionUID = 65416516517L;
 
 
-
+    @JsonSerialize(using= ToStringSerializer.class)
     private  Long tag_id;
     private  String tag_name;
 

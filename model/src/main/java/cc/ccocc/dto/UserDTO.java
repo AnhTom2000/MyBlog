@@ -1,6 +1,10 @@
 package cc.ccocc.dto;
 
 import cc.ccocc.pojo.Article;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
@@ -26,6 +30,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(value = {"handler"})
 public class UserDTO implements Serializable {
 
 
@@ -33,6 +38,7 @@ public class UserDTO implements Serializable {
     private static final long serialVersionUID = -65416516517L;
 
     //用户ID
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long userId;
 
     //用户名

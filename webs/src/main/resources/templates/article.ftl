@@ -35,6 +35,8 @@
     <link rel="stylesheet"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/bootstrap/bootstrap.min.css ">
 
+    <link rel="stylesheet" href="http://ico.z01.com/zico.min.css">
+
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/jQuery/jquery-3.4.1.min.js"></script>
 
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/lib/underscore.min.js"></script>
@@ -124,7 +126,7 @@
 
                         <li class="nav-item">
                             <div class="navbar navbar-start">
-                                <form class=" from-inline" style="display: inline-flex;" role="search">
+                                <form class=" from-inline " style="display: inline-flex;" role="search">
                                     <input type="search" placeholder="Search" class="form-control mr-sm-2">
                                     <svg t="1577948224406"
                                          class="icon img-thumbnail navbar-brand img-responsive icon-serach "
@@ -186,19 +188,19 @@
                                     <h1> ${article_info.a_Title} </h1>
                                 </div>
                                 <div class="article-info row">
-                                    <div class="article-info article-info-type am-badge am-badge-success">
+                                    <div class="article-info article-info-type badge badge-success">
                                     ${article_info.category.categoryname}
                                     </div>
                                     <div class="article-info article-info-publishDate">
-                                        <i class="am-icon-calendar"><a class="articleCategoryColor"
+                                        <i class="zi zi_calendar" zico="日历"><a class="articleCategoryColor"
                                                                        href="/archives?archive=' + data.publishDate + '">  ${article_info.a_year}
                                             -${article_info.a_month} </a></i>
                                     </div>
                                     <div class="article-info article-info-originalAuthor">
-                                        <i class="am-icon-user"> Weleness</i>
+                                        <i class="zi zi_usergraduate" zico="用户学历"> Weleness</i>
                                     </div>
                                     <div class="article-info article-info-categories">
-                                        <i class="am-icon-folder">
+                                        <i class="zi zi_folders" zico="文件夹">
                                                 <#list article_info.tags as tag>
                                                     <a class="articleCategoryColor"
                                                        href="/categories?category=' + data.articleCategories ">${tag.tag_name}</a>
@@ -236,7 +238,7 @@
                     </div>
                     <div class="likeBtn am-btn am-btn-danger ${isLike}" id="${article_info.a_id}">
                         <div class="likeHeart ${heart}" id="heart">
-                            <i class="am-icon-heart-o"><svg t="1579955277984" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6592" width="30" height="30"><path d="M523.733 841.024l33.174-32.576 99.69-97.813c70.976-69.632 120.32-117.974 138.71-135.894 59.008-57.514 93.248-121.28 99.626-184.234 6.251-61.44-15.488-119.744-61.589-164.672-44.992-43.84-98.88-61.91-157.035-52.907-49.365 7.616-101.034 34.624-150.016 78.848a21.333 21.333 0 0 1-28.586 0c-48.982-44.224-100.651-71.232-150.016-78.87-58.155-8.96-112.043 9.089-157.035 52.929-46.101 44.928-67.84 103.21-61.61 164.693 6.4 62.933 40.64 126.72 99.647 184.213a100207.573 100207.573 0 0 1 145.92 142.827l24.256 23.765L512 852.523l11.733-11.499zM512 852.544l-1.493 1.43a2.133 2.133 0 0 1 1.493-0.64c0.512 0 1.045 0.213 1.493 0.64L512 852.522z m157.781-721.792c71.638-11.093 138.902 11.477 193.344 64.533 55.318 53.931 81.835 124.992 74.283 199.531-7.467 73.643-46.55 146.368-112.32 210.475-18.347 17.898-67.67 66.218-138.453 135.637-31.83 31.232-65.707 64.448-99.84 97.984L553.6 871.467l-13.184 12.949a40.555 40.555 0 0 1-56.832 0l-114.603-112.64-24.213-23.723a677626.347 677626.347 0 0 0-145.856-142.762C133.142 541.184 94.08 468.48 86.613 394.816c-7.552-74.539 18.944-145.6 74.283-199.53 54.443-53.057 121.707-75.606 193.344-64.534 53.163 8.213 107.093 34.688 157.781 76.95 50.71-42.24 104.619-68.737 157.782-76.95z" p-id="6593"></path></svg>&nbsp;&nbsp;喜欢</i>
+                            <i class="zi zi_tmGratipay">&nbsp;&nbsp;喜欢</i>
                         </div>
                         <div class="likesNum">
                             <span>  ${article_info.a_likeNums} </span>
@@ -247,7 +249,7 @@
                         <div class="comment-top">
                             <#if user??>
                             <div class="comment-top-input">
-                                <textarea id="comment" placeholder="客官，来说两句吧..."></textarea>
+                                <textarea id="comment" placeholder="来说两句吧..."></textarea>
                             </div>
                                 <div class="commentBtn" id="${article_info.a_id}" >
                                     <button id="commentBtn" type="button" class="btn btn-primary">发表评论</button>
@@ -255,7 +257,7 @@
                            <#else >
                             <div class="comment-top-input">
                                 <div class="goToLogin">
-                                    &nbsp;&nbsp;&nbsp;<a id="toLogin" >登录</a>后才可以发表评论呦...
+                                        &nbsp;&nbsp;&nbsp;<a id="toLogin" href="javascript: void(0)" >登录</a>后才可以发表评论呦...
                                 </div>
                             </div>
                             </#if>
@@ -276,7 +278,7 @@
             <hr>
             <div class="am-vertical-align-bottom">
                 <div style="color: #009688;font-size: 15px;">
-                    &copy; 2018-2019 程序猿张先森 - <i class="am-icon-coffee" style="margin: 0 5px"></i>张海洋 版权所有
+                    &copy; 2019-2020 Weleness&nbsp;曾创杰 - <i class="zi zi_coffee" style="margin: 0 5px"></i>曾创杰 版权所有
                 </div>
                 <div id="footer" style="color: #009688;font-size: 15px;">
                     总访问量 <span id="totalVisitors"><strong></strong></span> 次 您是本文第 <span
@@ -284,14 +286,14 @@
                 </div>
                 <div class="webLogo" style="font-size: 15px;">
                     <a href="http://beian.miit.gov.cn" target="_blank">
-                        蜀ICP备18000229号
+                        粤ICP备19143953号-1
                     </a>
                 </div>
                 <div class="webLogo" style="font-size: 15px;">
                     <img src="https://zhy-myblog.oss-cn-shenzhen.aliyuncs.com/static/img/webLog.png">
                     <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011402000164"
                        target="_blank">
-                        川公网安备 51011402000164号
+                        粤ICP备19143953号
                     </a>
                 </div>
             </div>

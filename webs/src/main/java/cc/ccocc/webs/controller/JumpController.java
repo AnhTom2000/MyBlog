@@ -55,6 +55,9 @@ public class JumpController {
     @Qualifier("article_userService")
     private IArticle_UserService article_userService;
 
+    @Autowired
+    @Qualifier("user_commentService")
+    private IUser_CommentService user_commentService;
 
     // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
     @ModelAttribute
@@ -67,8 +70,8 @@ public class JumpController {
             userDTO = userService.findUserById(userId);
         }
 
-
         if (userDTO != null) model.addAttribute("user", userDTO);
+
         model.addAttribute("article_List", articleService.findAll());
         model.addAttribute("tag_List", tagService.findAll());
         model.addAttribute("article_new_List", articleService.findArticleNew());
