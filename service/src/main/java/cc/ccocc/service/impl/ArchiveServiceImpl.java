@@ -28,4 +28,11 @@ public class ArchiveServiceImpl implements IArchiveService {
     public void saveArchive(Archive archive) {
         archiveDao.saveArchive(archive);
     }
+
+    @Override
+    public Archive findArchiveByYear(String year) {
+        return archiveDao.findArchiveByYear(year);
+    }
+
+
 }

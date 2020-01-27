@@ -16,4 +16,6 @@ public interface IArchiveService {
     List<String>  findArchives();
 
     void saveArchive(Archive archive);
+
+    Archive findArchiveByYear(String year);
 }

@@ -22,8 +22,8 @@ public interface IUser_CommentDao {
      *
      * @Return
      */
-    @Select("SELECT user_id FROM tb_user_comment_like_middle WHERE article_comment_id = #{commentId}")
-    public Long checkCommentIsLikeByOneUser(@Param("commentId") Long commentId);
+    @Select("SELECT user_id FROM tb_user_comment_like_middle WHERE article_comment_id = #{commentId} AND user_id = #{userId} LIMIT 0,1")
+    public Long checkCommentIsLikeByOneUser(@Param("commentId") Long commentId, @Param("userId") Long userId);
 
     /**
      * @Method

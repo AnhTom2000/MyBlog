@@ -25,7 +25,9 @@
 
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/blogs/css/index.css">
 
-    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/blogs/css/main.css">
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/main.css">
+
+    <link rel="stylesheet" href="http://ico.z01.com/zico.min.css">
 
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/jQuery/jquery-3.4.1.min.js"></script>
 
@@ -36,8 +38,6 @@
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/bootstrap/bootstrap.min.js"></script>
 
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/index.js"></script>
-
-    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/blogs/js/sidebar.js"></script>
 
 
     <title>Weleness的博客</title>
@@ -439,6 +439,12 @@
                 </div>
 
             </div>
+            <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
+                <h4 style="font-weight: bold;">最新评论</h4>
+                <hr>
+                <button class="btn btn-default red-button">加载更多</button>
+                <br>
+            </div>
             <div class="modal fade " id="exampleModalLong" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -454,7 +460,7 @@
                                 <div class="mt-4 row">
                                     <div class="col-md-12">
                                         <blockquote class="blockquote">
-                                            <p class="mb-0" style="color: gray;">
+                                            <p class="mb-0 text-center" style="color: gray;">
                                                 在等待的日子里。刻苦读书，卑谦做人，养的深根，日后才能枝叶繁茂。</p>
                                         </blockquote>
                                     </div>
@@ -488,23 +494,23 @@
                                         </svg>
                                     </div>
                                 </div>
-                                <div class="row mt-4 justify-content-md-center">
+                                <div class="row mt-4 text-center justify-content-md-center">
                                     <div class="col-md-12 mr-3" style="border-bottom :dotted black;"
                                          style="width: 100px; ">
                                         <p style="font-family: 微软雅黑; color: goldenrod;">想交个朋友吗<br>
                                             那就快扫下面吧</p>
                                     </div>
                                 </div>
-                                <div class="justify-content-md-center text-center mr-2 mt-3">
+                                <div class="justify-content-md-center  mr-2 mt-3">
                                     <p id="QQ">QQ</p>
                                 </div>
                                 <div class="row mt-4">
-                                    <div class="col-md-12 justify-content-md-center img-thumbnail ">
+                                    <div class="col-md-12 text-center justify-content-md-center img-thumbnail ">
                                         <img src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/b3eee5f3f8407e879140672b3138cf1.jpg"
                                              alt="" width="300px">
                                     </div>
                                 </div>
-                                <div class="justify-content-md-center mt-4">
+                                <div class="justify-content-md-center  mt-4">
                                     <p id="WeChat">WeChat</p>
                                 </div>
                                 <div class="justify-content-md-start mt-3">
@@ -624,9 +630,19 @@
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
                 <h4 style="font-weight: bold;">最新文章</h4>
                 <hr>
-                <#list article_new_List as article><a
-                        href="/showArticle?article_id=${article.a_id}">${article.a_Title}</a></#list>
+            <ul style="list-style: none">
+                <#list article_new_List as article>
+                        <li>
+                            <p>
+                                <i class="zi zi_archive zi_2x" zico="文献典籍"> <a class="newArticle" href="/article/${article.a_id}">${article.a_Title}</a>&nbsp;&nbsp; </i><span>${article.a_createTime}</span>
+                            </p>
+
+                        </li>
+
+                </#list>
+            </ul>
             </div>
+
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
                 <h4 style="font-weight: bold;">留言区</h4>
                 <hr>
@@ -658,7 +674,7 @@
                     <div class="modal-body">
                         <div class="col-md-12 media">
                             <img src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200102165354.jpg"
-                                 alt="微信二维码" class=" align-self-start erweima">
+                                 alt="微信二维码" class=" align-self-start erweima" width="450" height="450">
                         </div>
                     </div>
 
@@ -666,10 +682,7 @@
             </div>
         </div>
 
-
     </main>
-    <button type="button" id="BackTop" class="toTop-arrow" style="z-index: 100;"><i class="fas fa-arrow-circle-up">aaaaaaaaaaaaaaa</i>
-    </button>
     <!-- foot -->
     <footer class="row">
         <div class="others col-md-12 text-center">

@@ -40,9 +40,9 @@
 </head>
 
 <body>
-
-<div class="am-container .am-scrollable-vertical">
 <#list archive_List as archive>
+<div class="am-container .am-scrollable-vertical">
+
     <div class="am-g am-g-fixed blog-content">
         <!-- 响应式，适应中小屏幕  和bootstrap一个道理 -->
         <div class="am-u-sm-12 am-u-md-9">

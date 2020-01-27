@@ -23,7 +23,7 @@ public interface ICommentService {
 
     public List<CommentDTO> insertArticleComment(String commentContent, String articleId, Long userId);
 
-    public ReplyDTO insertArticle_Comment_Reply( String replyContent , @RequestParam("articleId") String articleId,  String parentId,Long userId);
+    public ReplyDTO insertArticle_Comment_Reply( String replyContent ,  String articleId,  String parentId,Long userId);
 
     public ResultDTO addCommentLike(String commentId,Long userId);
 }

@@ -44,7 +44,7 @@ public interface IArticleDao {
     })
     @Select("SELECT article_id,u_id,article_name,article_text,markdown,create_time," +
             "last_update,YEAR(create_time),MONTH(create_time),View_statistics," +
-            "Likes_statistics,category_id FROM tb_article ORDER BY create_time desc")
+            "Likes_statistics,category_id FROM tb_article ORDER BY create_time DESC")
     List<Article> findALL();
 
     /**
@@ -76,7 +76,7 @@ public interface IArticleDao {
      * @Author weleness
      * @Return
      */
-    @Select("SELECT article_id,article_name FROM tb_article WHERE DATE(create_time) BETWEEN '2019-12-01' AND '2029-12-31'")
+    @Select("SELECT article_id,article_name,create_time FROM tb_article WHERE DATE(create_time) BETWEEN '2019-12-01' AND '2029-12-31' ORDER BY create_time DESC")
     @ResultMap(value = "article_map")
     List<Article> findArticleNew();
 

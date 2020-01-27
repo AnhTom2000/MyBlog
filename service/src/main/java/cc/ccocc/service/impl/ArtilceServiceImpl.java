@@ -136,9 +136,11 @@ public class ArtilceServiceImpl implements IArticleService {
             }
             // 这里localDateTime.now（）要加上系统时钟，不然可能会造成精度不准
             article.setA_createTime((LocalDateTime.now(Clock.systemDefaultZone())));
-            //保存归档日期
-            Archive archive = Archive.builder().archiveName(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")).build();
-            archiveService.saveArchive(archive);
+          if(archiveService.findArchiveByYear(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()),"yyyy"))== null) {
+              //保存归档日期
+              Archive archive = Archive.builder().archiveName(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")).build();
+              archiveService.saveArchive(archive);
+          }
             //初始化最后一次的修改时间
             article.setA_last_update(article.getA_createTime());
             //生成文章雪花id

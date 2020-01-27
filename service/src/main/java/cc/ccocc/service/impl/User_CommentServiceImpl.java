@@ -27,11 +27,9 @@ public class User_CommentServiceImpl implements IUser_CommentService {
      * @Return
      */
     @Override
-    public ResultDTO checkCommentIsLikeByOneUser(Long commentId) {
-        System.out.println(commentId);
-        Long userId = user_commentDao.checkCommentIsLikeByOneUser(commentId);
+    public ResultDTO checkCommentIsLikeByOneUser(Long commentId,Long user_Id) {
+        Long userId = user_commentDao.checkCommentIsLikeByOneUser(commentId,user_Id);
         if (userId != null) {
-            System.out.println("true");
             return new ResultDTO(ResultCode.OK_CODE.getCode(), "点赞过了", true);
         }
         return new ResultDTO(ResultCode.OK_CODE.getCode(), "还没点赞，可以点赞", false);

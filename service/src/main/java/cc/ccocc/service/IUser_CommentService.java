@@ -11,8 +11,8 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IUser_CommentService {
 
-    public ResultDTO checkCommentIsLikeByOneUser(@Param("commentId") Long commentId);
+    public ResultDTO checkCommentIsLikeByOneUser( Long commentId,Long user_Id);
 
-    public ResultDTO addCommentLike(@Param("commentId") Long commentId , @Param("userId") Long userId);
+    public ResultDTO addCommentLike( Long commentId ,  Long userId);
 
 }

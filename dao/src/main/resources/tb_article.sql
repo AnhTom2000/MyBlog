@@ -1,6 +1,6 @@
 CREATE TABLE tb_article(
 article_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文章主键',
-article_name VARCHAR(33) NOT NULL COMMENT '文章名称',
+article_name VARCHAR(100) NOT NULL COMMENT '文章名称',
 u_id BIGINT(20) UNSIGNED NOT NULL COMMENT '文章对应的用户主键',
 article_text MEDIUMTEXT not null COMMENT '文章主体',
 markdown BIT NOT NULL DEFAULT 1 COMMENT '文章是否是markdown所写,默为true',

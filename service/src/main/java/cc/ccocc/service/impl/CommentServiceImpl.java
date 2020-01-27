@@ -125,7 +125,7 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public ResultDTO addCommentLike(String commentId, Long userId) {
         //如果已经点赞过了
-        if(user_commentService.checkCommentIsLikeByOneUser(Long.parseLong(commentId)).isStatus()){
+        if(user_commentService.checkCommentIsLikeByOneUser(Long.parseLong(commentId),userId).isStatus()){
            return new ResultDTO(ResultCode.OK_CODE.getCode(),"已经点赞过了，不能在点赞了",true);
         }
         commentDao.addCommentLike(Long.parseLong(commentId));

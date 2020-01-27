@@ -113,8 +113,8 @@ public class ArticleController {
         if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
             Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
             if (userId != null) {
-                return commentService.insertArticle_Comment_Reply(replyContent, parentId, parentId, userId);
-            }
+                return commentService.insertArticle_Comment_Reply(replyContent, articleId, parentId, userId);
+            }else return  null;
         }
         return null;
 
@@ -128,7 +128,7 @@ public class ArticleController {
         if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
             Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
             if (userId != null) {
-            result = commentService.addCommentLike(commentId,userId);
+                 result = commentService.addCommentLike(commentId,userId);
             }
         }else {
             result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("请先登陆").status(false).build();
