@@ -13,6 +13,7 @@
 
     <link rel="stylesheet"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/editormd.min.css"/>
+
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/all.css">
 
     <link rel="stylesheet"
@@ -194,7 +195,7 @@
                                             -${article_info.a_month} </a></i>
                                     </div>
                                     <div class="article-info article-info-originalAuthor">
-                                        <i class="zi zi_usergraduate" zico="用户学历"> Weleness</i>
+                                        <i class="zi zi_usergraduate" zico="用户学历"> ${article_info.user.userName}</i>
                                     </div>
                                     <div class="article-info article-info-categories">
                                         <i class="zi zi_folders" zico="文件夹">
@@ -224,7 +225,7 @@
                             </div>
                             <div>
                                 <ul class="post-copyright">
-                                    <li><strong>本文作者：</strong><span id="authorFooter">  Weleness</span></li>
+                                    <li><strong>本文作者：</strong><span id="authorFooter">${article_info.user.userName}</span></li>
                                     <li><strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<span id="copyRightFooter"><a
                                             href="https://creativecommons.org/licenses/by/3.0/cn/" target="_blank"> CC BY 3.0 CN协议</a></span>进行许可。转载请署名作者且注明文章出处。
                                     </li>

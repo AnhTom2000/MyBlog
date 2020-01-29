@@ -46,99 +46,7 @@
 <body>
 <#setting number_format="#">
 <div class="container-fluid">
-
-    <nav
-            class="navbar navbar-default navbar-expand-sm navbar-expand-lg navbar-expand-xl navbar-light bg-light  navbar-static-top shadow-lg  mb-4 bg-white  ">
-        <#if user??>
-        <div class="navbar-barand mr-auto " width="100">
-            <a href="/">
-                <img src="${user.avatarUrl}"
-                     class="img-thumbnail navbar-brand img-responsive rounded-circle" width="50" height="60"
-                ><span>${user.userName}</span>
-            </a>
-        </div>
-        <#else >
-         <div class="navbar-barand mr-auto " width="100">
-
-         </div>
-        </#if>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                1="Toggle navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="container">
-            <div class="collapse navbar-collapse navbar-responsive-collapse " id="navbarSupportedContent">
-                <div class="  d-flex justify-content-center mr-auto">
-                    <ul class="navbar-nav">
-                        <li class="divider"></li>
-                        <li class="nav-item fonts">
-                            <a class="nav-link" href="/">首页</a>
-                        </li>
-
-                        <li class="nav-item fonts">
-                            <a class="nav-link  " id="archive" href="/archives">归档</a>
-                        </li>
-
-                        <li class="nav-item fonts">
-                            <a class="nav-link " href="#">更新</a>
-                        </li>
-
-                        <li class="nav-item fonts">
-                            <a class="nav-link " href="#">友链</a>
-                        </li>
-
-                        <li class="nav-item fonts">
-                            <a class="nav-link " href="#">关于</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="navbar navbar-start">
-                                <form class=" from-inline" style="display: inline-flex;" role="search">
-                                    <input type="search" placeholder="Search" class="form-control mr-sm-2">
-                                    <svg t="1577948224406"
-                                         class="icon img-thumbnail navbar-brand img-responsive icon-serach "
-                                         role="button" viewBox="0 0 1024 1024" version="1.1"
-                                         xmlns="http://www.w3.org/2000/svg" p-id="2586" width="35" height="31">
-                                        <path
-                                                d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"
-                                                fill="#1afa29" p-id="2587"></path>
-                                    </svg>
-                                </form>
-                            </div>
-                        </li>
-                        <li class="divier"></li>
-                    </ul>
-                </div>
-
-                <div class="navbar-nav text-justify  text-nowrap text-monospace text-sm-left mr-auto">
-                    <a href="/markdown" style="text-decoration: none">
-                        <span class="write-word fonts nav-link">写博客</span>
-
-                    </a>
-                </div>
-                <#if user??>
-                <div class=" navbar-nav justify-content-center ">
-                    <div class=" navbar-nav justify-content-center ">
-                        <div class="end">
-                            <button id="exit" type="button" class="btn btn-primary btn-sm active rounded btn-block ">
-                                退出登录
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <#else >
-                  <div class="end">
-                      <a href="/login" class="btn btn-primary btn-sm active rounded btn-block ">登陆</a>
-                  </div>
-
-                    <div class="end">
-                        <a href="/register" class="btn btn-primary btn-sm active rounded btn-block ">注册</a>
-                    </div>
-
-                </#if>
-
-            </div>
-    </nav>
+    <#include "header.ftl">
     <div class="row ">
         <div class=" d-sm-block d-sm-none d-md-block ml-3 shadow-lg p-2 mb-1 bg-white col-sm-9 col-lg-9 col-md-9">
             <div class="container">
@@ -575,12 +483,14 @@
                     <path d="M926.000524 338.592578 687.387008 107.195418c-43.826158-42.493813-114.802676-43.030026-159.351288-1.326205L71.441611 531.173688c-4.923126 4.585435-7.269567 10.885931-7.019881 17.117866-0.023536 0.416486-0.037862 0.835018-0.037862 1.257643l0 288.372803c0 61.457724 49.552579 111.124913 110.817921 111.124913l299.771411 0c5.968945 0 11.694343-2.407839 15.874549-6.67298L927.985738 495.519654C970.902176 451.640284 970.058972 381.306402 926.000524 338.592578zM303.350424 821.294298c-54.953589 0-99.510388-44.545542-99.510388-99.503225 0-54.956659 44.556798-99.503225 99.510388-99.503225 54.955636 0 99.511411 44.546565 99.511411 99.503225C402.860812 776.747733 358.305037 821.294298 303.350424 821.294298z"
                           p-id="14119"></path>
                 </svg>
+                <span class="text-secondary  ">
                     <#list article.tags as tag>
-                        <span class="text-secondary  ">
-                           <a href="/article/tag/${tag.tag_id}" class="showTags">${tag.tag_name?cap_first}</a></span>
+
+                           <a href="/article/tag/${tag.tag_id}" class="showTags">${tag.tag_name?cap_first}</a>
                         <#sep >
                     ,
                     </#list>
+                </span>
                 </div>
                 <div>
                     <p class="showSome lead text-sm-7 text-xd-7 mb-4">
@@ -592,6 +502,9 @@
                         class="btn btn-default red-button">阅读全文</button></a></span>
                 <hr>
                 <div class="text-right">
+                      <span class="article-info article-info-type badge badge-success " style="float: left">
+                          ${article.category.categoryname}
+                      </span>
                     <span class="viewCount"><svg t="1578638337969" class="icon" viewBox="0 0 1152 1024" version="1.1"
                                                  xmlns="http://www.w3.org/2000/svg" p-id="3948" width="20" height="20"><path
                             d="M576 0C138.709333 0 0 512 0 512s132.693333 512 576 512C971.093333 1024 1152 512 1152 512S1043.413333 0 576 0z m0 877.269333A365.312 365.312 0 1 1 935.296 512a362.325333 362.325333 0 0 1-359.338667 365.269333zM775.04 512a199.082667 199.082667 0 1 1-199.082667-202.325333s38.4 132.565333 27.904 167.808a192.384 192.384 0 0 1 171.178667 34.517333z"

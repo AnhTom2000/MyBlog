@@ -97,6 +97,25 @@ public class CommonApiController {
         return userService.checkUserExsitByEmail(email);
     }
 
+    /**
+     * @Method Description:
+     * 检查用户是否登陆
+     * @Author weleness
+     * @Return
+     */
+    @ResponseBody
+    @RequestMapping("/check/user/isLogin")
+    public ResultDTO isLogin(HttpServletRequest request) {
+        Cookie userCookie = null;
+        UserDTO userDTO = null;
+        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
+            Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
+            if (userId != null) {
+                return ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("已登录").status(true).build();
+            } else return ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("还未登陆").status(false).build();
+        }
+        return ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("还未登陆").status(false).build();
+    }
 
     /**
      * @Method Description:
@@ -128,7 +147,7 @@ public class CommonApiController {
 
     @ResponseBody
     @RequestMapping("/article/visitorComing")
-    public ResultDTO addArticleViewStatistics(@RequestParam("articleId") String articleId){
+    public ResultDTO addArticleViewStatistics(@RequestParam("articleId") String articleId) {
         return articleService.addArticleViewStatistics(Long.parseLong(articleId));
     }
 

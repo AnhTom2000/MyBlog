@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,7 +59,6 @@ public class ArtilceServiceImpl implements IArticleService {
     private IArticle_UserService article_userService;
 
 
-
     /**
      * @Method Description:
      * 获得一个全局唯一的雪花id生成器对象
@@ -75,7 +75,12 @@ public class ArtilceServiceImpl implements IArticleService {
      */
     @Override
     public List<Article> findAll() {
-        return articleDao.findALL();
+        List<Article> articles = articleDao.findALL();
+        for (Article article : articles) {
+            //将html转码再转回来
+            article.setA_text(HtmlUtils.htmlUnescape(article.getA_text()));
+        }
+        return articles;
     }
 
     /**
@@ -122,23 +127,32 @@ public class ArtilceServiceImpl implements IArticleService {
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag,Long userId) {
+    public ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag, Long userId) {
         ResultDTO resultDTO = null;
         if (!Objects.isNull(article)) {
-            List<Tag> tagList = tagService.findByTagName(tag);
-            if (tagList.contains(null)) {
-                tagList = tagService.saveTags(tag);
+            List<Tag> tagList = null;
+            if (!Objects.isNull(tag)) {
+                tagList = tagService.findByTagName(tag);
+                if (tagList.contains(null)) {
+                    tagList = tagService.saveTags(tag);
+                }
+                if (!Objects.isNull(newTag)) {
+                    tagList.addAll(tagService.saveTags(newTag));
+                }
+            }else  {
+                if(!Objects.isNull(newTag)) {
+                    tagList = tagService.saveTags(newTag);
+                }
             }
-            if (!Objects.isNull(newTag)) {
-                tagList.addAll(tagService.saveTags(newTag));
-            }
+            // 进行html字符转码，过滤特殊字符
+            article.setA_text(HtmlUtils.htmlEscapeHex(article.getA_text()));
             // 这里localDateTime.now（）要加上系统时钟，不然可能会造成精度不准
             article.setA_createTime((LocalDateTime.now(Clock.systemDefaultZone())));
-          if(archiveService.findArchiveByYear(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()),"yyyy"))== null) {
-              //保存归档日期
-              Archive archive = Archive.builder().archiveName(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")).build();
-              archiveService.saveArchive(archive);
-          }
+            if (archiveService.findArchiveByYear(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")) == null) {
+                //保存归档日期
+                Archive archive = Archive.builder().archiveName(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")).build();
+                archiveService.saveArchive(archive);
+            }
             //初始化最后一次的修改时间
             article.setA_last_update(article.getA_createTime());
             //生成文章雪花id
@@ -163,11 +177,9 @@ public class ArtilceServiceImpl implements IArticleService {
     }
 
     /**
-     * @Method
-     * Description:
-     *  查看文章
+     * @Method Description:
+     * 查看文章
      * @Author weleness
-     *
      * @Return
      */
     @Override
@@ -181,30 +193,29 @@ public class ArtilceServiceImpl implements IArticleService {
         }
         return null;
     }
+
     /**
-     * @Method
-     * Description:
-     *  点赞
+     * @Method Description:
+     * 点赞
      * @Author weleness
-     *
      * @Return
      */
-
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public ResultDTO addArticleLike(Long articleId,Long userId) {
+    public ResultDTO addArticleLike(Long articleId, Long userId) {
         ResultDTO result = null;
         //还没有点赞过这篇文章
-        if(!article_userService.checkArticleIsLikeByUser(articleId,userId).isStatus()) {
+        if (!article_userService.checkArticleIsLikeByUser(articleId, userId).isStatus()) {
             try {
                 articleDao.addArticleLike(articleId);
-                article_userService.addInMiddle(articleId,userId);
-              result =   ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("操作成功").status(true).build();
+                article_userService.addInMiddle(articleId, userId);
+                result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("操作成功").status(true).build();
             } catch (Exception e) {
-                result =   ResultDTO.builder().code(ResultCode.SERVER_ERROR_CODE.getCode()).message("服务器异常").status(false).build();
+                result = ResultDTO.builder().code(ResultCode.SERVER_ERROR_CODE.getCode()).message("服务器异常").status(false).build();
                 e.printStackTrace();
             }
-        }else {
-            result =   ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("已经点赞过了，不可以再点赞了").status(false).build();
+        } else {
+            result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("已经点赞过了，不可以再点赞了").status(false).build();
         }
 
         return result;
@@ -212,20 +223,19 @@ public class ArtilceServiceImpl implements IArticleService {
 
     /**
      * @param articleId 文章id
-     * @Method
-     * Description:
-     *  观看人数+1
+     * @Method Description:
+     * 观看人数+1
      * @Author weleness
-     *
      * @Return
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
     public ResultDTO addArticleViewStatistics(Long articleId) {
         ResultDTO result = null;
-        if(articleDao.addArticleViewStatistics(articleId) > 0){
+        if (articleDao.addArticleViewStatistics(articleId) > 0) {
             result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("观看人数+1").status(true).build();
-        }else {
-            result =  ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("服务器异常").status(false).build();
+        } else {
+            result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("服务器异常").status(false).build();
         }
         return result;
     }
