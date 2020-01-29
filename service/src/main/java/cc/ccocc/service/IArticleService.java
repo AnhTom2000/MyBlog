@@ -26,11 +26,12 @@ public interface IArticleService {
 
     List<Article> findArticleNew();
 
-    ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag);
+    ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag,Long userId);
 
     ArticleDTO findArticleById(Long articleId);
 
     ResultDTO addArticleLike(Long articleId, Long userId);
 
+    ResultDTO addArticleViewStatistics(Long articleId);
 
 }

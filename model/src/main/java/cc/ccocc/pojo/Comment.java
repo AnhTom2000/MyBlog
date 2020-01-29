@@ -34,9 +34,8 @@ public class Comment implements Serializable {
     private Long commentId;
     // 评论的用户
     private User user;
-    // 被评论的文章主键
-    @JsonSerialize(using= ToStringSerializer.class)
-    private Long articleId;
+    // 被评论的文章
+    private Article article;
     // 评论的点赞数
     private Integer comment_like_count;
     // 评论内容
@@ -53,7 +52,7 @@ public class Comment implements Serializable {
         Comment comment = (Comment) o;
         return Objects.equals(commentId, comment.commentId) &&
                 Objects.equals(user, comment.user) &&
-                Objects.equals(articleId, comment.articleId) &&
+                Objects.equals(article, comment.article) &&
                 Objects.equals(comment_like_count, comment.comment_like_count) &&
                 Objects.equals(commentContent, comment.commentContent) &&
                 Objects.equals(replies, comment.replies) &&
@@ -62,6 +61,6 @@ public class Comment implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(commentId, user, articleId, comment_like_count, commentContent, replies, commentTime);
+        return Objects.hash(commentId, user, article, comment_like_count, commentContent, replies, commentTime);
     }
 }

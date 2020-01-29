@@ -65,7 +65,7 @@
 
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/style.css">
 
-
+<#setting number_format="#">
 </head>
 <style>
     .${isLike}{
@@ -269,33 +269,35 @@
     </div>
 </div>
 <!--底部中含有该页面的单独访客量，不应使用共有底部-->
-<div class="footer">
-    <div class="footer am-u-sm-centered">
-        <div class="am-vertical-align" style="text-align: center">
-            <hr>
-            <div class="am-vertical-align-bottom">
-                <div style="color: #009688;font-size: 15px;">
-                    &copy; 2019-2020 Weleness&nbsp;曾创杰 - <i class="zi zi_coffee" style="margin: 0 5px"></i>曾创杰 版权所有
+<footer class="row">
+    <div class="others col-md-12 text-center">
+        <div class="row">
+            <div class="col-md-4">
+                <h3>微信公众号</h3>
+                <hr/>
+                <div class="others-blcok friendLink others-block">
+                    <a href="#" target="_blank">暂无</a>
                 </div>
-                <div id="footer" style="color: #009688;font-size: 15px;">
-                    总访问量 <span id="totalVisitors"><strong></strong></span> 次 您是本文第 <span
-                        id="visitorVolume"><strong></strong></span> 位童鞋
-                </div>
-                <div class="webLogo" style="font-size: 15px;">
-                    <a href="http://beian.miit.gov.cn" target="_blank">
-                        粤ICP备19143953号-1
-                    </a>
-                </div>
-                <div class="webLogo" style="font-size: 15px;">
-                    <img src="https://zhy-myblog.oss-cn-shenzhen.aliyuncs.com/static/img/webLog.png">
-                    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011402000164"
-                       target="_blank">
-                        粤ICP备19143953号
-                    </a>
-                </div>
+            </div>
+            <div class="col-md-4 friendLink">
+                <h3>友链</h3>
+                <hr/>
+                <a href="http://www.hxsail.com/" target="_blank">风华</a>
+                <br/>
+                <a href="https://blog.csdn.net/WXZCYQ" target="_blank">我的csdn博客</a>
+            </div>
+            <div class="col-md-4">
+                <h3>反馈</h3>
+                <hr/>
+                <button class="btn btn-default">...</button>
             </div>
         </div>
     </div>
+    <div class="company-info col-md-12 bg-dark">
+        <p class="text-secondary text-center">Copy@Weleness 版权所有
+            &nbsp;|&nbsp;粤ICP备19143953号-1&nbsp;|&nbsp;粤ICP备19143953号-1</p>
+    </div>
+</footer>
 
 
 </div>

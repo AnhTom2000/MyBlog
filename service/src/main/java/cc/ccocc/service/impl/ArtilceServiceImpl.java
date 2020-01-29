@@ -4,10 +4,7 @@ import cc.ccocc.dao.IArticleDao;
 import cc.ccocc.dto.ArticleDTO;
 import cc.ccocc.dto.CommentDTO;
 import cc.ccocc.dto.ResultDTO;
-import cc.ccocc.pojo.Archive;
-import cc.ccocc.pojo.Article;
-import cc.ccocc.pojo.Category;
-import cc.ccocc.pojo.Tag;
+import cc.ccocc.pojo.*;
 import cc.ccocc.service.*;
 import cc.ccocc.utils.date.DateUtils;
 import cc.ccocc.utils.idgenerater.SnowflakeIdGenerator;
@@ -59,6 +56,7 @@ public class ArtilceServiceImpl implements IArticleService {
     @Autowired
     @Qualifier("article_userService")
     private IArticle_UserService article_userService;
+
 
 
     /**
@@ -124,7 +122,7 @@ public class ArtilceServiceImpl implements IArticleService {
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag) {
+    public ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag,Long userId) {
         ResultDTO resultDTO = null;
         if (!Objects.isNull(article)) {
             List<Tag> tagList = tagService.findByTagName(tag);
@@ -146,7 +144,7 @@ public class ArtilceServiceImpl implements IArticleService {
             //生成文章雪花id
             article.setA_id(SNOWFLAKE_ID_GENERATOR.generateId());
             // 添加用户id
-            article.setU_id(1L);
+            article.setUser(User.builder().userId(userId).build());
             // 初始化点赞和观看值为0
             article.setA_likeNums(0);
             article.setA_viewNums(0);
@@ -209,6 +207,26 @@ public class ArtilceServiceImpl implements IArticleService {
             result =   ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("已经点赞过了，不可以再点赞了").status(false).build();
         }
 
+        return result;
+    }
+
+    /**
+     * @param articleId 文章id
+     * @Method
+     * Description:
+     *  观看人数+1
+     * @Author weleness
+     *
+     * @Return
+     */
+    @Override
+    public ResultDTO addArticleViewStatistics(Long articleId) {
+        ResultDTO result = null;
+        if(articleDao.addArticleViewStatistics(articleId) > 0){
+            result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("观看人数+1").status(true).build();
+        }else {
+            result =  ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("服务器异常").status(false).build();
+        }
         return result;
     }
 

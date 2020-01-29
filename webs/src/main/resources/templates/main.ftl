@@ -140,10 +140,10 @@
             </div>
     </nav>
     <div class="row ">
-        <div class=" d-sm-block d-sm-none d-md-block  ml-3 shadow-lg p-2 mb-1 bg-white col-sm-9 col-lg-9 col-md-9">
+        <div class=" d-sm-block d-sm-none d-md-block ml-3 shadow-lg p-2 mb-1 bg-white col-sm-9 col-lg-9 col-md-9">
             <div class="container">
-                <div class="row align-items-center">
-                    <div>
+                <div class="row   align-items-center">
+                    <div class="">
                         <svg t="1578299382807" class="icon" viewBox="0 0 1024 1024" version="1.1"
                              xmlns="http://www.w3.org/2000/svg" p-id="6233" width="20" height="20">
                             <path
@@ -175,7 +175,6 @@
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -195,7 +194,7 @@
                                  alt="头像" title="头像" class=" align-self-start erweima" width="150.5" height="140.5">
                         </div>
 
-                        <div class="col-md-7 mySelf mt-4 text-center text-md ">
+                        <div class="col-md-7 col-sm-7 mySelf mt-4 text-center text-md ">
                             <div>
                                 <small style="width: 78px;height: 18px;">普通的大学生</small>
                             </div>
@@ -230,19 +229,19 @@
                             </button>
                             <div class="row mt-4"
                                  style="border-top: lightgray solid 1px; border-bottom: lightgray 1px solid ; border-left: solid 1px lightgray; ">
-                                <div class="article-info-block col-md-6 text-center"
+                                <div class="article-info-block col-md-6 .col-sm-6 .col-6 text-center"
                                      style="border-right:  lightgray solid 1px; border-left:  lightgray solid 1px; height: 80px; ">
                                     <div class="mt-4 mb-4 " style="color: gray;font-size: 20px;">
-                                    ${article_count}
+                                    ${allCounts.article_Count}
                                     </div>
                                     <div class="mb-4 " style="color: gray;font-size: 20px;font-family: 微软雅黑;">
                                         <span>文章</span>
                                     </div>
                                 </div>
-                                <div class="article-info-block col-md-6 text-center "
+                                <div class="article-info-block col-md-6 .col-sm-6 .col-6 text-center "
                                      style="border-right:  gray solid 1px; border-left: lightgray solid 1px;">
                                     <div class="mt-4 mb-4 " style="color: gray;font-size: 20px;font-family: 微软雅黑;">
-                                    ${tag_count}
+                                    ${allCounts.tag_Count}
                                     </div>
                                     <div class="mb-4 " style="color: gray;font-size: 20px;">
                                         <span>标签</span>
@@ -290,6 +289,28 @@
                 </div>
 
             </div>
+
+            <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
+                <h4 style="font-weight: bold;">最新评论</h4>
+                <hr>
+                <ul style="list-style: none">
+                    <#list newComments as comment>
+                        <li>
+                            <div>
+                                <a class="newComment_ArticleTitle" href="/article/${comment.article.a_id}">${comment.article.a_Title}</a>
+                            </div>
+                            <p class="newCommentContent">
+                                <span>${comment.user.userName} : </span><span style="float: right">${comment.commentTime}</span>
+                                <span>${comment.commentContent}</span>
+                            </p>
+                        </li>
+  <#sep >
+                        <hr>
+                    </#list>
+                </ul>
+                <button class="btn btn-default red-button">加载更多</button>
+                <br>
+            </div>
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
                 <div class="container ">
                     <div class="row" style="width: 300px; height: 30px;">
@@ -324,7 +345,7 @@
 
                     </div>
                     <div class="col-5 mt-0 messgaes">
-                        <span>文章总数 :</span> <span>${article_count}</span>
+                        <span>文章总数 :</span> <span>${allCounts.article_Count}条</span>
                     </div>
 
                 </div>
@@ -347,7 +368,7 @@
 
                     </div>
                     <div class="col-5 mt-0 messgaes">
-                        <span>标签总数 :</span> <span>${tag_count}</span>
+                        <span>标签总数 :</span> <span>${allCounts.tag_Count}条</span>
                     </div>
                 </div>
                 <div class="row">
@@ -369,7 +390,7 @@
 
                     </div>
                     <div class="col-5 mt-0 messgaes">
-                        <span>留言总数 :</span> <span>13条</span>
+                        <span>留言总数 :</span> <span>0条</span>
                     </div>
                 </div>
                 <div class="row">
@@ -391,7 +412,7 @@
 
                     </div>
                     <div class="col-5 mt-0 messgaes">
-                        <span>评论总数 :</span> <span>2条</span>
+                        <span>评论总数 :</span> <span>${allCounts.comment_Count}条</span>
                     </div>
                 </div>
                 <div class="row">
@@ -438,12 +459,6 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
-                <h4 style="font-weight: bold;">最新评论</h4>
-                <hr>
-                <button class="btn btn-default red-button">加载更多</button>
-                <br>
             </div>
             <div class="modal fade " id="exampleModalLong" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -541,7 +556,7 @@
                                 d="M724.8 314.2c2.8 1.6 5.5 3.2 8.2 5.1l8.2 5.6 0.1 9.8c0.4 28.5-3 52.6-10.4 71.1-6.9 17-17.1 29.7-30.7 37.3-9.3 33.1-20.2 63.8-35.6 89.6-17.8 29.7-41.2 52.5-74.4 64.8-14.8 5.4-52.7 8-89.1 7.4-35.2-0.5-70.5-4-84.5-10.5-30.1-13.9-51.3-37.2-67.4-66.3-13.8-24.8-23.6-53.7-32.1-84.2-14.1-7.4-24.7-20-31.8-37.1-7.8-18.7-11.4-43.2-10.9-72.2l0.1-9.9 8.2-5.5c2.1-1.4 4.2-2.7 6.3-3.9-9.2-114.1-5.7-156.3 36.6-204.5 82.6-67.7 272-65.3 355.7-3.9 57 53.8 61 114.1 43.5 207.3zM551.3 644.1l1.2 26.1-15.5 25.6 21.6 141.8L647 647.5l134.7-4.6c69.6 65.8 114.2 220.8 103.2 321.9H134.2c1.9-88.8 18.2-240.4 106.6-317.6l121.7 1.1 114 188 21.4-140.6-15.5-25.5 1.2-26.1c29.5-1.6 38.2-1.6 67.7 0zM652 273.7c-53.5 10.5-133.2 19.6-196.2-15.8-24.2-13.6-59.7 14.3-88.7 11.4-9 17.8-15.7 37.3-19.6 58l-3.2 17.1-17.2-1.7c-3.2-0.3-6.5 0.1-10 1.3-1.6 0.5-3.1 1.1-4.7 1.9 0.5 19 3.1 34.7 8 46.5 4.3 10.4 10.4 17.1 18.2 19.6l10.1 3.1 2.8 10.1c8.4 31.3 17.9 60.8 31.2 84.8 12.3 22.3 28.1 40 50 50.1 9.2 4.2 38.4 6.6 69 7.1 32.5 0.5 64.9-1.3 75.6-5.2 24.1-8.9 41.4-26.1 54.9-48.6 14.5-24.2 24.8-54.9 33.8-88.6l2.6-9.6 9.6-3.3c7.6-2.7 13.5-9.6 17.6-20 4.7-11.7 7.3-27.2 7.7-45.8-1.4-0.7-2.8-1.3-4.2-1.7-3.4-1.1-6.6-1.7-9.7-1.5l-16.8 1.1-3.1-16.5c-3.8-19.2-9.7-37.2-17.7-53.8z m0 0"
                                 fill="#1890FF" p-id="13366"></path></svg>
                         </span><span
-                        class="font-weight-bold text-info">Welneess</span> &nbsp;&nbsp; <span
+                        class="font-weight-bold text-info">${article.user.userName}</span> &nbsp;&nbsp; <span
                         class="text-secondary"><svg t="1578578791842" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                                     xmlns="http://www.w3.org/2000/svg" p-id="6608" width="18"
                                                     height="18"><path
@@ -630,17 +645,19 @@
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">
                 <h4 style="font-weight: bold;">最新文章</h4>
                 <hr>
-            <ul style="list-style: none">
+                <ul style="list-style: none">
                 <#list article_new_List as article>
-                        <li>
-                            <p>
-                                <i class="zi zi_archive zi_2x" zico="文献典籍"> <a class="newArticle" href="/article/${article.a_id}">${article.a_Title}</a>&nbsp;&nbsp; </i><span>${article.a_createTime}</span>
-                            </p>
+                    <li>
+                        <p>
+                            <i class="zi zi_archive zi_2x" zico="文献典籍"> <a class="newArticle"
+                                                                           href="/article/${article.a_id}">${article.a_Title}</a>&nbsp;&nbsp;
+                            </i><span>${article.a_createTime}</span>
+                        </p>
 
-                        </li>
+                    </li>
 
                 </#list>
-            </ul>
+                </ul>
             </div>
 
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">

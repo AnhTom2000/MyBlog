@@ -34,9 +34,8 @@ public class Article implements Serializable {
     private Long a_id;
     //文章标题
     private String a_Title;
-    // 用户id
-    @JsonSerialize(using= ToStringSerializer.class)
-    private Long u_id;
+    // 用户
+    private User user;
     //文章内容
     private String a_text;
     //是否是markdown写的
@@ -67,7 +66,7 @@ public class Article implements Serializable {
         return markdown == article.markdown &&
                 Objects.equals(a_id, article.a_id) &&
                 Objects.equals(a_Title, article.a_Title) &&
-                Objects.equals(u_id, article.u_id) &&
+                Objects.equals(user, article.user) &&
                 Objects.equals(a_text, article.a_text) &&
                 Objects.equals(a_createTime, article.a_createTime) &&
                 Objects.equals(a_last_update, article.a_last_update) &&
@@ -81,6 +80,6 @@ public class Article implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(a_id, a_Title, u_id, a_text, markdown, a_createTime, a_last_update, tags, a_viewNums, a_likeNums, a_year, a_month, category);
+        return Objects.hash(a_id, a_Title, user, a_text, markdown, a_createTime, a_last_update, tags, a_viewNums, a_likeNums, a_year, a_month, category);
     }
 }

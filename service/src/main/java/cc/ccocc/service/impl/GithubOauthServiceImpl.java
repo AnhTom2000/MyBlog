@@ -6,6 +6,7 @@ import cc.ccocc.pojo.Oauth;
 import cc.ccocc.pojo.User;
 import cc.ccocc.service.ICookieService;
 import cc.ccocc.utils.result.ResultCode;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,10 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
     private ICookieService cookieService;
 
     //github客户端ID
-    private final String CLIENT_ID = "39acafc8c78e9aee72e1";
+    private final String CLIENT_ID = "eb31583825577c1916f1";
 
     //github客户端 secret
-    private final String CLIENT_SECRET = "b21f8a06084bead59cf3f1861931a68d3d717b7e";
+    private final String CLIENT_SECRET = "e4f416f13e9106dac4af6c5ee6ed38ece1ebf777";
 
     //回调url
     private final String REDIRECT_URL = "http://localhost:9527/user/oauth/github/callback";
@@ -75,8 +76,6 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
 
     @Override
     public ResultDTO callback(String state, String code, HttpServletRequest request, HttpServletResponse response) {
-        //cookieService.removeCookie(cookieService.getCookie(SIMPLE_COOKIE_KEY,request),response);
-        //cookieService.removeCookie(cookieService.getCookie(OAUTH_COOKIE_KEY,request),response);
 
         // 调用获取用户信息的方法
         Oauth userInfo = getOauthUserInfo(state, code);
@@ -94,8 +93,8 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
             cookie = cookieService.generateCookie(SIMPLE_COOKIE_KEY);
             // 存放用户的id
             request.getSession().setAttribute(cookie.getValue(), user.getUserId());
-            System.out.println("new Cookie : "+cookie.getValue());
-            response.addCookie(cookie);
+            System.out.println("new Cookies : "+cookie.getValue());
+
             result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).status(true).build();
         } else {
             // 把oauth放进session ，等待用户完善信息后再取出来完善
@@ -103,15 +102,15 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
             request.getSession().setAttribute(cookie.getValue(),userInfo);
             // 让用户完善信息
             result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).status(false).build();
-            response.addCookie(cookie);
         }
+        response.addCookie(cookie);
         return result;
 
     }
 
     @Override
     public Oauth getOauthUserInfo(String state, String code) {
-        try {
+
             if (code == null) {
                 throw new RuntimeException("用户的授权码获取失败!");
             }
@@ -120,6 +119,7 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
             }
             // 获取请求返回的token                          // 请求的路径以及参数                   返回值类型
             String accessToken = restTemplate.getForObject(String.format(ACCESS_TOKEN_URL, code), String.class);
+        System.out.println(accessToken);
             if (accessToken == null) {
                 throw new RuntimeException("用户请求认证失败！");
             }
@@ -128,6 +128,7 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
             URI uri = builder.build().encode().toUri();
 
             String userInfo = restTemplate.getForObject(uri, String.class);
+            System.out.println(userInfo);
             if (userInfo == null) {
                 throw new RuntimeException("获取用户信息失败！");
             }
@@ -138,7 +139,12 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
             LocalDateTime now = LocalDateTime.now(Clock.systemDefaultZone());
             // json 解析工具
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = mapper.readTree(userInfo);
+            JsonNode jsonNode = null;
+            try {
+                jsonNode = mapper.readTree(userInfo);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             // 返回第三方登陆的用户信息
             return Oauth.builder().githubOpenId(jsonNode.path("id").asText()).oauthType(GITHUB_TYPE)
                     .qqOpenId(uuid).weChatOpenId(uuid)
@@ -146,10 +152,7 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
                             .userName(jsonNode.path("login").asText())
                             .avatarUrl(jsonNode.path("avatar_url").asText())
                             .gender(true).createTime(now).lastLogin(now).lastUpdate(now).build()).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+
     }
 
     @Override

@@ -50,8 +50,8 @@ public class ArticleController {
     private ICommentService commentService;
 
     @RequestMapping(value = "/submit", produces = "application/json;charset=utf-8")
-    public ResultDTO submit(Article article, @RequestParam(value = "tag[]", required = false) String[] tag, @RequestParam(value = "category_id", required = false) String category_id, @RequestParam(value = "newTag[]", required = false) String[] newTag) {
-        return articleService.saveArticle(article, tag, category_id, newTag);
+    public ResultDTO submit(Article article, @RequestParam(value = "tag[]", required = false) String[] tag, @RequestParam(value = "category_id", required = false) String category_id, @RequestParam(value = "newTag[]", required = false) String[] newTag,HttpServletRequest request) {
+        return articleService.saveArticle(article, tag, category_id, newTag, (Long) request.getSession().getAttribute(cookieService.getCookie(SIMPLE_COOKIE_KEY,request).getValue()));
     }
 
     @RequestMapping(value = "/uploadimg", produces = "application/json;charset=utf-8")
@@ -105,7 +105,18 @@ public class ArticleController {
         return commentService.findAllCommentByArticleId(Long.parseLong(articleId));
     }
 
-
+    /**
+     * @param articleId 文章的id（不需要）
+     * @param replyContent 回复内容
+     * @param parentId  回复的评论id
+     * @param request HttpServletRequest
+     * @Method
+     * Description:
+     *  发表评论回复
+     * @Author weleness
+     *
+     * @Return
+     */
     @ResponseBody
     @RequestMapping("/comment/publishReply")
     public ReplyDTO publishReply(@RequestParam("replyContent") String replyContent, @RequestParam("articleId") String articleId, @RequestParam("parentId") String parentId, HttpServletRequest request) {

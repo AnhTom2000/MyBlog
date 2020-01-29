@@ -5,6 +5,7 @@ import cc.ccocc.dto.CommentDTO;
 import cc.ccocc.dto.ReplyDTO;
 import cc.ccocc.dto.ResultDTO;
 import cc.ccocc.dto.UserDTO;
+import cc.ccocc.pojo.Article;
 import cc.ccocc.pojo.Comment;
 import cc.ccocc.pojo.Reply;
 import cc.ccocc.pojo.User;
@@ -71,7 +72,6 @@ public class CommentServiceImpl implements ICommentService {
                 CommentDTO commentDTO = new CommentDTO();
                 beanCopier.copy(comment, commentDTO, null);
                 commentDTOList.add(commentDTO);
-                System.out.println(commentDTO.getArticleId());
             }
 
             return commentDTOList;
@@ -82,6 +82,7 @@ public class CommentServiceImpl implements ICommentService {
     /**
      * @param commentContent 评论内容
      * @param articleId      文章的id
+     * @param userId         用户的id
      * @Method Description:
      * 保存用户发表的评论
      * @Author weleness
@@ -90,7 +91,7 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public List<CommentDTO> insertArticleComment(String commentContent, String articleId, Long userId) {
         LocalDateTime now = LocalDateTime.now(Clock.systemDefaultZone());
-        Comment comment = Comment.builder().commentId(COMMENT_ID_GENERATOR.generateId()).comment_like_count(0).articleId(Long.parseLong(articleId)).commentContent(commentContent).user(User.builder().userId(userId).build()).commentTime(now).build();
+        Comment comment = Comment.builder().commentId(COMMENT_ID_GENERATOR.generateId()).comment_like_count(0).article(Article.builder().a_id(Long.parseLong(articleId)).build()).commentContent(commentContent).user(User.builder().userId(userId).build()).commentTime(now).build();
         if (commentDao.insertArticleComment(comment) > 0) {
             return findAllCommentByArticleId(Long.parseLong(articleId));
         }
@@ -112,12 +113,12 @@ public class CommentServiceImpl implements ICommentService {
         LocalDateTime now = LocalDateTime.now(Clock.systemDefaultZone());
         User user = new User();
         BeanCopier beanCopier1 = BeanCopier.create(UserDTO.class, User.class, false);
-        beanCopier1.copy(userService.findUserById(userId),user,null);
+        beanCopier1.copy(userService.findUserById(userId), user, null);
         Reply reply = Reply.builder().articleId(Long.parseLong(articleId)).commentId(Long.parseLong(parentId)).replyContent(replyContent).user(user).replyTime(now).build();
         ReplyDTO replyDTO = new ReplyDTO();
         if (comment_replyService.insertCommentReply(reply)) {
             BeanCopier beanCopier = BeanCopier.create(Reply.class, ReplyDTO.class, false);
-            beanCopier.copy(reply,replyDTO,null);
+            beanCopier.copy(reply, replyDTO, null);
         }
         return replyDTO;
     }
@@ -125,12 +126,30 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public ResultDTO addCommentLike(String commentId, Long userId) {
         //如果已经点赞过了
-        if(user_commentService.checkCommentIsLikeByOneUser(Long.parseLong(commentId),userId).isStatus()){
-           return new ResultDTO(ResultCode.OK_CODE.getCode(),"已经点赞过了，不能在点赞了",true);
+        if (user_commentService.checkCommentIsLikeByOneUser(Long.parseLong(commentId), userId).isStatus()) {
+            return new ResultDTO(ResultCode.OK_CODE.getCode(), "已经点赞过了，不能在点赞了", true);
         }
         commentDao.addCommentLike(Long.parseLong(commentId));
-        user_commentService.addCommentLike(Long.parseLong(commentId),userId);
-        return new ResultDTO(ResultCode.OK_CODE.getCode(),"点赞成功",false);
+        user_commentService.addCommentLike(Long.parseLong(commentId), userId);
+        return new ResultDTO(ResultCode.OK_CODE.getCode(), "点赞成功", false);
+    }
+
+    @Override
+    public Integer getAllCommentCount() {
+        return commentDao.getAllCommentCount();
+    }
+
+    @Override
+    public List<CommentDTO> getNewsComment() {
+        List<Comment> newComment = commentDao.getNewComment();
+        List<CommentDTO> newComments = new ArrayList<>();
+        BeanCopier beanCopier = BeanCopier.create(Comment.class, CommentDTO.class, false);
+        for (Comment comment : newComment) {
+            CommentDTO commentDTO = new CommentDTO();
+            beanCopier.copy(comment, commentDTO, null);
+            newComments.add(commentDTO);
+        }
+        return newComments;
     }
 
 

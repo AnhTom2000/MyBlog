@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-EN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<#setting number_format="#">
 <head></head>
 <body>
 <h3>欢迎注册</h3>

@@ -32,7 +32,7 @@
 
     <script src="https://lib.baomitu.com/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
     <script src="https://lib.baomitu.com/flowchart/1.11.3/flowchart.min.js"></script>
-
+<#setting number_format="#">
 </head>
 <body>
 <div id="app">

@@ -32,7 +32,7 @@ public interface IArticleDao {
             @Result(column = "article_text", property = "a_text"),
             @Result(column = "markdown", property = "markdown", javaType = Boolean.class),
             @Result(column = "create_time", property = "a_createTime", javaType = LocalDateTime.class), // 指定为sql.Date类型，mybatis会自动截取日期，舍弃时间
-            @Result(column = "u_id", property = "u_id", javaType = Long.class),
+            @Result(column = "u_id", property = "user", javaType = User.class,one = @One(select = "cc.ccocc.dao.IUserDao.findUserById",fetchType = FetchType.LAZY)),
             @Result(column = "View_statistics", property = "a_viewNums"),
             @Result(column = "Likes_statistics", property = "a_likeNums"),
             @Result(column = "last_update", property = "a_last_update", javaType = LocalDateTime.class),
@@ -76,7 +76,7 @@ public interface IArticleDao {
      * @Author weleness
      * @Return
      */
-    @Select("SELECT article_id,article_name,create_time FROM tb_article WHERE DATE(create_time) BETWEEN '2019-12-01' AND '2029-12-31' ORDER BY create_time DESC")
+    @Select("SELECT article_id,article_name,create_time FROM tb_article WHERE DATE(create_time) BETWEEN '2019-12-01' AND '2029-12-31' ORDER BY create_time DESC LIMIT 0,5")
     @ResultMap(value = "article_map")
     List<Article> findArticleNew();
 
@@ -87,7 +87,7 @@ public interface IArticleDao {
      * @Author weleness
      * @Return
      */
-    @Insert("INSERT INTO tb_article(article_id,article_name,u_id,article_text,markdown,create_time,last_update,category_id) VALUES (${article.a_id},'${article.a_Title}',${article.u_id},'${article.a_text}',${article.markdown},'${article.a_createTime}','${article.a_last_update}',${category.categoryid})")
+    @Insert("INSERT INTO tb_article(article_id,article_name,u_id,article_text,markdown,create_time,last_update,category_id) VALUES (${article.a_id},'${article.a_Title}',${article.user.userId},'${article.a_text}',${article.markdown},'${article.a_createTime}','${article.a_last_update}',${category.categoryid})")
     void saveArticle(@Param("article") Article article, @Param("category") Category category);
 
 
@@ -131,6 +131,17 @@ public interface IArticleDao {
     @Update("UPDATE tb_article_comment SET comment_like_count = comment_like_count+1 WHERE comment_id = #{commentId} ")
     Integer addArticleCommentLike(@Param("commentId") Long commentId);
 
+
+    /**
+     * @Method
+     * Description:
+     *  文章观看人次
+     * @Author weleness
+     *
+     * @Return
+     */
+    @Update("UPDATE tb_article SET View_statistics = View_statistics+1 WHERE article_id = #{articleId}")
+    Integer addArticleViewStatistics(@Param("articleId") Long articleId);
 
 
 }

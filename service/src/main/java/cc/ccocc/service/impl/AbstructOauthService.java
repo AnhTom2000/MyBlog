@@ -30,7 +30,7 @@ public abstract class AbstructOauthService implements IOauthService {
     // 第三方登陆用户标识
     public static final String OAUTH_COOKIE_KEY = "oauth-user";
     // 本地登录用户标识
-    public static final String SIMPLE_COOKIE_KEY = "user";
+    public static final String SIMPLE_COOKIE_KEY = "simple-user";
     // 第三方平台github标识
     public static final String GITHUB_TYPE = "github";
     // 第三方平台 qq 标识

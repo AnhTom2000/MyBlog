@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -56,8 +57,11 @@ public class JumpController {
     private IArticle_UserService article_userService;
 
     @Autowired
-    @Qualifier("user_commentService")
-    private IUser_CommentService user_commentService;
+    private ICommentService commentService;
+
+    @Autowired
+    @Qualifier("allCountService")
+    private IAllCountService allCountService;
 
     // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
     @ModelAttribute
@@ -66,17 +70,16 @@ public class JumpController {
         UserDTO userDTO = null;
         if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
             Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
-            System.out.println(userId);
+            System.out.println("e :"+userId);
             userDTO = userService.findUserById(userId);
         }
 
         if (userDTO != null) model.addAttribute("user", userDTO);
-
+        model.addAttribute("newComments",commentService.getNewsComment());
         model.addAttribute("article_List", articleService.findAll());
         model.addAttribute("tag_List", tagService.findAll());
+        model.addAttribute("allCounts",allCountService.getAllCount());
         model.addAttribute("article_new_List", articleService.findArticleNew());
-        model.addAttribute("article_count", articleService.article_Count());
-        model.addAttribute("tag_count", tagService.tag_Count());
         model.addAttribute("category_List", categoryService.findAll());
         model.addAttribute("archive_List", archiveService.findArchives());
     }
@@ -92,6 +95,12 @@ public class JumpController {
         return "main";
     }
 
+    @RequestMapping("/complete")
+    public ModelAndView complete(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("redirect:/");
+        return mv;
+    }
 
     /**
      * @Method Description:
@@ -148,16 +157,16 @@ public class JumpController {
         return "register";
     }
 
-    /**
-     * @Method Description:
-     * 用户完善信息页路由
-     * @Author weleness
-     * @Return
-     */
-    @RequestMapping("/oauth/information/complete")
-    public String informationComplete() {
-        return "oauth_Information";
-    }
+    ///**
+    // * @Method Description:
+    // * 用户完善信息页路由
+    // * @Author weleness
+    // * @Return
+    // */
+    //@RequestMapping("/oauth/information/complete")
+    //public String informationComplete() {
+    //    return "oauth_Information";
+    //}
 
     @RequestMapping("/article/{articleId}")
     public String article(@PathVariable("articleId") String articleId,Model model,HttpServletRequest request){

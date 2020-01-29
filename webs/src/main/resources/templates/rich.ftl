@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/blogs/css/mark.css">
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/blogs/js/tiny.js"></script>
 </head>
-
+<#setting number_format="#">
 <body>
 <div class="am-container am-text-truncate am-u-md-12 am-u-sm-12">
 

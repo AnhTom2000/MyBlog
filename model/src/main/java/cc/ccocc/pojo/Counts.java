@@ -24,9 +24,10 @@ public class Counts implements Serializable {
     private int article_Count;
     // 标签总数统计
     private int tag_Count;
-    // 留言总数统计
+    // 评论总数统计
     private int comment_Count;
-
+    // 留言总数统计
+    private int leaveSay_Count;
 
     @Override
     public boolean equals(Object o) {
@@ -35,11 +36,12 @@ public class Counts implements Serializable {
         Counts counts = (Counts) o;
         return article_Count == counts.article_Count &&
                 tag_Count == counts.tag_Count &&
-                comment_Count == counts.comment_Count;
+                comment_Count == counts.comment_Count &&
+                leaveSay_Count == counts.leaveSay_Count;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(article_Count, tag_Count, comment_Count);
+        return Objects.hash(article_Count, tag_Count, comment_Count, leaveSay_Count);
     }
 }

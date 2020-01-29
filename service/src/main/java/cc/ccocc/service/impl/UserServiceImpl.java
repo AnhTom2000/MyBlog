@@ -162,9 +162,8 @@ public class UserServiceImpl implements IUserService {
                     if (result.isStatus()) {
                         cookieService.removeCookie(oauthCookie, response);
                         // 产生一个新的cookie
-                        Cookie cookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request);
+                        Cookie cookie = cookieService.generateCookie(SIMPLE_COOKIE_KEY);
                         request.getSession().setAttribute(cookie.getValue(), oauth.getUser().getUserId());
-                        System.out.println("oauth s : " + oauth.getUser().getUserId());
                         response.addCookie(cookie);
                     } else {
                         result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("注册失败，请重试").status(false).build();

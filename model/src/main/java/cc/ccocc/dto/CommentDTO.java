@@ -1,5 +1,6 @@
 package cc.ccocc.dto;
 
+import cc.ccocc.pojo.Article;
 import cc.ccocc.pojo.Comment;
 import cc.ccocc.pojo.Reply;
 import cc.ccocc.pojo.User;
@@ -28,7 +29,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(value = {"handler"})
+@JsonIgnoreProperties(value = {"handler"})// json的序列化注解，序列化的时候将long序列化为String 防止js的精度丢失，js大概是17位 我评论的雪花id是19位
 public class CommentDTO implements Serializable {
 
     private static final long serialVersionUID = 365161651L;
@@ -40,7 +41,7 @@ public class CommentDTO implements Serializable {
     private User user;
     // 被评论的文章主键
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long articleId;
+    private Article article;
     // 评论内容
     private String commentContent;
     // 评论的点赞数
@@ -58,7 +59,7 @@ public class CommentDTO implements Serializable {
         CommentDTO that = (CommentDTO) o;
         return Objects.equals(commentId, that.commentId) &&
                 Objects.equals(user, that.user) &&
-                Objects.equals(articleId, that.articleId) &&
+                Objects.equals(article, that.article) &&
                 Objects.equals(commentContent, that.commentContent) &&
                 Objects.equals(comment_like_count, that.comment_like_count) &&
                 Objects.equals(replies, that.replies) &&
@@ -67,6 +68,6 @@ public class CommentDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(commentId, user, articleId, commentContent, comment_like_count, replies, commentTime);
+        return Objects.hash(commentId, user, article, commentContent, comment_like_count, replies, commentTime);
     }
 }

@@ -48,22 +48,11 @@ public class CommonApiController {
     private ICookieService cookieService;
 
     @Autowired
-    @Qualifier("article_userService")
-    private IArticle_UserService article_userService;
+    @Qualifier("articleService")
+    private IArticleService articleService;
 
     private final Long timeOut = 120L;
 
-    // 这个方法会在其他请求控制器方法调用之前被调用，来完成主要的数据存入
-    @ModelAttribute
-    public void beforePage(Model model, HttpServletRequest request) {
-        Cookie userCookie = null;
-        UserDTO userDTO = null;
-        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
-            Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
-            userDTO = userService.findUserById(userId);
-        }
-        if (userDTO != null) model.addAttribute("user", userDTO);
-    }
 
     /**
      * @Method Description:
@@ -135,6 +124,12 @@ public class CommonApiController {
             result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("操作失败").status(false).build();
         }
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/article/visitorComing")
+    public ResultDTO addArticleViewStatistics(@RequestParam("articleId") String articleId){
+        return articleService.addArticleViewStatistics(Long.parseLong(articleId));
     }
 
 

@@ -18,7 +18,7 @@
     <link rel="shortcut icon"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/20170730104929_y5Fi2.thumb.700_0.jpeg">
     <title>创作</title>
-
+<#setting number_format="#">
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/jQuery/jquery-3.4.1.min.js "></script>
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/editormd.js "></script>
     <link rel="stylesheet"

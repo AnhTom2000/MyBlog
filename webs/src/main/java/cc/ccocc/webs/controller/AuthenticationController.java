@@ -51,11 +51,11 @@ public class AuthenticationController {
     public ModelAndView githubOauthCallback(@RequestParam("code") String code, @RequestParam("state") String state, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView();
         // 如果用户在本平台登陆过了
-        if (!githubOAuthService.callback(state, code, request, response).isStatus()) {
-            // 直接跳转至主页
-            mv.setViewName("redirect:/oauth/information/complete");
-        } else {
+         if (!githubOAuthService.callback(state, code, request, response).isStatus()) {
             // 否则完善信息
+            mv.setViewName("oauth_Information");
+        } else {
+            // 直接跳转至主页
             mv.setViewName("redirect:/");
         }
         return mv;
