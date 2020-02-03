@@ -29,5 +29,5 @@ public interface ICommentService {
 
     public Integer getAllCommentCount();
 
-    public  List<CommentDTO> getNewsComment();
+    public  List<CommentDTO> getNewsComment(Long userId);
 }

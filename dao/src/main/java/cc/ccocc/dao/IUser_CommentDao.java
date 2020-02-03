@@ -1,5 +1,6 @@
 package cc.ccocc.dao;
 
+import cc.ccocc.pojo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -24,6 +25,7 @@ public interface IUser_CommentDao {
      */
     @Select("SELECT user_id FROM tb_user_comment_like_middle WHERE article_comment_id = #{commentId} AND user_id = #{userId} LIMIT 0,1")
     public Long checkCommentIsLikeByOneUser(@Param("commentId") Long commentId, @Param("userId") Long userId);
+
 
     /**
      * @Method

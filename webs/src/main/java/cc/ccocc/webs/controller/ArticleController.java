@@ -50,8 +50,13 @@ public class ArticleController {
     private ICommentService commentService;
 
     @RequestMapping(value = "/submit", produces = "application/json;charset=utf-8")
-    public ResultDTO submit(Article article, @RequestParam(value = "tag[]", required = false) String[] tag, @RequestParam(value = "category_id", required = false) String category_id, @RequestParam(value = "newTag[]", required = false) String[] newTag,HttpServletRequest request) {
-        return articleService.saveArticle(article, tag, category_id, newTag, (Long) request.getSession().getAttribute(cookieService.getCookie(SIMPLE_COOKIE_KEY,request).getValue()));
+    public ResultDTO submit(Article article, @RequestParam(value = "tag[]", required = false) String[] tag,
+                            @RequestParam(value = "category_id", required = false) String category_id,
+                            @RequestParam(value = "newTag[]", required = false) String[] newTag,
+                            HttpServletRequest request) {
+
+        return articleService.saveArticle(article, tag, category_id, newTag,
+                (Long) request.getSession().getAttribute(cookieService.getCookie(SIMPLE_COOKIE_KEY,request).getValue()));
     }
 
     @RequestMapping(value = "/uploadimg", produces = "application/json;charset=utf-8")

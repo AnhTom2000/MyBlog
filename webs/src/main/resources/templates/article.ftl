@@ -36,7 +36,7 @@
     <link rel="stylesheet"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/bootstrap/bootstrap.min.css ">
 
-    <link rel="stylesheet" href="http://ico.z01.com/zico.min.css">
+
 
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/jQuery/jquery-3.4.1.min.js"></script>
 
@@ -65,7 +65,7 @@
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
 
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/style.css">
-
+    <link rel="stylesheet" href="http://ico.z01.com/zico.min.css">
 <#setting number_format="#">
 </head>
 <style>

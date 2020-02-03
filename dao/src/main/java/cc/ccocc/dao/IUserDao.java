@@ -117,5 +117,15 @@ public interface IUserDao {
     @Select("SELECT user_id,username,password,avatar_url,email,phone,gender,age,area,profession,description,login_count,last_login,last_update,create_time,locked,message_count FROM tb_user WHERE email = #{email}")
     public User findUserByEamil(@Param("email") String email);
 
-
+    /**
+     * @Method
+     * Description:
+     *  根据评论id查找用户
+     * @Author weleness
+     *
+     * @Return
+     */
+    @ResultMap("user_map")
+    @Select("SELECT u.user_id,u.username FROM tb_user u INNER JOIN tb_article_comment ac ON ac.user_id = u.user_id WHERE ac.comment_id = #{commentId} ")
+    public User findUserByCommentId(@Param("commentId") Long commentId);
 }

@@ -1,6 +1,7 @@
 package cc.ccocc.service;
 
 import cc.ccocc.dto.ResultDTO;
+import cc.ccocc.pojo.Article;
 import cc.ccocc.pojo.User;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface IArticle_UserService {
     Integer addInMiddle(Long articleId,Long userId);
 
     ResultDTO checkArticleIsLikeByUser(Long articleId , Long userId);
+
 }

@@ -41,102 +41,83 @@
 
 <body>
 
-<div class="container-fluid">
+
 
     <nav
-            class="navbar navbar-default navbar-expand-sm navbar-expand-lg navbar-expand-xl navbar-light bg-light  navbar-static-top shadow-lg  mb-4 bg-white  ">
-        <#if user??>
-        <div class="navbar-barand mr-auto " width="100">
-            <a href="/">
-                <img src="${user.avatarUrl}"
-                     class="img-thumbnail navbar-brand img-responsive rounded-circle" width="50" height="60"
-                ><span>${user.userName}</span>
-            </a>
-        </div>
-        <#else >
-         <div class="navbar-barand mr-auto " width="100">
-
-         </div>
-        </#if>
+            class="navbar navbar-default navbar-expand-sm navbar-expand-lg navbar-expand-xl navbar-light bg-light  navbar-static-top shadow-lg  mb-4 bg-white  d-flex">
+        <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                1="Toggle navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="container">
-            <div class="collapse navbar-collapse navbar-responsive-collapse " id="navbarSupportedContent">
-                <div class="  d-flex justify-content-center mr-auto">
-                    <ul class="navbar-nav">
-                        <li class="divider"></li>
-                        <li class="nav-item fonts">
-                            <a class="nav-link" href="/">首页</a>
-                        </li>
 
-                        <li class="nav-item fonts">
-                            <a class="nav-link  " id="archive" href="/archives">归档</a>
-                        </li>
+        <div class="collapse navbar-collapse  navbar-responsive-collapse col-sm-7 col-xd-5 col-lg-7 ml-auto"
+             id="navbarSupportedContent">
+            <ul class="navbar-nav ">
 
-                        <li class="nav-item fonts">
-                            <a class="nav-link " href="#">更新</a>
-                        </li>
+                <!-- 起隔离作用 -->
 
-                        <li class="nav-item fonts">
-                            <a class="nav-link " href="#">友链</a>
-                        </li>
+                <li class="nav-item fonts">
+                    <a class="nav-link" href="/">首页</a>
+                </li>
+                <li class="nav-item fonts">
+                    <a class="nav-link " href="#">更新</a>
+                </li>
 
-                        <li class="nav-item fonts">
-                            <a class="nav-link " href="#">关于</a>
-                        </li>
+                <li class="nav-item fonts">
+                    <a class="nav-link " href="#">友链</a>
+                </li>
 
-                        <li class="nav-item">
-                            <div class="navbar navbar-start">
-                                <form class=" from-inline " style="display: inline-flex;" role="search">
-                                    <input type="search" placeholder="Search" class="form-control mr-sm-2">
-                                    <svg t="1577948224406"
-                                         class="icon img-thumbnail navbar-brand img-responsive icon-serach "
-                                         role="button" viewBox="0 0 1024 1024" version="1.1"
-                                         xmlns="http://www.w3.org/2000/svg" p-id="2586" width="35" height="31">
-                                        <path
-                                                d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"
-                                                fill="#1afa29" p-id="2587"></path>
-                                    </svg>
-                                </form>
-                            </div>
-                        </li>
-                        <li class="divier"></li>
-                    </ul>
+                <li class="nav-item fonts">
+                    <a class="nav-link " href="#">关于</a>
+                </li>
+
+
+            </ul>
+        </div>
+        <div class="d-flex">
+            <div class="navbar-nav text-justify  text-nowrap text-monospace text-sm-left ">
+                <a href="/markdown" style="text-decoration: none" target="_blank">
+                    <span class="write-word fonts nav-link">写博客</span>
+                </a>
+            </div>
+            <div class=" navbar-nav justify-content-center ">
+                <div style="width: 70px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-right: 30px;
+            color: white;">
+                    <a href="/login"
+                       class="btn btn-primary btn-sm active rounded btn-block ">登陆</a>
                 </div>
 
-                <div class="navbar-nav text-justify  text-nowrap text-monospace text-sm-left mr-auto">
-                    <a href="/markdown" style="text-decoration: none">
-                        <span class="write-word fonts nav-link">写博客</span>
-
-                    </a>
+                <div style="width: 70px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-right: 30px;
+            color: white;">
+                    <a href="/register"
+                       class="btn btn-primary btn-sm active rounded btn-block ">注册</a>
                 </div>
-                <#if user??>
-                <div class=" navbar-nav justify-content-center ">
-                    <div class=" navbar-nav justify-content-center ">
-                        <div class="end">
-                            <button id="exit" type="button" class="btn btn-primary btn-sm active rounded btn-block ">
-                                退出登录
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <#else >
-                  <div class="end">
-                      <a href="/login" class="btn btn-primary btn-sm active rounded btn-block ">登陆</a>
-                  </div>
-
-                    <div class="end">
-                        <a href="/register" class="btn btn-primary btn-sm active rounded btn-block ">注册</a>
-                    </div>
-
-                </#if>
-
             </div>
         </div>
+        <div class="nav-item ml-auto navbar-brand  dropdown dropdown-toggle   d-flex" style="margin-right: 100px;"
+             data-toggle="dropdown" aria-haspopup="true" role="button">
+            <#--<img src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/photo.jpg" role="button"-->
+                 <#--class="img-fluid rounded mx-auto d-block" alt="Responsive image" width="50" height="30">-->
+
+            <div class="dropdown-menu " aria-labelledby="dropdownMenuReference">
+                <a class="dropdown-item" href="/userSystem">个人中心</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/userMain">个人主页</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">退出登陆</a>
+            </div>
+        </div>
+
+
     </nav>
-</div>
+
 
 
 </body>

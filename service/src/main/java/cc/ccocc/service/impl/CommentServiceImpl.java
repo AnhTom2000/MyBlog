@@ -140,14 +140,17 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public List<CommentDTO> getNewsComment() {
-        List<Comment> newComment = commentDao.getNewComment();
-        List<CommentDTO> newComments = new ArrayList<>();
-        BeanCopier beanCopier = BeanCopier.create(Comment.class, CommentDTO.class, false);
-        for (Comment comment : newComment) {
-            CommentDTO commentDTO = new CommentDTO();
-            beanCopier.copy(comment, commentDTO, null);
-            newComments.add(commentDTO);
+    public List<CommentDTO> getNewsComment(Long userId) {
+        List<Comment> newComment = commentDao.getNewComment(0,userId);
+        List<CommentDTO> newComments = null;
+        if(newComment != null) {
+            newComments = new ArrayList<>();
+            BeanCopier beanCopier = BeanCopier.create(Comment.class, CommentDTO.class, false);
+            for (Comment comment : newComment) {
+                CommentDTO commentDTO = new CommentDTO();
+                beanCopier.copy(comment, commentDTO, null);
+                newComments.add(commentDTO);
+            }
         }
         return newComments;
     }

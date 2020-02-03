@@ -51,16 +51,15 @@ public class TagServiceImpl implements ITagService {
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public List<Tag> saveTags(String[] tags) {
+    public List<Tag> saveTags(String[] tags,Long userId) {
         //将传过来的新标签字符串解析为集合
         List<Tag> tagList = new ArrayList<>();
         //遍历集合保存标签
         for (String tag : tags) {
             Long snowId = SNOWFLAKE_ID_GENERATOR.generateId();
-            dao.saveTag(tag, snowId);
+            dao.saveTag(tag, snowId,userId);
             tagList.add(TagUtils.getTag(tag, snowId));
         }
-        System.out.println("fanhui"+tagList);
         return tagList;
     }
 
@@ -72,11 +71,16 @@ public class TagServiceImpl implements ITagService {
      * @Return
      */
     @Override
-    public List<Tag> findByTagName(String[] tags) {
+    public List<Tag> findByTagName(String[] tags,Long userId) {
         List<Tag> tag_List = new ArrayList<>();
         for (String tagName : tags) {
-            tag_List.add(dao.findByTagName(tagName));
+            tag_List.add(dao.findByTagName(tagName,userId));
         }
         return tag_List;
+    }
+
+    @Override
+    public List<Tag> findTagByUserId(Long userId) {
+        return dao.findTagByUserId(userId);
     }
 }

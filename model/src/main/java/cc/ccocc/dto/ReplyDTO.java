@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 
+import javax.jnlp.UnavailableServiceException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -34,7 +35,9 @@ public class ReplyDTO implements Serializable {
     // 评论回复文章的主键
     @JsonSerialize(using= ToStringSerializer.class)
     private Long articleId;
-    // 评论的主键
+    // 评论的用户
+    private User replyUser;
+    // 评论回复评论的主键
     @JsonSerialize(using= ToStringSerializer.class)
     private Long commentId;
     // 评论回复的时间
@@ -51,13 +54,13 @@ public class ReplyDTO implements Serializable {
         return Objects.equals(replyId, replyDTO.replyId) &&
                 Objects.equals(user, replyDTO.user) &&
                 Objects.equals(articleId, replyDTO.articleId) &&
-                Objects.equals(commentId, replyDTO.commentId) &&
+                Objects.equals(replyUser, replyDTO.replyUser) &&
                 Objects.equals(replyTime, replyDTO.replyTime) &&
                 Objects.equals(replyContent, replyDTO.replyContent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(replyId, user, articleId, commentId, replyTime, replyContent);
+        return Objects.hash(replyId, user, articleId, replyUser, replyTime, replyContent);
     }
 }

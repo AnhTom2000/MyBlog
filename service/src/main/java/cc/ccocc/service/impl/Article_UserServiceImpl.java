@@ -2,6 +2,7 @@ package cc.ccocc.service.impl;
 
 import cc.ccocc.dao.IArticle_UserDao;
 import cc.ccocc.dto.ResultDTO;
+import cc.ccocc.pojo.Article;
 import cc.ccocc.pojo.User;
 import cc.ccocc.service.IArticle_UserService;
 import cc.ccocc.utils.result.ResultCode;
@@ -39,4 +40,6 @@ public class Article_UserServiceImpl implements IArticle_UserService {
         }
         return result;
     }
+
+
 }

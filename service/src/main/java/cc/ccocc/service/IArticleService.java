@@ -24,7 +24,9 @@ public interface IArticleService {
 
     List<Article> findArticleByTagId(Long tag_id);
 
-    List<Article> findArticleNew();
+    List<Article> findAllArticleNew();
+
+    List<Article> findArticleNewByUserId(Long userId);
 
     ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag,Long userId);
 
@@ -34,4 +36,5 @@ public interface IArticleService {
 
     ResultDTO addArticleViewStatistics(Long articleId);
 
+    List<ArticleDTO> findArticleByUserId(Long userId);
 }

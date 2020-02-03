@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 /**
@@ -23,10 +24,11 @@ public interface ITagDao {
      * @Return
      * @param article_id 文章id
      */
-    @Select("SELECT t.tag_id,t.tag_name FROM tb_tag t INNER JOIN tb_article_tag_middle m ON t.tag_id=m.tag_id WHERE m.article_id= #{article_id} ")
+    @Select("SELECT t.tag_id,t.tag_name,user_id FROM tb_tag t INNER JOIN tb_article_tag_middle m ON t.tag_id=m.tag_id WHERE m.article_id= #{article_id} ")
     @Results(id = "tag_map",value = {
             @Result(id = true,property = "tag_id",column ="tag_id",jdbcType = JdbcType.BIGINT,javaType = Long.class),
-            @Result(property = "tag_name",column = "tag_name",jdbcType = JdbcType.VARCHAR , javaType = String.class)
+            @Result(property = "tag_name",column = "tag_name",jdbcType = JdbcType.VARCHAR , javaType = String.class),
+            @Result(property = "user_id",column = "user_id",jdbcType = JdbcType.BIGINT,javaType = Long.class)
     })
     List<Tag> findByArticleId(@Param("article_id") Long article_id);
 
@@ -49,6 +51,7 @@ public interface ITagDao {
      * @Return
      *
      */
+    @ResultMap("tag_map")
     @Select("SELECT tag_id,tag_name FROM tb_tag")
     List<Tag> findAll();
 
@@ -61,8 +64,8 @@ public interface ITagDao {
  * @Return
  * @param tag_name  新增标签名
  */
-    @Insert("INSERT INTO tb_tag(tag_id,tag_name) VALUE(#{tag_id},#{tag_name})")
-    void saveTag(@Param("tag_name") String tag_name,@Param("tag_id") Long tag_id);
+    @Insert("INSERT INTO tb_tag(tag_id,tag_name,user_id) VALUE(#{tag_id},#{tag_name},#{userId})")
+    void saveTag(@Param("tag_name") String tag_name,@Param("tag_id") Long tag_id,@Param("userId")Long userId);
 
     /**
      * @Method
@@ -73,7 +76,11 @@ public interface ITagDao {
      * @Return
      * @param tagName 标签名称
      */
-    @Select("SELECT tag_id,tag_name FROM tb_tag WHERE tag_name = #{tagName} limit 0,1")
+    @Select("SELECT tag_id,tag_name,user_id FROM tb_tag WHERE tag_name = #{tagName} AND user_id = #{userId} limit 0,1")
     @ResultMap("tag_map")
-    Tag findByTagName(String tagName);
+    Tag findByTagName(@Param("tagName") String tagName,@Param("userId") Long userId);
+
+
+    @Select("SELECT tag_id,tag_name,user_id FROM tb_tag WHERE user_id = #{userId} ")
+    List<Tag> findTagByUserId(@Param("userId") Long userId);
 }

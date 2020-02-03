@@ -66,6 +66,6 @@ public interface IArticle_CommentDao {
     public Integer getAllCommentCount();
 
    @ResultMap("comment_map")
-    @Select("SELECT comment_id,comment_text,comment_like_count,user_id,comment_time,article_id FROM tb_article_comment ORDER BY comment_time DESC LIMIT 0,5 ")
-    public List<Comment> getNewComment();
+    @Select("SELECT c.comment_id,c.comment_text,c.comment_like_count,c.user_id,c.comment_time,c.article_id FROM tb_article_comment c INNER JOIN tb_article a ON a.article_id = c.article_id INNER JOIN  tb_user u ON u.user_id = a.u_id WHERE u.user_id = #{userId} ORDER BY c.comment_time DESC LIMIT #{page} , 5")
+    public List<Comment> getNewComment(@Param("page") Integer page,@Param("userId") Long userId );
 }

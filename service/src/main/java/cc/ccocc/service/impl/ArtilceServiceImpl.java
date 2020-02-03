@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -112,8 +113,14 @@ public class ArtilceServiceImpl implements IArticleService {
      * @Return
      */
     @Override
-    public List<Article> findArticleNew() {
+    public List<Article> findAllArticleNew() {
+
         return articleDao.findArticleNew();
+    }
+
+    @Override
+    public List<Article> findArticleNewByUserId(Long userId) {
+        return articleDao.findArticleNewByUserId(userId);
     }
 
     /**
@@ -132,16 +139,16 @@ public class ArtilceServiceImpl implements IArticleService {
         if (!Objects.isNull(article)) {
             List<Tag> tagList = null;
             if (!Objects.isNull(tag)) {
-                tagList = tagService.findByTagName(tag);
+                tagList = tagService.findByTagName(tag,userId);
                 if (tagList.contains(null)) {
-                    tagList = tagService.saveTags(tag);
+                    tagList = tagService.saveTags(tag,userId);
                 }
                 if (!Objects.isNull(newTag)) {
-                    tagList.addAll(tagService.saveTags(newTag));
+                    tagList.addAll(tagService.saveTags(newTag,userId));
                 }
-            }else  {
-                if(!Objects.isNull(newTag)) {
-                    tagList = tagService.saveTags(newTag);
+            } else {
+                if (!Objects.isNull(newTag)) {
+                    tagList = tagService.saveTags(newTag,userId);
                 }
             }
             // 进行html字符转码，过滤特殊字符
@@ -151,7 +158,7 @@ public class ArtilceServiceImpl implements IArticleService {
             if (archiveService.findArchiveByYear(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")) == null) {
                 //保存归档日期
                 Archive archive = Archive.builder().archiveName(DateUtils.format(DateUtils.localDateTime2Date(article.getA_createTime()), "yyyy")).build();
-                archiveService.saveArchive(archive);
+                archiveService.saveArchive(archive,userId);
             }
             //初始化最后一次的修改时间
             article.setA_last_update(article.getA_createTime());
@@ -240,5 +247,21 @@ public class ArtilceServiceImpl implements IArticleService {
         return result;
     }
 
+    @Override
+    public List<ArticleDTO> findArticleByUserId(Long userId) {
+        if (userId == null) return null;
+        List<Article> articleList = articleDao.findArticleByUserId(userId);
+        List<ArticleDTO> userArticles = null;
+        if(articleList != null) {
+            userArticles = new ArrayList<>();
+            BeanCopier beanCopier = BeanCopier.create(Article.class, ArticleDTO.class, false);
+            for (Article article : articleList) {
+                ArticleDTO articleDTO = ArticleDTO.builder().build();
+                beanCopier.copy(article,articleDTO,null);
+                userArticles.add(articleDTO);
+            }
+        }
+        return userArticles;
+    }
 
 }

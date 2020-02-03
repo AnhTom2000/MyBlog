@@ -31,6 +31,7 @@ public class Tag implements Serializable {
     @JsonSerialize(using= ToStringSerializer.class)
     private  Long tag_id;
     private  String tag_name;
+    private Long user_id;
 
 
     @Override
@@ -39,11 +40,12 @@ public class Tag implements Serializable {
         if (!(o instanceof Tag)) return false;
         Tag tag = (Tag) o;
         return Objects.equals(tag_id, tag.tag_id) &&
-                Objects.equals(tag_name, tag.tag_name);
+                Objects.equals(tag_name, tag.tag_name) &&
+                Objects.equals(user_id, tag.user_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tag_id, tag_name);
+        return Objects.hash(tag_id, tag_name, user_id);
     }
 }

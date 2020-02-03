@@ -30,7 +30,7 @@ public interface IArticle_Comment_ReplyDao {
             @Result(id =  true , column = "comment_reply_id", property = "replyId",javaType = Integer.class),
             @Result(column = "comment_reply_text",property = "replyContent"),
             @Result(column = "user_id",property = "user",javaType = User.class,one = @One(select = "cc.ccocc.dao.IUserDao.findUserById",fetchType = FetchType.LAZY)),
-            @Result(column = "article_comment_id",property = "commentId",javaType = Long.class),
+            @Result(column = "article_comment_id",property = "replyUser",javaType = User.class,one = @One(select = "cc.ccocc.dao.IUserDao.findUserByCommentId",fetchType = FetchType.LAZY)),
             @Result(column = "comment_reply_time",property = "replyTime",javaType = LocalDateTime.class)
     })
     @Select("SELECT comment_reply_id,comment_reply_text,user_id,article_comment_id,comment_reply_time FROM tb_comment_reply WHERE article_comment_id = #{comment_id}")

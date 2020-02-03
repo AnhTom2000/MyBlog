@@ -19,7 +19,9 @@ public interface ITagService {
 
     List<Tag> findAll();
 
-   List<Tag>  saveTags(String[] newTag);
+   List<Tag>  saveTags(String[] newTag,Long userId);
 
-    List<Tag> findByTagName(String[] tags);
+    List<Tag> findByTagName(String[] tags,Long userId);
+
+    List<Tag> findTagByUserId(Long userId);
 }

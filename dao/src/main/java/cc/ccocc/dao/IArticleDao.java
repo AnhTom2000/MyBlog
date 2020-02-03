@@ -6,6 +6,7 @@ import cc.ccocc.pojo.User;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ import java.util.List;
 public interface IArticleDao {
     /**
      * @Method Description:
-     * 查询文章所有信息
+     * 查询文章所有信息,根据观看人数也就是热度排序
      * @Author weleness
      * @Return
      */
@@ -44,7 +45,7 @@ public interface IArticleDao {
     })
     @Select("SELECT article_id,u_id,article_name,article_text,markdown,create_time," +
             "last_update,YEAR(create_time),MONTH(create_time),View_statistics," +
-            "Likes_statistics,category_id FROM tb_article ORDER BY create_time DESC")
+            "Likes_statistics,category_id FROM tb_article ORDER BY View_statistics DESC")
     List<Article> findALL();
 
     /**
@@ -66,7 +67,7 @@ public interface IArticleDao {
     @ResultMap("article_map")
     @Select("SELECT article_id,u_id,article_name,article_text,markdown,create_time, " +
             "last_update,YEAR(create_time),MONTH(create_time),View_statistics, " +
-            "Likes_statistics  FROM tb_article a INNER JOIN tb_article_tag_middle m ON a.article_id = m.article_id WHERE m.tag_id = #{tag_id} ")
+            "Likes_statistics  FROM tb_article a INNER JOIN tb_article_tag_middle m ON a.article_id = m.article_id WHERE m.tag_id = #{tag_id} ORDER BY create_time DESC ")
     List<Article> findArticleByTagId(@Param("tag_id") Long tag_id);
 
 
@@ -76,9 +77,12 @@ public interface IArticleDao {
      * @Author weleness
      * @Return
      */
-    @Select("SELECT article_id,article_name,create_time FROM tb_article WHERE DATE(create_time) BETWEEN '2019-12-01' AND '2029-12-31' ORDER BY create_time DESC LIMIT 0,5")
+    @Select("SELECT article_id,u_id,article_name,create_time FROM tb_article WHERE  DATE(create_time) BETWEEN '2019-12-01' AND '2029-12-31' ORDER BY create_time DESC LIMIT 0,5")
     @ResultMap(value = "article_map")
     List<Article> findArticleNew();
+
+    @Select("SELECT article_id,u_id,article_name,create_time FROM tb_article WHERE u_id = #{userId} AND DATE(create_time) BETWEEN '2019-12-01' AND '2029-12-31' ORDER BY create_time DESC LIMIT 0,5")
+    List<Article> findArticleNewByUserId(@Param("userId")Long userId);
 
 
     /**
@@ -143,5 +147,11 @@ public interface IArticleDao {
     @Update("UPDATE tb_article SET View_statistics = View_statistics+1 WHERE article_id = #{articleId}")
     Integer addArticleViewStatistics(@Param("articleId") Long articleId);
 
+
+    @ResultMap("article_map")
+    @Select("SELECT article_id,u_id,article_name,article_text,markdown,create_time, " +
+            "last_update,YEAR(create_time),MONTH(create_time),View_statistics, " +
+            "Likes_statistics,category_id  FROM tb_article WHERE u_id = #{userId} ORDER BY create_time DESC ")
+    List<Article> findArticleByUserId(@Param("userId") Long userId);
 
 }

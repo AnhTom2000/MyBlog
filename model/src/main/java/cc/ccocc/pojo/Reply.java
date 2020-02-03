@@ -31,10 +31,12 @@ public class Reply implements Serializable {
     // 评论回复的用户
     private User user;
     // 评论回复文章的主键
-    @JsonSerialize(using= ToStringSerializer.class)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long articleId;
-    // 评论的主键
-    @JsonSerialize(using= ToStringSerializer.class)
+    // 评论的用户
+    private User replyUser;
+    // 评论回复评论的主键
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long commentId;
     // 评论回复的时间
     private LocalDateTime replyTime;
@@ -50,13 +52,13 @@ public class Reply implements Serializable {
         return Objects.equals(replyId, reply.replyId) &&
                 Objects.equals(user, reply.user) &&
                 Objects.equals(articleId, reply.articleId) &&
-                Objects.equals(commentId, reply.commentId) &&
+                Objects.equals(replyUser, reply.replyUser) &&
                 Objects.equals(replyTime, reply.replyTime) &&
                 Objects.equals(replyContent, reply.replyContent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(replyId, user, articleId, commentId, replyTime, replyContent);
+        return Objects.hash(replyId, user, articleId, replyUser, replyTime, replyContent);
     }
 }

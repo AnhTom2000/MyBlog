@@ -1,5 +1,6 @@
 package cc.ccocc.service;
 
+import cc.ccocc.dto.ArchiveDTO;
 import cc.ccocc.pojo.Archive;
 
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.List;
 
 public interface IArchiveService {
 
-    List<String>  findArchives();
+    List<ArchiveDTO>  findArchives(Long userId);
 
-    void saveArchive(Archive archive);
+    void saveArchive(Archive archive,Long userId);
 
     Archive findArchiveByYear(String year);
 }

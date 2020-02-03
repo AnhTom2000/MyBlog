@@ -142,7 +142,7 @@
                                     <span class="am-icon-caret-down"></span></button> <br>
                                 <ul class="am-dropdown-content tag_list" id="tag_List">
                                     <li class="am-dropdown-header">历史标签</li>
-                                    <#list tag_List as tag>
+                                    <#list user_tag as tag>
                                     <li  id="${tag.tag_id}"><a href="javascript: void(0)">${tag.tag_name}</a></li>
                                     </#list>
                                 </ul>
