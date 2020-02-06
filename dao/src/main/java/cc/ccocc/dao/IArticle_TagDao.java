@@ -1,7 +1,9 @@
 package cc.ccocc.dao;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,15 +17,25 @@ import org.springframework.stereotype.Repository;
 public interface IArticle_TagDao {
 
     /**
+     * @param articleId 文章id
+     * @param tagId     标签id
+     * @Method Description:
+     * 文章标签中间表保存方法
+     * @Author weleness
+     * @Return
+     */
+    @Insert("INSERT INTO tb_article_tag_middle(article_id,tag_id) VALUES(#{articleId},#{tagId})")
+    Integer saveInMiddle(@Param("articleId") Long articleId, @Param("tagId") Long tagId);
+
+    /**
+     * @param articleId 文章id
      * @Method
      * Description:
-     *  文章标签中间表保存方法
+     *  文章标签中间表删除方法
      * @Author weleness
      *
      * @Return
-     * @param articleId 文章id
-     * @param tagId 标签id
      */
-    @Insert("INSERT INTO tb_article_tag_middle(article_id,tag_id) VALUES(#{articleId},#{tagId})")
-    void saveInMiddle(@Param("articleId") Long articleId,@Param("tagId") Long tagId);
+    @Delete("DELETE FROM tb_article_tag_middle WHERE article_id = #{articleId}")
+    void  deleteInMiddle(@Param("articleId")Long articleId);
 }

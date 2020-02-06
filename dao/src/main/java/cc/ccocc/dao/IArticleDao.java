@@ -81,6 +81,7 @@ public interface IArticleDao {
     @ResultMap(value = "article_map")
     List<Article> findArticleNew();
 
+    @ResultMap("article_map")
     @Select("SELECT article_id,u_id,article_name,create_time FROM tb_article WHERE u_id = #{userId} AND DATE(create_time) BETWEEN '2019-12-01' AND '2029-12-31' ORDER BY create_time DESC LIMIT 0,5")
     List<Article> findArticleNewByUserId(@Param("userId")Long userId);
 
@@ -92,7 +93,20 @@ public interface IArticleDao {
      * @Return
      */
     @Insert("INSERT INTO tb_article(article_id,article_name,u_id,article_text,markdown,create_time,last_update,category_id) VALUES (${article.a_id},'${article.a_Title}',${article.user.userId},'${article.a_text}',${article.markdown},'${article.a_createTime}','${article.a_last_update}',${category.categoryid})")
-    void saveArticle(@Param("article") Article article, @Param("category") Category category);
+    Integer saveArticle(@Param("article") Article article, @Param("category") Category category);
+
+    /**
+     * @param article 文章信息
+     * @param category  分类信息
+     * @Method
+     * Description:
+     *  修改文章
+     * @Author weleness
+     *
+     * @Return
+     */
+    @Update("UPDATE tb_article SET article_name = #{article.a_Title},article_text='${article.a_text}',last_update='${article.a_last_update}',category_id = #{category.categoryid} WHERE article_id = #{article.a_id}")
+    Integer updateArticle(@Param("article") Article article , @Param("category") Category category);
 
 
     /**
@@ -148,10 +162,31 @@ public interface IArticleDao {
     Integer addArticleViewStatistics(@Param("articleId") Long articleId);
 
 
+    /**
+     * @param userId 用户主键
+     * @Method
+     * Description:
+     *  查找用户的文章
+     * @Author weleness
+     *
+     * @Return
+     */
     @ResultMap("article_map")
     @Select("SELECT article_id,u_id,article_name,article_text,markdown,create_time, " +
             "last_update,YEAR(create_time),MONTH(create_time),View_statistics, " +
             "Likes_statistics,category_id  FROM tb_article WHERE u_id = #{userId} ORDER BY create_time DESC ")
     List<Article> findArticleByUserId(@Param("userId") Long userId);
 
+
+    /**
+     * @param articleId  文章id
+     * @Method
+     * Description:
+     *  删除指定文章
+     * @Author weleness
+     *
+     * @Return
+     */
+    @Delete("DELETE FROM tb_article WHERE article_id = #{articleId}")
+    Integer deleteArticleById(@Param("articleId") Long articleId);
 }

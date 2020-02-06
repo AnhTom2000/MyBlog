@@ -44,6 +44,7 @@
 </head>
 
 <body>
+<#setting number_format="#">
     <nav
         class="navbar navbar-default navbar-expand-sm navbar-expand-lg navbar-expand-xl navbar-light bg-light  navbar-static-top shadow-lg  mb-4 bg-white  ">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -95,13 +96,13 @@
             <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">个人中心
             </div>
             <ul class="sidebar-menu list-unstyled">
-                <li class="sidebar-list-item py-3 mr-3"><a href="userEdit.ftl" class="sidebar-link text-muted "><i
+                <li class="sidebar-list-item py-3 mr-3"><a href="/user/PersonalSystem/info" class="sidebar-link text-muted "><i
                             class="zi zi_usercog" zico="用户设置"></i><span>个人设置</span></a></li>
-                <li class="sidebar-list-item py-3"><a href="articles.ftl" class="sidebar-link text-muted"><i
+                <li class="sidebar-list-item py-3"><a href="/user/PersonalSystem/articleList" class="sidebar-link text-muted"><i
                             class="o-sales-up-1 mr-3 text-gray"></i><span>文章列表</span></a></li>
-                <li class="sidebar-list-item py-3"><a href="article_archive.ftl" class="sidebar-link text-muted active"><i
+                <li class="sidebar-list-item py-3"><a href="/user/PersonalSystem/archives" class="sidebar-link text-muted active"><i
                             class="o-table-content-1 mr-3 text-gray "></i><span>文章归档</span></a></li>
-                <li class="sidebar-list-item py-3"><a href="modifyPassword.ftl" class="sidebar-link text-muted"><i class="zi zi_at mr-3" zico="邮件标记"></i><span>修改密码</span></a></li>
+                <li class="sidebar-list-item py-3"><a href="/user/PersonalSystem/modifyPassword" class="sidebar-link text-muted"><i class="zi zi_at mr-3" zico="邮件标记"></i><span>修改密码</span></a></li>
                 
                 <li class="sidebar-list-item py-3"><a href="messageSystem.ftl" data-toggle="collapse" data-target="#pages"
                                                       aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i
@@ -132,104 +133,36 @@
                                             <div class="personalupdate">
                                                 <section class="py-5">
                                                     <div class="row">
+                                                        <#list userArchiveList as archive>
                                                         <div class="col-lg-12 mt-3 mb-5 articleList">
-                                                            <div href="#"
+                                                            <div
                                                                 class="message mb-5 mt-2 card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style">
                                                                 <div class="row">
                                                                     <div
                                                                         class="col-lg-7 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                                                        <strong class="h5 mb-0">4<sup
-                                                                                class="smaller text-gray font-weight-normal">Sep</sup></strong>
-                                                                        <h6 class="mb-0"><a href="../archives.html" class="articleTitle">测试</a></h6>
+                                                                        <strong class="h5 mb-0 mr-5">${archive_index+1}</strong>
+                                                                        <h6 class="mb-0"><a href="/archives" class="articleTitle">${archive.archiveName}</a></h6>
                                                                     </div>
                                                                     <div class="col-lg-5 pl-5 pt-5 d-flex align-items-center flex-column flex-lg-row text-center text-md-left ">
-                                                                        <button type="button" class="btn btn-warning" style="margin-right: auto;margin-left: auto;">编辑</button>
-                                                                        <button type="button" class="btn btn-danger"  style="margin-right: auto;margin-left: auto;">删除</button>
+
                                                                     </div>
                                                                     <div
                                                                         class="col-lg-7 pt-3 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                                                        <div
-                                                                            class="bg-gray-100 roundy px-4 py-1 mr-0 mr-lg-3 mt-2 mt-lg-0 text-dark exclode">
-                                                                            2020-1-31 20:26</div>
-                                                                       
+
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12 mb-5 mt-3 articleList">
-                                                            <div href="#"
-                                                                class="message mb-5 mt-2 card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style">
-                                                                <div class="row">
-                                                                    <div
-                                                                        class="col-lg-7 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                                                        <strong class="h5 mb-0">4<sup
-                                                                                class="smaller text-gray font-weight-normal">Sep</sup></strong>
-                                                                        <h6 class="mb-0"><a href="#" class="articleTitle">测试</a></h6>
-                                                                    </div>
-                                                                    <div class="col-lg-5 pl-5 pt-5 d-flex align-items-center flex-column flex-lg-row text-center text-md-left ">
-                                                                        <button type="button" class="btn btn-warning" style="margin-right: auto;margin-left: auto;">编辑</button>
-                                                                        <button type="button" class="btn btn-danger"  style="margin-right: auto;margin-left: auto;">删除</button>
-                                                                    </div>
-                                                                    <div
-                                                                        class="col-lg-7 pt-3 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                                                        <div
-                                                                            class="bg-gray-100 roundy px-4 py-1 mr-0 mr-lg-3 mt-2 mt-lg-0 text-dark exclode">
-                                                                            2020-1-31 20:26</div>
-                                                                       
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12 mt-3 mb-5 articleList">
-                                                            <div href="#"
-                                                                class="message mb-5  mt-2 card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style">
-                                                                <div class="row">
-                                                                    <div
-                                                                        class="col-lg-7 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                                                        <strong class="h5 mb-0">4<sup
-                                                                                class="smaller text-gray font-weight-normal">Sep</sup></strong>
-                                                                        <h6 class="mb-0"><a href="#" class="articleTitle">测试</a></h6>
-                                                                    </div>
-                                                                    <div class="col-lg-5 pl-5 pt-5 d-flex align-items-center flex-column flex-lg-row text-center text-md-left ">
-                                                                        <button type="button" class="btn btn-warning" style="margin-right: auto;margin-left: auto;">编辑</button>
-                                                                        <button type="button" class="btn btn-danger"  style="margin-right: auto;margin-left: auto;">删除</button>
-                                                                    </div>
-                                                                    <div
-                                                                        class="col-lg-7 pt-1 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                                                        <div
-                                                                            class="bg-gray-100 roundy px-4 py-1 mr-0 mr-lg-3 mt-2 mt-lg-0 text-dark exclode">
-                                                                            2020-1-31 20:26</div>
-                                                                       
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12 mt-3 articleList">
-                                                            <div href="#"
-                                                                class="message mb-5 mt-2 card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style">
-                                                                <div class="row">
-                                                                    <div
-                                                                        class="col-lg-7 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                                                        <strong class="h5 mb-0">4<sup
-                                                                                class="smaller text-gray font-weight-normal">Sep</sup></strong>
-                                                                        <h6 class="mb-0"><a href="#" class="articleTitle">测试</a></h6>
-                                                                    </div>
-                                                                    <div class="col-lg-5 pl-5 pt-5 d-flex align-items-center flex-column flex-lg-row text-center text-md-left ">
-                                                                        <button type="button" class="btn btn-warning" style="margin-right: auto;margin-left: auto;">编辑</button>
-                                                                        <button type="button" class="btn btn-danger"  style="margin-right: auto;margin-left: auto;">删除</button>
-                                                                    </div>
-                                                                    <div
-                                                                        class="col-lg-7 pt-3 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
-                                                                        <div
-                                                                            class="bg-gray-100 roundy px-4 py-1 mr-0 mr-lg-3 mt-2 mt-lg-0 text-dark exclode">
-                                                                            2020-1-31 20:26</div>
-                                                                       
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> 
+                                                        </#list>
+                                                    </div>
+                                                    <#if (userArchiveList?size>0)>
                                                    <div class="col-lg-12 mt-5 my-4"> <button type="button" class="btn btn-info">加载更多</button></div>
+                                                    <#else >
+                                                     <div class="col-sm-12 col-xd-12 text-center my-5" style="background-color: lightgray">
+                                                        <span class="noComment"
+                                                              style="color: black">没有更多了</span>
+                                                     </div>
+                                                    </#if>
                                                 </section>
                                             </div>
                                         </div>

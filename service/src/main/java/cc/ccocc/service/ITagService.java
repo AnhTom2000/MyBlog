@@ -24,4 +24,6 @@ public interface ITagService {
     List<Tag> findByTagName(String[] tags,Long userId);
 
     List<Tag> findTagByUserId(Long userId);
+
+    List<Tag> getTagList(String[] newTag,String[] tags , Long userId);
 }

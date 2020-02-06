@@ -30,6 +30,8 @@ public interface IArticleService {
 
     ResultDTO saveArticle(Article article, String[] tag, String category_id, String[] newTag,Long userId);
 
+    ResultDTO updateArticle( Article article, String[] tag, String category_id, String[] newTag,Long userId);
+
     ArticleDTO findArticleById(Long articleId);
 
     ResultDTO addArticleLike(Long articleId, Long userId);
@@ -37,4 +39,7 @@ public interface IArticleService {
     ResultDTO addArticleViewStatistics(Long articleId);
 
     List<ArticleDTO> findArticleByUserId(Long userId);
+
+    ResultDTO deleteArticle(Long articleId);
+
 }

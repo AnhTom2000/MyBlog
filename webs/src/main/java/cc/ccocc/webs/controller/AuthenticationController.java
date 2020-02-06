@@ -133,7 +133,6 @@ public class AuthenticationController {
                               @NotBlank(message = "用户名不能为空")
                               @RequestParam("username") String username,
 
-                              @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{7,20}$", message = "密码必须由7-20位大小写英文字母,数字(允许中文和特殊字符)组成")
                               @NotBlank(message = "密码不能为空")
                               @RequestParam("password") String password,
 
@@ -147,7 +146,6 @@ public class AuthenticationController {
                               @RequestParam("verificationCode") String verificationCode,
                               HttpServletRequest request,
                               HttpServletResponse response) {
-        System.out.println(username);
         return userService.register(username, email, password, verificationCode,request,response);
     }
 

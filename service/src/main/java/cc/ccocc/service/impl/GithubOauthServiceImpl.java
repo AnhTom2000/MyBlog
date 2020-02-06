@@ -19,7 +19,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
-import java.sql.Time;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -32,7 +31,7 @@ import java.util.UUID;
  */
 
 @Service("githubOauthService")
-public class GithubOauthServiceImpl extends AbstructOauthService {
+public class GithubOauthServiceImpl extends AbstractOauthService {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -93,8 +92,6 @@ public class GithubOauthServiceImpl extends AbstructOauthService {
             cookie = cookieService.generateCookie(SIMPLE_COOKIE_KEY);
             // 存放用户的id
             request.getSession().setAttribute(cookie.getValue(), user.getUserId());
-            System.out.println("new Cookies : "+cookie.getValue());
-
             result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).status(true).build();
         } else {
             // 把oauth放进session ，等待用户完善信息后再取出来完善

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Weleness
  */
 @Service("qqOauthService")
-public class QqOauthServiceImpl extends AbstructOauthService {
+public class QqOauthServiceImpl extends AbstractOauthService {
 
     @Override
     public String getRequestAuthorizeUrl() {

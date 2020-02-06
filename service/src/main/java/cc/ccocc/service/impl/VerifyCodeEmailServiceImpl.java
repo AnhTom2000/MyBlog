@@ -74,13 +74,12 @@ public class VerifyCodeEmailServiceImpl implements IVerifyCodeEmailService {
         ResultDTO result = null;
         if (verifyCodeInCache != null) {
             if (verifyCode.equals(verifyCodeInCache)) {
-                System.out.println("验证成功");
                 result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("验证成功").status(true).build();
             } else {
-                result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("验证失败，可能是验证码不正确").status(false).build();
+                result = ResultDTO.builder().code(ResultCode.SERVER_ERROR_CODE.getCode()).message("验证失败，可能是验证码不正确").status(false).build();
             }
         } else {
-            result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("验证码不存在，请重新获取").status(false).build();
+            result = ResultDTO.builder().code(ResultCode.NOT_FOUND_CODE.getCode()).message("验证码不存在，请重新获取").status(false).build();
         }
         return result;
     }

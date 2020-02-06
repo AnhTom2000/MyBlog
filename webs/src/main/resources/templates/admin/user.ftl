@@ -48,7 +48,7 @@
   <!-- sticky-top  粘性附着在最上面，随屏滚动 -->
 
   <div class="container-fluid">
-
+  <#setting number_format="#">
     <nav
       class="navbar navbar-default navbar-expand-sm navbar-expand-lg navbar-expand-xl navbar-light bg-light  navbar-static-top shadow-lg  mb-4 bg-white  ">
       <!-- navbar-toggler 的兄弟元素 .navbar-barand，自动对齐到窗口右边 -->

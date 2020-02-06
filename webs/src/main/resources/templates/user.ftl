@@ -121,10 +121,12 @@
                         </div>
                         <!-- Button trigger modal -->
                         <div class="text-center col-md-12 mt-4 col-sm-7 col-xd-7">
-                            <button type="button" class="btn btn-info rounded" data-toggle="modal"
-                                    data-target="#exampleModalLong">
-                            <a href="/userSystem" style="color: white;">  点击修改个人信息</a>
-                            </button>
+                         <#if isVisitor??>
+                         <#else >
+                         <button type="button" class="btn btn-info rounded">
+                             <a href="/user/PersonalSystem/info" style="color: white;"> 点击修改个人信息</a>
+                         </button>
+                         </#if>
                             <div class="row mt-4"
                                  style="border-top: lightgray solid 1px; border-bottom: lightgray 1px solid ; border-left: solid 1px lightgray; ">
                                 <div class="article-info-block col-md-6 .col-sm-6 .col-6 text-center"
@@ -206,7 +208,10 @@
                         <hr>
                     </#list>
                 </ul>
+                <#if isVisitor??>
+                <#else >
                 <button class="btn btn-default red-button">加载更多</button>
+                </#if>
                 <br>
             </div>
             <div class="content-right shadow-lg p-2 mb-5 bg-white rounded animation-element slide-top testimonial">

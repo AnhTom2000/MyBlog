@@ -104,12 +104,12 @@
         <div class="nav-item ml-auto navbar-brand  dropdown dropdown-toggle   d-flex" style="margin-right: 100px;"
              data-toggle="dropdown" aria-haspopup="true" role="button">
             <#--<img src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/photo.jpg" role="button"-->
-                 <#--class="img-fluid rounded mx-auto d-block" alt="Responsive image" width="50" height="30">-->
+                 <#--class="img-fluid rounded mx-auto d-block" alt="Responsive image" width="50" height="10">-->
 
             <div class="dropdown-menu " aria-labelledby="dropdownMenuReference">
                 <a class="dropdown-item" href="/userSystem">个人中心</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/userMain">个人主页</a>
+                <a class="dropdown-item" href="/user/userMain/${user.userName}">个人主页</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">退出登陆</a>
             </div>

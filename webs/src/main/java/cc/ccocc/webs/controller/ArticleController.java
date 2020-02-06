@@ -5,23 +5,18 @@ import cc.ccocc.pojo.Article;
 import cc.ccocc.service.IArticleService;
 import cc.ccocc.service.ICommentService;
 import cc.ccocc.service.ICookieService;
-import cc.ccocc.service.IUploadArticleImg;
 import cc.ccocc.utils.result.ResultCode;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static cc.ccocc.service.impl.AbstructOauthService.*;
+import static cc.ccocc.service.impl.AbstractOauthService.*;
 
 
 /**
@@ -37,9 +32,7 @@ public class ArticleController {
     @Autowired
     @Qualifier("articleService")
     private IArticleService articleService;
-    @Autowired
-    @Qualifier("uploadArticleImgService")
-    private IUploadArticleImg uploadArticleImg;
+
 
     @Autowired
     @Qualifier("cookieService")
@@ -49,19 +42,54 @@ public class ArticleController {
     @Qualifier("commentService")
     private ICommentService commentService;
 
+    @ResponseBody
     @RequestMapping(value = "/submit", produces = "application/json;charset=utf-8")
     public ResultDTO submit(Article article, @RequestParam(value = "tag[]", required = false) String[] tag,
                             @RequestParam(value = "category_id", required = false) String category_id,
                             @RequestParam(value = "newTag[]", required = false) String[] newTag,
                             HttpServletRequest request) {
-
-        return articleService.saveArticle(article, tag, category_id, newTag,
-                (Long) request.getSession().getAttribute(cookieService.getCookie(SIMPLE_COOKIE_KEY,request).getValue()));
+        ResultDTO result = null;
+        Cookie userCookie = null;
+        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
+            Long userId = null;
+            if ((userId = (Long) request.getSession().getAttribute(userCookie.getValue())) != null) {
+                result = articleService.saveArticle(article, tag, category_id, newTag, userId);
+            }
+        } else result = new ResultDTO(ResultCode.CLIENT_ERROR_CODE.getCode(), "请先登陆", false);
+        return result;
     }
 
-    @RequestMapping(value = "/uploadimg", produces = "application/json;charset=utf-8")
-    public UploadImgDTO uploadImg(@RequestParam(value = "editormd-image-file", required = false) MultipartFile file, HttpServletRequest request) {
-        return uploadArticleImg.uploadArticleImage(file, request);
+    @ResponseBody
+    @RequestMapping("/edit_markdown")
+    public ResultDTO markdown_Edit(Article article, @RequestParam(value = "tag[]", required = false) String[] tag,
+                          @RequestParam(value = "category_id") String category_id,
+                          @RequestParam(value = "newTag[]", required = false) String[] newTag,
+                          HttpServletRequest request) {
+        ResultDTO result = null;
+        Cookie userCookie = null;
+        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
+            Long userId = null;
+            if ((userId = (Long) request.getSession().getAttribute(userCookie.getValue())) != null) {
+                result = articleService.updateArticle(article, tag, category_id, newTag, userId);
+            }
+        } else result = new ResultDTO(ResultCode.CLIENT_ERROR_CODE.getCode(), "请先登陆", false);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/markdown_delete")
+    public ResultDTO markdownDelete(@RequestParam("articleId")Long articleId , @RequestParam("authId") Long authId ,HttpServletRequest request){
+        ResultDTO result = null;
+        Cookie userCookie = null;
+        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
+            Long userId = null;
+            if ((userId = (Long) request.getSession().getAttribute(userCookie.getValue())) != null) {
+                if(userId.equals(authId)){
+                    result = articleService.deleteArticle(articleId);
+                }
+            }
+        } else result = new ResultDTO(ResultCode.CLIENT_ERROR_CODE.getCode(), "请先登陆", false);
+        return result;
     }
 
 
@@ -111,15 +139,13 @@ public class ArticleController {
     }
 
     /**
-     * @param articleId 文章的id（不需要）
+     * @param articleId    文章的id（不需要）
      * @param replyContent 回复内容
-     * @param parentId  回复的评论id
-     * @param request HttpServletRequest
-     * @Method
-     * Description:
-     *  发表评论回复
+     * @param parentId     回复的评论id
+     * @param request      HttpServletRequest
+     * @Method Description:
+     * 发表评论回复
      * @Author weleness
-     *
      * @Return
      */
     @ResponseBody
@@ -130,7 +156,7 @@ public class ArticleController {
             Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
             if (userId != null) {
                 return commentService.insertArticle_Comment_Reply(replyContent, articleId, parentId, userId);
-            }else return  null;
+            } else return null;
         }
         return null;
 
@@ -144,11 +170,13 @@ public class ArticleController {
         if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
             Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
             if (userId != null) {
-                 result = commentService.addCommentLike(commentId,userId);
+                result = commentService.addCommentLike(commentId, userId);
             }
-        }else {
+        } else {
             result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("请先登陆").status(false).build();
         }
         return result;
     }
+
+
 }

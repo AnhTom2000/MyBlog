@@ -1,15 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <!-- 跨域请求页面 -->
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- 响应式meta标签 -->
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- 站点图标 -->
+    <link rel="shortcut icon"
+          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/20170730104929_y5Fi2.thumb.700_0.jpeg">
     <!-- Bootstrap CSS-->
     <link rel="stylesheet"
         href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/bootstrap/bootstrap.min.css ">
@@ -37,11 +51,13 @@
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/blogs/css/index.css">
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/blogs/css/style.css">
     <link rel="stylesheet" href="http://ico.z01.com/zico.min.css">
+    <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/toastr.css">
 
 
 </head>
 
 <body>
+<#setting number_format="#">
     <nav
         class="navbar navbar-default navbar-expand-sm navbar-expand-lg navbar-expand-xl navbar-light bg-light  navbar-static-top shadow-lg  mb-4 bg-white  ">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -108,13 +124,13 @@
             <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">个人中心
             </div>
             <ul class="sidebar-menu list-unstyled">
-                <li class="sidebar-list-item py-3 mr-3"><a href="userEdit.ftl" class="sidebar-link text-muted active"><i
+                <li class="sidebar-list-item py-3 mr-3"><a href="/user/PersonalSystem/info" class="sidebar-link text-muted active"><i
                             class="zi zi_usercog" zico="用户设置"></i><span>个人设置</span></a></li>
-                <li class="sidebar-list-item py-3"><a href="articles.ftl" class="sidebar-link text-muted"><i
+                <li class="sidebar-list-item py-3"><a href="/user/PersonalSystem/articleList" class="sidebar-link text-muted"><i
                             class="o-sales-up-1 mr-3 text-gray"></i><span>文章列表</span></a></li>
-                <li class="sidebar-list-item py-3"><a href="article_archive.ftl" class="sidebar-link text-muted"><i
+                <li class="sidebar-list-item py-3"><a href="/user/PersonalSystem/archives" class="sidebar-link text-muted"><i
                             class="o-table-content-1 mr-3 text-gray"></i><span>文章归档</span></a></li>
-                <li class="sidebar-list-item py-3"><a href="modifyPassword.ftl" class="sidebar-link text-muted"><i class="zi zi_at mr-3" zico="邮件标记"></i><span>修改密码</span></a></li>
+                <li class="sidebar-list-item py-3"><a href="/user/PersonalSystem/modifyPassword" class="sidebar-link text-muted"><i class="zi zi_at mr-3" zico="邮件标记"></i><span>修改密码</span></a></li>
                
                 <li class="sidebar-list-item py-3"><a href="messageSystem.ftl" data-toggle="collapse" data-target="#pages"
                                                       aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i
@@ -138,8 +154,6 @@
                     <div class="row mb-4">
                         <div class="col-lg-11 col-sm-11 mb-4 mb-lg-0">
                             <div class="admin-main bg-white shadow-lg" style="padding-top: 0">
-
-
                                 <!--右侧-->
                                 <div class="admin-content pl-5 ">
                                     <div class="userInfo my-3">
@@ -148,13 +162,15 @@
                                                 <div class="personalDateHeadPortrait">
                                                     <div class="headPortrait">
                                                         <img id="headPortrait"
-                                                            src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/%E5%A4%B4%E5%83%8F%20.jpg" />
+                                                            src="${user.avatarUrl}" />
                                                     </div>
                                                     <div class="headChange">
                                                         <div class="headPortraitChange">
-                                                            <input id="imgTest" type="file" onchange="imgChange(event)"
+                                                            <form action="/api/uploadUserImg" method="post" enctype="multipart/form-data" id="img">
+                                                            <input id="imgTest" name="user_avatar" type="file" onchange="imgChange(event)"
                                                                 accept=".gif,.jpg,.jpeg,.png">
                                                             <a>更改头像</a>
+                                                            </form>
                                                         </div>
                                                     </div>
 
@@ -163,70 +179,77 @@
                                                     <form id="personalDateForm">
                                                         <div class="userNameTable">
                                                             <label for="username">用户名:</label>
-                                                            <input class="formInput" type="text" id="username"
-                                                                placeholder="用户名">
-                                                            <hr data-am-widget="divider" style=""
-                                                                class="am-divider am-divider-default" />
+                                                            <input class="formInput" type="text" id="username" readonly="readonly"  style=" background-color:lightgray;cursor: not-allowed"
+                                                                placeholder="用户名" value="${user.userName}">
+                                                            <hr/>
                                                         </div>
                                                         <div class="birthdayTable">
                                                             <label for="age">年龄:</label>
                                                             <input class="formInput" type="text" id="age"
-                                                                placeholder="年龄" />
-                                                            <hr data-am-widget="divider" style=""
-                                                                class="am-divider am-divider-default" />
+                                                                placeholder="年龄" value="${user.age}" />
+                                                            <hr />
                                                         </div>
                                                         <div class="phoneTable">
                                                             <label for="phone">手机:</label>
                                                             <input class="formInput" type="text" id="phone"
-                                                                placeholder="填写你的手机">
-                                                            <hr data-am-widget="divider" style=""
-                                                                class="am-divider am-divider-default" />
+                                                                placeholder="填写你的手机" value="${user.phone}">
+                                                            <hr />
                                                         </div>
                                                         <div class="genderTable">
                                                             <label>性别:</label>
+                                                            <#if user.gender>
                                                             <label class="am-radio-inline" style="width: 60px">
                                                                 <input class="formInput" type="radio" id="male"
-                                                                    name="gender" value="male" data-am-ucheck>
+                                                                    name="gender" value="true" checked >
                                                                 <span class="am-icon-male "><i class="zi zi_male"
                                                                         zico="男性"></i></span>
                                                             </label>
-                                                            <label class="am-radio-inline" style="width: 60px">
+                                                            <label  style="width: 60px">
                                                                 <input class="formInput" type="radio" id="female"
-                                                                    name="gender" value="female" data-am-ucheck>
+                                                                    name="gender" value="false" >
                                                                 <span class="am-icon-female "><i class="zi zi_female"
                                                                         zico="女性"></i></span>
                                                             </label>
-                                                            <hr data-am-widget="divider" style=""
-                                                                class="am-divider am-divider-default" />
+                                                            <hr  />
+                                                            <#else >
+                                                            <label class="am-radio-inline" style="width: 60px">
+                                                                <input class="formInput" type="radio" id="male"
+                                                                       name="gender" value="true" >
+                                                                <span ><i class="zi zi_male"
+                                                                                               zico="男性"></i></span>
+                                                            </label>
+                                                            <label  style="width: 60px">
+                                                                <input class="formInput" type="radio" id="female"
+                                                                       name="gender" value="false" checked>
+                                                                <span ><i class="zi zi_female"
+                                                                                                 zico="女性"></i></span>
+                                                            </label>
+                                                            </#if>
                                                         </div>
                                                         <div class="emailTable">
                                                             <label for="email">邮箱:</label>
                                                             <input class="formInput" type="email" id="email"
-                                                                placeholder="填写你的邮箱">
-                                                            <hr data-am-widget="divider" style=""
-                                                                class="am-divider am-divider-default" />
+                                                                placeholder="填写你的邮箱" value="${user.email}">
+                                                            <hr />
                                                         </div>
                                                         <div class="trueNameTable">
                                                             <label for="trueName">地区:</label>
                                                             <input class="formInput" type="text" id="area"
-                                                                placeholder="地区">
-                                                            <hr data-am-widget="divider" style=""
-                                                                class="am-divider am-divider-default" />
+                                                                placeholder="地区" value="${user.area}">
+                                                            <hr />
                                                         </div>
                                                         <div class="trueNameTable">
-                                                            <label for="trueName">职业:</label>
+                                                            <label for="profession">职业:</label>
                                                             <input class="formInput" type="text" id="profession"
-                                                                placeholder="职业">
-                                                            <hr data-am-widget="divider" style=""
-                                                                class="am-divider am-divider-default" />
+                                                                placeholder="职业" value="${user.profession}">
+                                                            <hr />
                                                         </div>
 
                                                         <div class="personalBriefTable">
-                                                            <label for="personalBrief">个人简介:</label><br>
-                                                            <textarea class="formInput" id="personalBrief"
-                                                                placeholder="填写你的个人简介"></textarea>
-                                                            <hr data-am-widget="divider" style=""
-                                                                class="am-divider am-divider-default" />
+                                                            <label for="description">个人简介:</label><br>
+                                                            <textarea class="formInput" id="description"
+                                                                placeholder="填写你的个人简介">${user.description}</textarea>
+                                                            <hr  />
                                                         </div>
                                                         <button type="button" id="savePersonalDateBtn"
                                                             class="btn btn-success">保存操作</button>
@@ -260,8 +283,9 @@
         crossorigin="anonymous"></script>
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/bootstrap/bootstrap.min.js"></script>
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/all.js"></script>
-    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/plugs_paging.js"></script>
+    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/user.js"></script>
+
 </body>
 
 </html>

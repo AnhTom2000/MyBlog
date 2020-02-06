@@ -23,6 +23,6 @@ public interface IUser_ArchivesDao {
      *
      * @Return
      */
-    @Insert("INSERT INTO tb_user_archives_middle(archive_id,user_id) VALUES(#{archiveId},#{archiveId})")
+    @Insert("INSERT INTO tb_user_archives_middle(archive_id,user_id) VALUES(#{archiveId},#{userId})")
     Integer addInUser_Archives(@Param("userId") Long userId, @Param("archiveId") int archiveId );
 }

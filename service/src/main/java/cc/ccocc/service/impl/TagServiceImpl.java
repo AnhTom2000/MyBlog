@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created on 16:37  16/01/2020
@@ -51,13 +52,13 @@ public class TagServiceImpl implements ITagService {
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public List<Tag> saveTags(String[] tags,Long userId) {
+    public List<Tag> saveTags(String[] tags, Long userId) {
         //将传过来的新标签字符串解析为集合
         List<Tag> tagList = new ArrayList<>();
         //遍历集合保存标签
         for (String tag : tags) {
             Long snowId = SNOWFLAKE_ID_GENERATOR.generateId();
-            dao.saveTag(tag, snowId,userId);
+            dao.saveTag(tag, snowId, userId);
             tagList.add(TagUtils.getTag(tag, snowId));
         }
         return tagList;
@@ -71,10 +72,10 @@ public class TagServiceImpl implements ITagService {
      * @Return
      */
     @Override
-    public List<Tag> findByTagName(String[] tags,Long userId) {
+    public List<Tag> findByTagName(String[] tags, Long userId) {
         List<Tag> tag_List = new ArrayList<>();
         for (String tagName : tags) {
-            tag_List.add(dao.findByTagName(tagName,userId));
+            tag_List.add(dao.findByTagName(tagName, userId));
         }
         return tag_List;
     }
@@ -83,4 +84,31 @@ public class TagServiceImpl implements ITagService {
     public List<Tag> findTagByUserId(Long userId) {
         return dao.findTagByUserId(userId);
     }
+
+
+    @Override
+    public List<Tag> getTagList(String[] newTag, String[] tags, Long userId) {
+        List<Tag> tagList = null;
+        // 如果旧标签数组不为空
+        if (!Objects.isNull(tags)) {
+            // 找不到这个旧表签
+            tagList = findByTagName(tags, userId);
+            if (tagList.contains(null)) {
+                //当成新标签插入
+                tagList = saveTags(tags, userId);
+            }
+            if (!Objects.isNull(newTag)) {
+                // 插入新标签
+                tagList.addAll(saveTags(newTag, userId));
+            }
+            //    否则直接插入新标签
+        } else {
+            if (!Objects.isNull(newTag)) {
+                tagList = saveTags(newTag, userId);
+            }
+        }
+        return tagList;
+    }
+
+
 }

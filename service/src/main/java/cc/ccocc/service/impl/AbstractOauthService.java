@@ -21,22 +21,23 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created on 11:19  21/01/2020
  * Description:
+ * 第三方登陆操作基类
  *
  * @author Weleness
  */
 
-public abstract class AbstructOauthService implements IOauthService {
+public abstract class AbstractOauthService implements IOauthService {
 
     // 第三方登陆用户标识
     public static final String OAUTH_COOKIE_KEY = "oauth-user";
     // 本地登录用户标识
     public static final String SIMPLE_COOKIE_KEY = "simple-user";
     // 第三方平台github标识
-    public static final String GITHUB_TYPE = "github";
+    static final String GITHUB_TYPE = "github";
     // 第三方平台 qq 标识
-    public static final String QQ_TYPE = "qq";
+    static final String QQ_TYPE = "qq";
     // 第三方平台登陆的默认密码
-    public static final  String DEFAULT_PASSWORD = "8761797!";
+    static final String DEFAULT_PASSWORD = "8761797!";
 
     @Autowired
     protected IOauthDao oauthDao;

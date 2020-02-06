@@ -1,7 +1,7 @@
 package cc.ccocc.webs.controller;
 
-import cc.ccocc.dto.ArticleDTO;
 import cc.ccocc.dto.ResultDTO;
+import cc.ccocc.dto.UploadImgDTO;
 import cc.ccocc.dto.UserDTO;
 import cc.ccocc.service.*;
 import cc.ccocc.utils.result.ResultCode;
@@ -9,8 +9,8 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import static cc.ccocc.service.impl.AbstructOauthService.*;
+import static cc.ccocc.service.impl.AbstractOauthService.*;
 
 /**
  * Created on 10:29  21/01/2020
@@ -51,6 +51,10 @@ public class CommonApiController {
     @Qualifier("articleService")
     private IArticleService articleService;
 
+    @Autowired
+    @Qualifier("uploadArticleImgService")
+    private IUploadImg uploadArticleImg;
+
     private final Long timeOut = 120L;
 
 
@@ -67,6 +71,7 @@ public class CommonApiController {
     }
 
     /**
+     * @param username 用户名
      * @Method Description:
      * 检查用户名是否重复注册
      * @Author weleness
@@ -82,6 +87,7 @@ public class CommonApiController {
     }
 
     /**
+     * @param email 用户邮箱
      * @Method Description:
      * 检查邮箱是否重复注册
      * @Author weleness
@@ -98,6 +104,7 @@ public class CommonApiController {
     }
 
     /**
+     * @param request HttpServletRequest
      * @Method Description:
      * 检查用户是否登陆
      * @Author weleness
@@ -118,6 +125,7 @@ public class CommonApiController {
     }
 
     /**
+     * @param email 用户邮箱
      * @Method Description:
      * 根据邮箱发送验证码
      * @Author weleness
@@ -132,6 +140,14 @@ public class CommonApiController {
         return verifyCodeEmailService.sendEmailWithVerifyCode(email, timeOut);
     }
 
+    /**
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @Method Description:
+     * 退出方法
+     * @Author weleness
+     * @Return
+     */
     @RequestMapping("/exit/userExit")
     @ResponseBody
     public ResultDTO exit(HttpServletRequest request, HttpServletResponse response) {
@@ -145,11 +161,70 @@ public class CommonApiController {
         return result;
     }
 
+    /**
+     * @param articleId 文章主键
+     * @Method
+     * Description:
+     *  文章访问量统计接口
+     * @Author weleness
+     *
+     * @Return
+     */
     @ResponseBody
     @RequestMapping("/article/visitorComing")
     public ResultDTO addArticleViewStatistics(@RequestParam("articleId") String articleId) {
         return articleService.addArticleViewStatistics(Long.parseLong(articleId));
     }
 
+
+    /* 考虑到解耦的关系，一个接口只能对应一个方法，一个接口只能处理一个请求，所以，要分开成两个接口
+     *   即一个上传图片接口和一个上传用户头像的接口
+     * */
+
+    /**
+     * @param file 文章上传图片的数据
+     * @param request HttpServletRequest
+     * @Method Description:
+     * 写文章的时候上传图片的接口
+     * @Author weleness
+     * @Return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/uploadArticleImg", produces = "application/json;charset=utf-8")
+    public UploadImgDTO uploadImg(@RequestParam(value = "editormd-image-file") MultipartFile file, HttpServletRequest request) {
+        UploadImgDTO uploadImgDTO = null;
+        Cookie userCookie = null;
+
+        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null && (request.getSession().getAttribute(userCookie.getValue())) != null) {
+            uploadImgDTO = uploadArticleImg.uploadArticleImage(file, request);
+        } else {
+            uploadImgDTO = UploadImgDTO.builder().message("请先登陆").success(0).url("").build();
+        }
+        return uploadImgDTO;
+    }
+
+    /**
+     * @param file 用户头像的数据
+     * @param request  HttpServletRequest
+     * @Method
+     * Description:
+     *  用户上传头像的接口
+     * @Author weleness
+     *
+     * @Return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/uploadUserImg", produces = "application/json;charset=utf-8")
+    public UploadImgDTO uploadImgDTO(@RequestParam("user_avatar") MultipartFile file, HttpServletRequest request) {
+        UploadImgDTO uploadImgDTO = null;
+        Cookie userCookie = null;
+        Long userId = null;
+        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null && (userId = (Long) request.getSession().getAttribute(userCookie.getValue())) != null) {
+            uploadImgDTO = uploadArticleImg.uploadUserImage(file, request, userId);
+        } else {
+            uploadImgDTO = UploadImgDTO.builder().message("请先登陆").success(0).url("").build();
+        }
+        return uploadImgDTO;
+    }
 
 }

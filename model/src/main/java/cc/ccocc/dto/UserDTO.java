@@ -47,7 +47,6 @@ public class UserDTO implements Serializable {
     //用户头像地址
     private String avatarUrl;
 
-
     //用户手机号
     private String phone;
 

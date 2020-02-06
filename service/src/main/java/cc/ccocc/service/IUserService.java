@@ -4,6 +4,7 @@ import cc.ccocc.dto.ResultDTO;
 import cc.ccocc.dto.UserDTO;
 import cc.ccocc.pojo.Oauth;
 import cc.ccocc.pojo.User;
+import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,14 @@ public interface IUserService  {
 
     public UserDTO findUserById(Long userID);
 
+    public User findUserByName(String userName);
 
+    public void findUserInfo(Model model,User user);
+
+    public ResultDTO savePersonalUpdate(Long userId ,String email,Short age,Boolean gender,String area,String phone,String description,String profession);
+
+    public Integer updateUserImage(String avatarUrl,Long userId);
+
+    public ResultDTO updateUserPassword(Long userId,String email,String verifyCode,String modifyPassword);
 
 }

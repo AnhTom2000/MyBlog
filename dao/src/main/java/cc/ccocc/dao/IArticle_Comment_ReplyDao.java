@@ -28,7 +28,7 @@ public interface IArticle_Comment_ReplyDao {
      */
     @Results(id = "reply_map", value = {
             @Result(id =  true , column = "comment_reply_id", property = "replyId",javaType = Integer.class),
-            @Result(column = "comment_reply_text",property = "replyContent"),
+            @Result(column = "comment_reply_text",property = "replyContent",javaType = String.class),
             @Result(column = "user_id",property = "user",javaType = User.class,one = @One(select = "cc.ccocc.dao.IUserDao.findUserById",fetchType = FetchType.LAZY)),
             @Result(column = "article_comment_id",property = "replyUser",javaType = User.class,one = @One(select = "cc.ccocc.dao.IUserDao.findUserByCommentId",fetchType = FetchType.LAZY)),
             @Result(column = "comment_reply_time",property = "replyTime",javaType = LocalDateTime.class)

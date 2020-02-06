@@ -2,25 +2,23 @@ package cc.ccocc.webs.controller;
 
 
 import cc.ccocc.dto.*;
-import cc.ccocc.pojo.Article;
-import cc.ccocc.pojo.Tag;
+import cc.ccocc.pojo.User;
 import cc.ccocc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.List;
-
-import static cc.ccocc.service.impl.AbstructOauthService.*;
+import static cc.ccocc.service.impl.AbstractOauthService.*;
 
 
 /**
@@ -59,9 +57,6 @@ public class JumpController {
     private IArticle_UserService article_userService;
 
     @Autowired
-    private ICommentService commentService;
-
-    @Autowired
     @Qualifier("allCountService")
     private IAllCountService allCountService;
 
@@ -70,47 +65,18 @@ public class JumpController {
     public void beforePage(Model model, HttpServletRequest request) {
         Cookie userCookie = null;
         UserDTO userDTO = null;
-        List<ArticleDTO> userArticle = null;
-        List<CommentDTO> newComment = null;
-        List<ArchiveDTO> archives = null;
-        List<Article> userNewArticle = null;
-        List<Tag> userTag = null;
         if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
             Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
-           if(userId != null){
-               userDTO = userService.findUserById(userId);
-               // 根据用户id去查用户的相关信息
-               userArticle =  articleService.findArticleByUserId(userId);
-               // 根据用户id去查属于用户的文章的评论
-               newComment = commentService.getNewsComment(userId);
-               // 根据用户的id去查属于用户的文章归档
-               archives = archiveService.findArchives(userId);
-                // 根据用户id查找对应的最新文章
-               userNewArticle = articleService.findArticleNewByUserId(userId);
-
-               userTag = tagService.findTagByUserId(userId);
-           }
+            if (userId != null) {
+                userDTO = userService.findUserById(userId);
+            }
         }
-        if (userDTO != null){
+        if (userDTO != null) {
             model.addAttribute("user", userDTO);
         }
-        if(userArticle!=null){
-            model.addAttribute("userArticles",userArticle);
-        }
-        if(newComment!= null){
-            model.addAttribute("newComments",newComment);
-        }
-        if(archives != null) {
-            model.addAttribute("archive_List", archives);
-        }
-        if(userNewArticle != null){
-            model.addAttribute("article_new_List",userArticle);
-        }
-        if(userTag != null){
-            model.addAttribute("user_tag",userTag);
-        }
+
         model.addAttribute("article_new_List", articleService.findAllArticleNew());
-        model.addAttribute("allCounts",allCountService.getAllCount());
+        model.addAttribute("allCounts", allCountService.getAllCount());
         model.addAttribute("tag_List", tagService.findAll());
         model.addAttribute("article_List", articleService.findAll());
         model.addAttribute("category_List", categoryService.findAll());
@@ -124,20 +90,17 @@ public class JumpController {
      */
     @RequestMapping("/")
     public String main(Model model) {
-
         return "location";
     }
 
     /**
-     * @Method
-     * Description:
-     *  用户完成信息完善，跳转到主页路由
+     * @Method Description:
+     * 用户完成信息完善，跳转到主页路由
      * @Author weleness
-     *
      * @Return
      */
     @RequestMapping("/complete")
-    public ModelAndView complete(){
+    public ModelAndView complete() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("redirect:/");
         return mv;
@@ -162,6 +125,11 @@ public class JumpController {
      */
     @RequestMapping("/markdown")
     public String markdown(Model model) {
+        UserDTO user = (UserDTO) model.getAttribute("user");
+        System.out.println(user);
+        if(user != null){
+            model.addAttribute("user_tag", tagService.findTagByUserId(user.getUserId()));
+        }else return "login";
         return "markdown";
     }
 
@@ -198,29 +166,110 @@ public class JumpController {
         return "register";
     }
 
-    @RequestMapping("/userSystem")
-    public String userSystem(){return "admin/userEdit";}
-
-    @RequestMapping("/userMain")
-    public String userMain(){return "user";}
-
+    @RequestMapping("/user/PersonalSystem/info")
+    public String userSystem() {
+        return "admin/userEdit";
+    }
 
 
     @RequestMapping("/article/{articleId}")
-    public String article(@PathVariable("articleId") String articleId,Model model,HttpServletRequest request){
-        UserDTO userDTO= null;
-        model.addAttribute("article_info",articleService.findArticleById(Long.parseLong(articleId)));
-        if((userDTO = (UserDTO) model.getAttribute("user"))!=null){
+    public String article(@PathVariable("articleId") String articleId, Model model, HttpServletRequest request) {
+        UserDTO userDTO = null;
+        model.addAttribute("article_info", articleService.findArticleById(Long.parseLong(articleId)));
+        if ((userDTO = (UserDTO) model.getAttribute("user")) != null) {
             ResultDTO resultDTO = article_userService.checkArticleIsLikeByUser(Long.parseLong(articleId), userDTO.getUserId());
             //如果用户点赞过这篇文章
-            if(resultDTO.isStatus()){
-                model.addAttribute("isLike","isLike");
-                model.addAttribute("heart","heart");
+            if (resultDTO.isStatus()) {
+                model.addAttribute("isLike", "isLike");
+                model.addAttribute("heart", "heart");
             }
         }
 
         return "article";
     }
+
+    /**
+     * @Method Description:
+     * 跳转到用户主页  用户的主页是公开的，通过用户名就能访问到
+     * @Author weleness
+     * @Return
+     */
+    @RequestMapping({"/user/showUser/{userName}", "/user/userMain/{userName}"})
+    public String showUser(@PathVariable("userName") String userName, Model model, HttpServletRequest request) {
+        User user = userService.findUserByName(userName);
+        if (user != null) {
+            UserDTO user1 = (UserDTO) model.getAttribute("user");
+            userService.findUserInfo(model, user);
+            if (user1 != null) {
+                if (!userName.equals(user1.getUserName())) {
+                    model.addAttribute("isVisitor", "yes");
+                }
+            } else {
+                model.addAttribute("isVisitor", "yes");
+            }
+
+        } else return "404";
+        return "user";
+    }
+
+    /**
+     * @Method
+     * Description:
+     *  用户个人中心的文章显示路由  个人主页是私有的，只能用户自己去访问
+     * @Author weleness
+     *
+     * @Return
+     */
+    @RequestMapping("/user/PersonalSystem/articleList")
+    public String articleList(Model model) {
+        UserDTO userDTO = null;
+        if((userDTO = (UserDTO) model.getAttribute("user"))!=null){
+            model.addAttribute("userArticleList",articleService.findArticleByUserId(userDTO.getUserId()));
+        }else return  "redirect: /login";
+        return "admin/articles";
+    }
+
+    /**
+     * @Method
+     * Description:
+     *  用户主页归档路由
+     * @Author weleness
+     *
+     * @Return
+     */
+    @RequestMapping("/user/PersonalSystem/archives")
+    public String article_archive(Model model){
+        UserDTO userDTO = null;
+        if((userDTO = (UserDTO) model.getAttribute("user"))!=null){
+            model.addAttribute("userArchiveList",archiveService.findArchives(userDTO.getUserId()));
+        }else return  "redirect: /login";
+        return "admin/article_archive";
+    }
+
+    @RequestMapping("/user/PersonalSystem/modifyPassword")
+    public String modifyPassword(Model model){
+        UserDTO userDTO = null;
+        if((userDTO = (UserDTO) model.getAttribute("user"))!=null){
+            model.addAttribute("userArchiveList",archiveService.findArchives(userDTO.getUserId()));
+        }else return  "redirect: /login";
+        return "admin/modifyPassword";
+    }
+
+
+    @RequestMapping("/article/markdown_edit")
+    public String markdown_edit(Model model, @RequestParam("articleId")Long articleId , @RequestParam("authId")Long authId){
+        UserDTO userDTO = null;
+        if((userDTO = (UserDTO) model.getAttribute("user"))!=null){
+            if(authId.equals(userDTO.getUserId())){
+                model.addAttribute("authArticle",articleService.findArticleById(articleId));
+                model.addAttribute("user_tag", tagService.findTagByUserId(authId));
+            }else return "404";
+        }else return  "redirect: /login";
+
+        return "admin/markdown_edit";
+    }
+
+
 
 
 

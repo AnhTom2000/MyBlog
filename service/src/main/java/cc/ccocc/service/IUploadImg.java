@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletRequest;
  * @author Weleness
  */
 
-public interface IUploadArticleImg {
+public interface IUploadImg {
 
     UploadImgDTO uploadArticleImage(MultipartFile file, HttpServletRequest request);
+
+    UploadImgDTO uploadUserImage(MultipartFile file,HttpServletRequest request,Long userId);
+
 }
