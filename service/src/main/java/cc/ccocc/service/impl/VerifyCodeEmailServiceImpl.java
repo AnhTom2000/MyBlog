@@ -8,7 +8,6 @@ import cc.ccocc.utils.checkCode.CodeGenerator;
 import cc.ccocc.utils.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +49,6 @@ public class VerifyCodeEmailServiceImpl implements IVerifyCodeEmailService {
             // 将验证码放进缓存
             redisTemplate.opsForValue().set(email, verifyCode, timeOut, TimeUnit.SECONDS);
             emailService.sendTemplateEmail(email, verifyCode);
-            System.out.println("发送成功");
             return ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("验证码发送成功，请在邮箱查看").status(true).build();
         } catch (Exception e) {
             e.printStackTrace();

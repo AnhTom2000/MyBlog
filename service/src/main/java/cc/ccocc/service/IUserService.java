@@ -20,8 +20,6 @@ public interface IUserService  {
 
     public UserDTO findUserByOauth(Oauth oauth);
 
-    public ResultDTO doInformationComplete();
-
     public ResultDTO checkUserExsitByName(String username);
 
     public ResultDTO checkUserExsitByEmail(String email);
@@ -44,6 +42,15 @@ public interface IUserService  {
 
     public Integer updateUserImage(String avatarUrl,Long userId);
 
-    public ResultDTO updateUserPassword(Long userId,String email,String verifyCode,String modifyPassword);
+    public ResultDTO updateUserPassword(Long userId,String email,String verifyCode,String modifyPassword,HttpServletRequest request,HttpServletResponse response);
+
+    public Integer addUserArticleCount(Long userId);
+
+    public Integer devUserArticleCount(Long userId);
+
+    public User findUserByArticleId(Long articleId);
+
+    public User findUserByCommentId(Long commentId);
+
 
 }

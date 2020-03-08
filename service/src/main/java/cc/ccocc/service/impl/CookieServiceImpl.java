@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service("cookieService")
 public class CookieServiceImpl implements ICookieService {
 
-    private final Integer TIME_OUT = 432000;
+    private final Integer TIME_OUT = 172800000;
 
 
 

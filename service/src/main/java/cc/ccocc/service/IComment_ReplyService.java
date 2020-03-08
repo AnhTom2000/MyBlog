@@ -11,5 +11,5 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface IComment_ReplyService {
 
-    Boolean insertCommentReply(@Param("reply") Reply reply);
+    Integer insertCommentReply(@Param("reply") Reply reply);
 }

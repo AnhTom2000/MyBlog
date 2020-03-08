@@ -80,6 +80,19 @@ public class TagServiceImpl implements ITagService {
         return tag_List;
     }
 
+    /**
+     * @Method
+     * Description:
+     *  根据标签名称查询
+     * @Author weleness
+     *
+     * @Return
+     */
+    @Override
+    public List<Tag> searchTagByName(String tagName) {
+        return dao.findTagByName(tagName);
+    }
+
     @Override
     public List<Tag> findTagByUserId(Long userId) {
         return dao.findTagByUserId(userId);

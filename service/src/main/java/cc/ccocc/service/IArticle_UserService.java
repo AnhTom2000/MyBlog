@@ -1,10 +1,6 @@
 package cc.ccocc.service;
 
 import cc.ccocc.dto.ResultDTO;
-import cc.ccocc.pojo.Article;
-import cc.ccocc.pojo.User;
-
-import java.util.List;
 
 /**
  * Created on 05:25  25/01/2020

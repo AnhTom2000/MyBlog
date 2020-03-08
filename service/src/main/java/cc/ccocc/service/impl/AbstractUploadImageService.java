@@ -2,7 +2,6 @@ package cc.ccocc.service.impl;
 
 import cc.ccocc.dto.UploadImgDTO;
 import cc.ccocc.service.IUploadImg;
-import cc.ccocc.utils.idgenerater.SnowflakeIdGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 

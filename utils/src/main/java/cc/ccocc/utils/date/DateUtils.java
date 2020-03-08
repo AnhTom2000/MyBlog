@@ -2,6 +2,7 @@ package cc.ccocc.utils.date;
 
 import org.springframework.util.StringUtils;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -79,15 +80,15 @@ public class DateUtils {
      * 获取当前日期
      *
      * @param pattern 格式，默认格式yyyyMMdd
-     * @return 20190101
+     * @return 2019年-01
      */
     public static String getCurrentDay(String pattern) {
-        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime localDateTime = LocalDateTime.now(Clock.systemDefaultZone());
 
         if (StringUtils.isEmpty(pattern)) {
-            pattern = "yyyy-MM-dd";
+            pattern = "yyyy年-MM月";
         }
 
-        return format((Date) localDateTime2Date(localDateTime), pattern);
+        return format( localDateTime2Date(localDateTime), pattern);
     }
 }

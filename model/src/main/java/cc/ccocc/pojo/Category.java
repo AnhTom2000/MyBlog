@@ -22,7 +22,7 @@ import java.util.Objects;
 public class Category implements Serializable {
     private static final long serialVersionUID = 13521654784L;
     private  Integer categoryid; // 分类id
-    private  String categoryname; // 分类名称
+        private  String categoryname; // 分类名称
 
 
     @Override

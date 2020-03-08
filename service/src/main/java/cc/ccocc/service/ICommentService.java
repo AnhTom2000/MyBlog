@@ -3,31 +3,30 @@ package cc.ccocc.service;
 import cc.ccocc.dto.CommentDTO;
 import cc.ccocc.dto.ReplyDTO;
 import cc.ccocc.dto.ResultDTO;
-import cc.ccocc.pojo.Comment;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 /**
  * Created on 14:59  26/01/2020
  * Description:
- *  评论的服务接口
+ * 评论的服务接口
+ *
  * @author Weleness
  */
 @Repository
 public interface ICommentService {
 
-    public List<CommentDTO> findAllCommentByArticleId( Long articleId);
+    public List<CommentDTO> findAllCommentByArticleId(Long articleId);
 
-    public List<CommentDTO> insertArticleComment(String commentContent, String articleId, Long userId);
+    public List<CommentDTO> insertArticleComment(String commentContent, Long articleId, Long userId, Long authId);
 
-    public ReplyDTO insertArticle_Comment_Reply( String replyContent ,  String articleId,  String parentId,Long userId);
+    public ReplyDTO insertArticle_Comment_Reply(String replyContent, Long articleId, Long parentId, Long userId, Long authId);
 
-    public ResultDTO addCommentLike(String commentId,Long userId);
+    public ResultDTO addCommentLike(Long commentId, Long userId, Long authId, Long articleId, String articleTitle, String commentContent);
 
     public Integer getAllCommentCount();
 
-    public  List<CommentDTO> getNewsComment(Long userId);
+    public List<CommentDTO> getNewsComment(Long userId);
+
 }

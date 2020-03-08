@@ -3,10 +3,11 @@ package cc.ccocc.service.impl;
 import cc.ccocc.dao.IArticle_Comment_ReplyDao;
 import cc.ccocc.pojo.Reply;
 import cc.ccocc.service.IComment_ReplyService;
-import cc.ccocc.utils.idgenerater.IdGenerator;
-import cc.ccocc.utils.idgenerater.SnowflakeIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created on 15:03  26/01/2020
@@ -20,9 +21,10 @@ public class Comment_ReplyServiceImpl implements IComment_ReplyService {
     private IArticle_Comment_ReplyDao replyDao;
 
 
-
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public Boolean insertCommentReply(Reply reply) {
-        return replyDao.insertCommentReply(reply) > 0;
+    public Integer insertCommentReply(Reply reply) {
+        replyDao.insertCommentReply(reply);
+        return  reply.getReplyId();
     }
 }

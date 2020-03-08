@@ -71,6 +71,9 @@ public class UserDTO implements Serializable {
     //用户的文章数量
     private Integer articleCount;
 
+    // 用户标签数量
+    private Integer tagCount;
+
     //用户的读者数量
     private Integer followerCount;
 
@@ -97,6 +100,35 @@ public class UserDTO implements Serializable {
     private Boolean locked;
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDTO)) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return Objects.equals(userId, userDTO.userId) &&
+                Objects.equals(userName, userDTO.userName) &&
+                Objects.equals(avatarUrl, userDTO.avatarUrl) &&
+                Objects.equals(phone, userDTO.phone) &&
+                Objects.equals(email, userDTO.email) &&
+                Objects.equals(gender, userDTO.gender) &&
+                Objects.equals(age, userDTO.age) &&
+                Objects.equals(area, userDTO.area) &&
+                Objects.equals(profession, userDTO.profession) &&
+                Objects.equals(description, userDTO.description) &&
+                Objects.equals(articleCount, userDTO.articleCount) &&
+                Objects.equals(tagCount, userDTO.tagCount) &&
+                Objects.equals(followerCount, userDTO.followerCount) &&
+                Objects.equals(loginCount, userDTO.loginCount) &&
+                Objects.equals(lastLogin, userDTO.lastLogin) &&
+                Objects.equals(lastUpdate, userDTO.lastUpdate) &&
+                Objects.equals(createTime, userDTO.createTime) &&
+                Objects.equals(messageCount, userDTO.messageCount) &&
+                Objects.equals(oauthId, userDTO.oauthId) &&
+                Objects.equals(locked, userDTO.locked);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userName, avatarUrl, phone, email, gender, age, area, profession, description, articleCount, tagCount, followerCount, loginCount, lastLogin, lastUpdate, createTime, messageCount, oauthId, locked);
+    }
 }

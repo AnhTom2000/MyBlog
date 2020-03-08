@@ -19,4 +19,8 @@ public interface IArchiveService {
     void saveArchive(Archive archive,Long userId);
 
     Archive findArchiveByYear(String year);
+
+    void  addArchiveArticleCount(String year);
+
+    List<ArchiveDTO> findAllArchives();
 }

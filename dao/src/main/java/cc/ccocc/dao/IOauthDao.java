@@ -1,8 +1,10 @@
 package cc.ccocc.dao;
 
 import cc.ccocc.pojo.Oauth;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,5 +28,9 @@ public interface IOauthDao {
     @Insert("INSERT INTO tb_oauth(oauth_id,oauth_type,github_open_id,qq_open_id,wechat_open_id) " +
             "VALUES(#{oauth.oauthId},#{oauth.oauthType},#{oauth.githubOpenId},#{oauth.qqOpenId},#{oauth.weChatOpenId})")
     public Integer addOauth(@Param("oauth") Oauth oauth);
+
+    @Delete("DELETE FROM tb_oauth WHERE oauth_id = #{oauthId}")
+    public Integer deleteOauth(@Param("oauthId") Long oauthId);
+
 
 }

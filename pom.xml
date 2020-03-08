@@ -12,6 +12,8 @@
         <module>service</module>
         <module>webs</module>
         <module>utils</module>
+        <module>admin</module>
+        <module>adminService</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -36,6 +38,9 @@
         <cos.version>5.6.14</cos.version>
         <junit.version>4.12</junit.version>
         <cglib.version>3.3.0</cglib.version>
+        <ik.version>2012_u6</ik.version>
+        <lucene.version>4.7.2</lucene.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <!--版本统一管理-->
@@ -105,11 +110,32 @@
                 <artifactId>cos_api</artifactId>
                 <version>${cos.version}</version>
             </dependency>
+
+
             <!--mybatis整合Springboot-->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${spring.mybatis.boot.version}</version>
+            </dependency>
+
+            <!--引入ik分词器-->
+            <dependency>
+                <groupId>com.janeluo</groupId>
+                <artifactId>ikanalyzer</artifactId>
+                <version>${ik.version}</version>
+            </dependency>
+            <!-- ik高亮显示所需到jar包 -->
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-highlighter</artifactId>
+                <version>${lucene.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring.boot.version}</version>
             </dependency>
 
             <!--管理子模块-->
@@ -134,12 +160,22 @@
 
             <dependency>
                 <groupId>cc.ccocc</groupId>
+                <artifactId>adminService</artifactId>
+                <version>${modules.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cc.ccocc</groupId>
                 <artifactId>service</artifactId>
                 <version>${modules.version}</version>
             </dependency>
             <dependency>
                 <groupId>cc.ccocc</groupId>
                 <artifactId>webs</artifactId>
+                <version>${modules.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cc.ccocc</groupId>
+                <artifactId>admin</artifactId>
                 <version>${modules.version}</version>
             </dependency>
             <dependency>
@@ -152,6 +188,7 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
+
             <!--引入cglib-->
             <dependency>
                 <groupId>cglib</groupId>
@@ -170,7 +207,11 @@
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.9.4</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -180,6 +221,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <addResources>true</addResources>
+
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.springframework</groupId>
@@ -187,13 +233,10 @@
                         <version>1.2.8.RELEASE</version>
                     </dependency>
                 </dependencies>
-                <configuration>
-                    <!--fork    如果没有这个配置，整个热部署没有作用-->
-                    <fork>true</fork>
-                    <addResources>true</addResources>
-                </configuration>
+
             </plugin>
         </plugins>
+        <finalName>NoBug</finalName>
     </build>
 
 

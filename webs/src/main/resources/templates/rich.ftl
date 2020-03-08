@@ -13,10 +13,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--不要被百度转码-->
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
     <!-- 站点图标 -->
     <link rel="shortcut icon"
-          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/20170730104929_y5Fi2.thumb.700_0.jpeg">
+          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/img/logo/%E4%B8%8B%E8%BD%BD.png">
     <title>创作</title>
 
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/jQuery/jquery-3.4.1.min.js"></script>
@@ -80,12 +81,12 @@
                 <ul class="am-dropdown-content">
                     <li class="am-dropdown-header">选择方式</li>
                     <li class="am-divider"></li>
-                    <li class="am-active"><a href="main.html">首页</a></li>
+                    <li class="am-active"><a href="/">首页</a></li>
                     <li class="am-divider"></li>
                     <li class="am-divider"></li>
-                    <li><a href="archives.html">归档</a></li>
+                    <li><a href="/archives">归档</a></li>
                     <li class="am-divider"></li>
-                    <li><a href="write.html">Markdown编辑器</a></li>
+                    <li><a href="/markdown">Markdown编辑器</a></li>
                 </ul>
             </div>
         </div>
@@ -148,7 +149,7 @@
                 </div>
             </div>
             <div class="am-modal-bd  foot" style="margin-top: 30px;">
-                <button class="am-btn am-btn-default am-round " data-am-modal-close type="button" role="button">取消</button> <button class="am-btn am-btn-primary am-round" type="submit" role="button">发布</button>
+                <button class="am-btn am-btn-default am-round " data-am-modal-close type="button" role="button">取消</button> <button class="am-btn am-btn-primary am-round"  role="button" onclick="alert('暂时不支持富文本噢');return false;">发布</button>
             </div>
         </form>
 

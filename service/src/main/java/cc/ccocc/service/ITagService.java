@@ -1,7 +1,6 @@
 package cc.ccocc.service;
 
 import cc.ccocc.pojo.Tag;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,7 +22,10 @@ public interface ITagService {
 
     List<Tag> findByTagName(String[] tags,Long userId);
 
+    List<Tag> searchTagByName(String tagName);
+
     List<Tag> findTagByUserId(Long userId);
 
     List<Tag> getTagList(String[] newTag,String[] tags , Long userId);
+
 }

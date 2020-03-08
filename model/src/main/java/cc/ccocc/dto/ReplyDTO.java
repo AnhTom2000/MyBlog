@@ -1,14 +1,10 @@
 package cc.ccocc.dto;
 
-import cc.ccocc.pojo.Reply;
 import cc.ccocc.pojo.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
-
-import javax.jnlp.UnavailableServiceException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;

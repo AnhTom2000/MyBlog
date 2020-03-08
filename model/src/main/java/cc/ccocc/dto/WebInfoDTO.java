@@ -1,10 +1,12 @@
 package cc.ccocc.dto;
 
+import cc.ccocc.pojo.Link;
 import cc.ccocc.pojo.WebInfo;
 import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created on 12:57  18/01/2020
@@ -21,15 +23,43 @@ import java.util.List;
 @NoArgsConstructor
 public class WebInfoDTO implements Serializable {
 
-    private static final long serialVersionUID = -654654654L;
+    //网站信息ID
+    private Integer webInfoId;
 
-    public static final Integer SUCCESS_CODE = 1;
-    public static final Integer ERROR_CODE = -1;
+    //meta:description
+    private String description;
 
-    private Integer code;
-    private String msg;
+    //meta:keywords
+    private String keywords;
 
+    //备案信息
+    private String icpInfo;
 
+    //copyright信息
+    private String copyright;
 
+    //logo url
+    private String logoUrl;
 
+    // 友链
+    private List<Link> links;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WebInfoDTO)) return false;
+        WebInfoDTO that = (WebInfoDTO) o;
+        return Objects.equals(webInfoId, that.webInfoId) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(keywords, that.keywords) &&
+                Objects.equals(icpInfo, that.icpInfo) &&
+                Objects.equals(copyright, that.copyright) &&
+                Objects.equals(logoUrl, that.logoUrl) &&
+                Objects.equals(links, that.links);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(webInfoId, description, keywords, icpInfo, copyright, logoUrl, links);
+    }
 }

@@ -6,13 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!--font-family-->
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;subset=devanagari,latin-ext" rel="stylesheet">
 <#setting number_format="#">
     <!-- title of site -->
-    <title>Weleness | 完善信息</title>
+    <title>完善信息</title>
 
     <link rel="shortcut icon"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/20170730104929_y5Fi2.thumb.700_0.jpeg">
@@ -37,7 +39,12 @@
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/assets/css/responsive.css">
 
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/toastr.css">
+    <link rel="stylesheet" href="/static/css/NZ-Loading.min.css">
 
+    <link rel="stylesheet" href="/static/css/shCoreRDark.css">
+    <!-- 站点图标 -->
+    <link rel="shortcut icon"
+          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/img/logo/%E4%B8%8B%E8%BD%BD.png">
 </head>
 
 <body>
@@ -116,7 +123,11 @@
 
 <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
 
-<script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/userInfoComplete.js"></script>
+<script src="/static/js/NZ-Loading.min.js"></script>
+<script src="/static/js/shCore.js"></script>
+<script src="/static/js/shBrushJScript.js"></script>
+
+<script src="/static/js/userInfoComplete.js"></script>
 </body>
 
 </html>

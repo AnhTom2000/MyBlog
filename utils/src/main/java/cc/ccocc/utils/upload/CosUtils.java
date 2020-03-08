@@ -11,6 +11,7 @@ import com.qcloud.cos.region.Region;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created on 21:30  05/02/2020
@@ -46,17 +47,19 @@ public class CosUtils {
         //存储桶名称，格式：BucketName-APPID
         String bucket = "weleness-1300955279";
 
-        File targetFile = new File(filePath, fileName);
-        //如果目标文件夹不存在，则创建
-        if (!targetFile.exists()) {
-            targetFile.getParentFile().mkdirs();
+        File fileDir = new File(filePath);
+        if(!fileDir.exists()){
+           fileDir.mkdirs();
         }
-        //保存文件
+
+        File targetFile = new File(fileDir.getAbsolutePath()+File.separator+fileName);
+
         try {
             file.transferTo(targetFile);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
         //上传对象
         String key = "cdn/Blog/img/" + type + "/" + fileName;
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, key, targetFile);

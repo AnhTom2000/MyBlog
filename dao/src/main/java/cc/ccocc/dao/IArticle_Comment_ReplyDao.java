@@ -45,5 +45,17 @@ public interface IArticle_Comment_ReplyDao {
      * @Return
      */
     @Insert("INSERT INTO tb_comment_reply(comment_reply_text,user_id,article_comment_id,comment_reply_time) VALUES(#{reply.replyContent},#{reply.user.userId},#{reply.commentId},#{reply.replyTime})")
-    Integer insertCommentReply(@Param("reply") Reply reply);
+    @Options(keyColumn = "comment_reply_text",keyProperty = "replyId",useGeneratedKeys = true,useCache = false)
+    void insertCommentReply(@Param("reply") Reply reply);
+
+    @ResultMap("reply_map")
+    @Select("SELECT comment_reply_id,comment_reply_text,user_id,article_comment_id,comment_reply_time FROM tb_comment_reply WHERE comment_reply_id = #{replyId}")
+    Reply findReplyById(@Param("replyId") Integer replyId);
+
+
+    @Delete("DELETE FROM tb_comment_reply WHERE user_id = #{userId}")
+    void deleteByUserId(@Param("userId")Long userId);
+
+    @Delete("DELETE FROM tb_comment_reply WHERE article_comment_id = #{commentId}")
+    public void deleteByCommentId(@Param("commentId") Long commentId);
 }

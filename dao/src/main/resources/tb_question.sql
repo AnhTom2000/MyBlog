@@ -1,0 +1,11 @@
+CREATE TABLE tb_question(
+question_id  BIGINT(20) UNSIGNED NOT NULL COMMENT '反馈主键',
+user_id  BIGINT(20) UNSIGNED NOT NULL COMMENT '反馈用户',
+question_title VARCHAR(255) NOT NULL  COMMENT '反馈标题',
+question_content VARCHAR (255) NOT NULL COMMENT '反馈内容',
+reply_content VARCHAR (255) NOT NULL DEFAULT '无' COMMENT '反馈回复',
+create_time TIMESTAMP NOT NULL COMMENT '消息创建时间',
+reply_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '回复时间',
+locked BIT NOT NULL COMMENT '是否审核',
+PRIMARY KEY (question_id)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT '反馈表'

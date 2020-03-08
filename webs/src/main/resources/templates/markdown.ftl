@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <!-- 跨域请求页面 -->
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <!-- 响应式meta标签 -->
@@ -13,26 +14,25 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--不要被百度转码-->
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
     <!-- 站点图标 -->
     <link rel="shortcut icon"
-          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/20170730104929_y5Fi2.thumb.700_0.jpeg">
+          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/img/logo/%E4%B8%8B%E8%BD%BD.png">
     <title>创作</title>
 <#setting number_format="#">
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/jQuery/jquery-3.4.1.min.js "></script>
-    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/editormd.js "></script>
+    <link rel="stylesheet"
+          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/editormd.min.css">
+
+    <#--<script src="/static/js/editormd.js "></script>-->
     <link rel="stylesheet"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/amazeUI/amazeui.min.css">
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/js/amazeUI/amazeui.min.js "></script>
     <link rel="stylesheet"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/editormd.preview.css">
-    <link rel="stylesheet"
-          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/editormd.min.css">
-
 
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/mark.css">
-    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/markdown.js"></script>
-    <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/write.js"></script>
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/jquery.tagsinput.js "></script>
 
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/jquery.tagsinput.css">
@@ -40,6 +40,10 @@
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/toastr.css">
 
     <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
+
+    <script src="/static/js/editormd.min.js"></script>
+    <script src="/static/js/markdown.js"></script>
+    <script src="/static/js/write%20(1).js"></script>
 </head>
 
 <body>

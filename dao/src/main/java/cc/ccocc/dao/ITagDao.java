@@ -52,11 +52,10 @@ public interface ITagDao {
      *
      */
     @ResultMap("tag_map")
-    @Select("SELECT tag_id,tag_name FROM tb_tag")
+    @Select("SELECT tag_id,tag_name FROM tb_tag INNER JOIN (SELECT tag_id FROM tb_tag WHERE (tag_id >= (SELECT COUNT(tag_id) - 20 FROM tb_tag)) LIMIT 20)t_tag USING (tag_id)")
     List<Tag> findAll();
 
 /**
- * @Method
  * Description:
  *  保存标签
  * @Author weleness
@@ -76,11 +75,23 @@ public interface ITagDao {
      * @Return
      * @param tagName 标签名称
      */
-    @Select("SELECT tag_id,tag_name,user_id FROM tb_tag WHERE tag_name = #{tagName} AND user_id = #{userId} limit 0,1")
+    @Select("SELECT tag_id,tag_name,user_id FROM tb_tag WHERE tag_name = #{tagName} AND user_id = #{userId} ")
     @ResultMap("tag_map")
     Tag findByTagName(@Param("tagName") String tagName,@Param("userId") Long userId);
 
+    @ResultMap("tag_map")
+    @Select("SELECT tag_id FROM tb_tag WHERE tag_name = #{tagName}")
+    List<Tag>  findTagByName(@Param("tagName") String tagName);
 
     @Select("SELECT tag_id,tag_name,user_id FROM tb_tag WHERE user_id = #{userId} ")
     List<Tag> findTagByUserId(@Param("userId") Long userId);
+
+    @Select("SELECT COUNT(*) FROM tb_tag WHERE user_id = #{userId}")
+    Integer findTagCountByUserId(@Param("userId") Long userId);
+
+    @Delete("DELETE FROM tb_tag WHERE user_id = #{userId}")
+    Integer deleteTagByUser(@Param("userId") Long userId);
+
+
+
 }

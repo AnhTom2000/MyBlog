@@ -26,7 +26,11 @@ public class UploadImgImpl extends AbstractUploadImageService {
 
     @Override
     public UploadImgDTO uploadArticleImage(MultipartFile file, HttpServletRequest request) {
-        return UploadImgDTO.builder().success(1).message("上传成功").url(UploadUtils.comcatURL(CosUtils.uploadCos(file, FILEPATH_ARTICLE, ARTICLE_TYPE), ARTICLE_TYPE)).build();
+        try {
+            return UploadImgDTO.builder().success(1).message("上传成功").url(UploadUtils.comcatURL(CosUtils.uploadCos(file, FILEPATH_ARTICLE, ARTICLE_TYPE), ARTICLE_TYPE)).build();
+        } catch (Exception e) {
+           return UploadImgDTO.builder().success(0).message("上传失败").url("").build();
+        }
     }
 
     @Override

@@ -6,6 +6,9 @@ import cc.ccocc.service.IUser_CommentService;
 import cc.ccocc.utils.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created on 15:04  26/01/2020
@@ -26,6 +29,7 @@ public class User_CommentServiceImpl implements IUser_CommentService {
      * @Author weleness
      * @Return
      */
+
     @Override
     public ResultDTO checkCommentIsLikeByOneUser(Long commentId,Long user_Id) {
         Long userId = user_commentDao.checkCommentIsLikeByOneUser(commentId,user_Id);
@@ -43,6 +47,7 @@ public class User_CommentServiceImpl implements IUser_CommentService {
      * @Author weleness
      * @Return
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
     public ResultDTO addCommentLike(Long commentId, Long userId) {
         if (user_commentDao.addCommentLike(commentId, userId) > 0) {

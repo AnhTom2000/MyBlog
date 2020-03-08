@@ -1,16 +1,14 @@
 package cc.ccocc.webs.controller;
 
+import cc.ccocc.annotation.Action;
+import cc.ccocc.annotation.BeforeSth;
 import cc.ccocc.dto.ResultDTO;
-import cc.ccocc.dto.UserDTO;
-import cc.ccocc.pojo.User;
 import cc.ccocc.service.*;
 import cc.ccocc.utils.result.ResultCode;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -39,7 +38,12 @@ public class UserController {
     private IUserService userService;
 
     @Autowired
+    @Qualifier("cookieService")
     private ICookieService cookieService;
+
+    @Autowired
+    @Qualifier("questionService")
+    private IQuestionService questionService;
 
     /**
      * @Method Description:
@@ -47,6 +51,7 @@ public class UserController {
      * @Author weleness
      * @Return
      */
+    @Action("modifyPassword")
     @ResponseBody
     @RequestMapping("/modify/password")
     public ResultDTO modifyUserPassword(
@@ -54,28 +59,15 @@ public class UserController {
             @RequestParam("modifyPassword") String modifyPassword,
 
             @Length(max = 50, message = "邮箱长度不能超过50")
-            @Email(message = "邮箱格式不正确")
+            @Email(regexp = "/^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$/", message = "邮箱格式不正确")
             @NotBlank(message = "邮箱不能为空")
             @RequestParam("email") String email,
 
             @Pattern(regexp = "^\\d{6}$", message = "验证码不正确")
             @NotBlank(message = "验证码不能为空")
             @RequestParam("verificationCode") String verificationCode,
-            HttpServletRequest request,
-
-            HttpServletResponse response
-    ) {
-        ResultDTO result = null;
-        Cookie userCookie = null;
-        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
-            Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
-            if (userId != null) {
-                result =   userService.updateUserPassword(userId,email,verificationCode,modifyPassword);
-            } else {
-                result = new ResultDTO(ResultCode.CLIENT_ERROR_CODE.getCode(), "请先登陆", false);
-            }
-        }
-        return result;
+            HttpServletRequest request, HttpSession session,HttpServletResponse response) {
+        return userService.updateUserPassword((Long) session.getAttribute(cookieService.getCookie(SIMPLE_COOKIE_KEY, request).getValue()), email, verificationCode, modifyPassword,request,response);
     }
 
     /**
@@ -92,6 +84,7 @@ public class UserController {
      * @Author weleness
      * @Return
      */
+    @Action("personalUpdate")
     @ResponseBody
     @RequestMapping("/modify/savePersonalUpdate")
     public ResultDTO savePersonalUpdate(
@@ -102,7 +95,7 @@ public class UserController {
             @RequestParam("gender") boolean gender,
 
             @Length(max = 50, message = "邮箱不能超过50位")
-            @Email(message = "邮箱格式不正确")
+            @Email(regexp = "/^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$/", message = "邮箱格式不正确")
             @NotBlank(message = "邮箱不能为空")
             @RequestParam("email") String email,
 
@@ -117,19 +110,16 @@ public class UserController {
             @RequestParam("profession") String profession,
 
             @NotBlank(message = "个人简介不能为空")
-            @RequestParam("description") String description, HttpServletRequest request) {
-        ResultDTO result = null;
-        Cookie userCookie = null;
-        if ((userCookie = cookieService.getCookie(SIMPLE_COOKIE_KEY, request)) != null) {
-            Long userId = (Long) request.getSession().getAttribute(userCookie.getValue());
-            if (userId != null) {
-                result = userService.savePersonalUpdate(userId, email, age, gender, area, phone, description, profession);
-            } else {
-                result = new ResultDTO(ResultCode.CLIENT_ERROR_CODE.getCode(), "请先登陆", false);
-            }
-        }
-        return result;
+            @RequestParam("description") String description, HttpServletRequest request, HttpSession session) {
+
+        return userService.savePersonalUpdate((Long) session.getAttribute(cookieService.getCookie(SIMPLE_COOKIE_KEY, request).getValue()), email, age, gender, area, phone, description, profession);
     }
 
+    @BeforeSth
+    @ResponseBody
+    @RequestMapping("/question/submitFeedback")
+    public ResultDTO feedback(@RequestParam("feedBackTitle") String feedBackTitle, @RequestParam("feedBackContent") String feedBackContent, HttpServletRequest request,HttpSession session) {
+        return questionService.addQuestion((Long) session.getAttribute(cookieService.getCookie(SIMPLE_COOKIE_KEY,request).getValue()), feedBackTitle, feedBackContent);
+    }
 
 }

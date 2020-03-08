@@ -37,12 +37,15 @@ public class ArticleDTO implements Serializable {
     private Long a_id;
     //文章标题
     private String a_Title;
+    //文章归档ID
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long archiveId;
     // 用户id
     private User user;
     //文章内容
     private String a_text;
     //是否是markdown写的
-    private boolean markdown;
+    private Boolean markdown;
     //文章发布时间
     private LocalDateTime a_createTime;
     //文章最后一次修改时间
@@ -53,36 +56,34 @@ public class ArticleDTO implements Serializable {
     private Integer a_viewNums;
     //观看人数
     private Integer a_likeNums;
-
-    //文章所属年份
-    private String a_year;   // mysql 的时间函数 除了 DATE（）  其他都返回LONG类型  这里可以直接用String接收
-    //文章所属月份
-    private String a_month;
     // 文章类别
     private Category category;
+    // 文章是否审核通过
+    private Boolean checked;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ArticleDTO)) return false;
         ArticleDTO that = (ArticleDTO) o;
-        return markdown == that.markdown &&
-                Objects.equals(a_id, that.a_id) &&
+        return Objects.equals(a_id, that.a_id) &&
                 Objects.equals(a_Title, that.a_Title) &&
+                Objects.equals(archiveId, that.archiveId) &&
                 Objects.equals(user, that.user) &&
                 Objects.equals(a_text, that.a_text) &&
+                Objects.equals(markdown, that.markdown) &&
                 Objects.equals(a_createTime, that.a_createTime) &&
                 Objects.equals(a_last_update, that.a_last_update) &&
                 Objects.equals(tags, that.tags) &&
                 Objects.equals(a_viewNums, that.a_viewNums) &&
                 Objects.equals(a_likeNums, that.a_likeNums) &&
-                Objects.equals(a_year, that.a_year) &&
-                Objects.equals(a_month, that.a_month) &&
-                Objects.equals(category, that.category);
+                Objects.equals(category, that.category) &&
+                Objects.equals(checked, that.checked);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(a_id, a_Title, user, a_text, markdown, a_createTime, a_last_update, tags, a_viewNums, a_likeNums, a_year, a_month, category);
+        return Objects.hash(a_id, a_Title, archiveId, user, a_text, markdown, a_createTime, a_last_update, tags, a_viewNums, a_likeNums, category, checked);
     }
 }

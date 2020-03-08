@@ -9,10 +9,7 @@ import cc.ccocc.pojo.Article;
 import cc.ccocc.pojo.Comment;
 import cc.ccocc.pojo.Reply;
 import cc.ccocc.pojo.User;
-import cc.ccocc.service.ICommentService;
-import cc.ccocc.service.IComment_ReplyService;
-import cc.ccocc.service.IUserService;
-import cc.ccocc.service.IUser_CommentService;
+import cc.ccocc.service.*;
 import cc.ccocc.utils.idgenerater.IdGenerator;
 import cc.ccocc.utils.idgenerater.SnowflakeIdGenerator;
 import cc.ccocc.utils.result.ResultCode;
@@ -20,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
@@ -49,9 +48,19 @@ public class CommentServiceImpl implements ICommentService {
     @Qualifier("comment_ReplyService")
     private IComment_ReplyService comment_replyService;
 
+
+
     @Autowired
     @Qualifier("user_commentService")
     private IUser_CommentService user_commentService;
+
+    @Autowired
+    @Qualifier("article_likeNotice")
+    private IArticle_LikeNotificationService article_likeNotificationService;
+
+    @Autowired
+    @Qualifier("article_commentNotice")
+    private IArticle_CommentNotificationService article_commentNotificationService;
 
     private static final IdGenerator COMMENT_ID_GENERATOR = SnowflakeIdGenerator.getInstance();
 
@@ -88,12 +97,26 @@ public class CommentServiceImpl implements ICommentService {
      * @Author weleness
      * @Return 评论的信息，包含用户以及评论内容
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public List<CommentDTO> insertArticleComment(String commentContent, String articleId, Long userId) {
-        LocalDateTime now = LocalDateTime.now(Clock.systemDefaultZone());
-        Comment comment = Comment.builder().commentId(COMMENT_ID_GENERATOR.generateId()).comment_like_count(0).article(Article.builder().a_id(Long.parseLong(articleId)).build()).commentContent(commentContent).user(User.builder().userId(userId).build()).commentTime(now).build();
-        if (commentDao.insertArticleComment(comment) > 0) {
-            return findAllCommentByArticleId(Long.parseLong(articleId));
+    public List<CommentDTO> insertArticleComment(String commentContent, Long articleId, Long userId, Long authId) {
+        try {
+            LocalDateTime now = LocalDateTime.now(Clock.systemDefaultZone());
+
+            Comment comment = Comment.builder().commentId(COMMENT_ID_GENERATOR.generateId()).
+                    comment_like_count(0).article(Article.builder().
+                    a_id(articleId).build()).commentContent(commentContent).
+                    user(User.builder().userId(userId).build()).
+                    commentTime(now).build();
+
+            if (commentDao.insertArticleComment(comment) > 0) {
+
+                article_commentNotificationService.addArticle_CommentNotification(userId,authId,articleId,comment.getCommentId(),"评论",commentContent);
+                System.out.println();
+                return findAllCommentByArticleId(articleId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -107,31 +130,51 @@ public class CommentServiceImpl implements ICommentService {
      * @Author weleness
      * @Return
      */
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public ReplyDTO insertArticle_Comment_Reply(String replyContent, String articleId, String parentId, Long userId) {
-        LocalDateTime now = LocalDateTime.now(Clock.systemDefaultZone());
-        User user = new User();
-        BeanCopier beanCopier1 = BeanCopier.create(UserDTO.class, User.class, false);
-        beanCopier1.copy(userService.findUserById(userId), user, null);
-        Reply reply = Reply.builder().articleId(Long.parseLong(articleId)).commentId(Long.parseLong(parentId)).replyContent(replyContent).user(user).replyTime(now).build();
-        ReplyDTO replyDTO = new ReplyDTO();
-        if (comment_replyService.insertCommentReply(reply)) {
-            BeanCopier beanCopier = BeanCopier.create(Reply.class, ReplyDTO.class, false);
-            beanCopier.copy(reply, replyDTO, null);
-        }
-        return replyDTO;
+    public ReplyDTO insertArticle_Comment_Reply(String replyContent, Long articleId, Long parentId, Long userId, Long authId) {
+        if(userId!=null) {
+            LocalDateTime now = LocalDateTime.now(Clock.systemDefaultZone());
+            User user = new User();
+            BeanCopier beanCopier1 = BeanCopier.create(UserDTO.class, User.class, false);
+            beanCopier1.copy(userService.findUserById(userId), user, null);
+
+            Reply reply = Reply.builder().articleId(articleId).commentId(parentId).replyContent(replyContent).user(user).replyTime(now).build();
+            ReplyDTO replyDTO = new ReplyDTO();
+            if (comment_replyService.insertCommentReply(reply) > 0) {
+                article_commentNotificationService.addComment_ReplyNotification(userId, authId, articleId, reply.getReplyId(), "回复", replyContent);
+                BeanCopier beanCopier = BeanCopier.create(Reply.class, ReplyDTO.class, false);
+                beanCopier.copy(reply, replyDTO, null);
+            }
+            return replyDTO;
+        }else return ReplyDTO.builder().build();
     }
 
+    /**
+     * @param commentId  评论id
+     * @param userId  用户id
+     * @Method
+     * Description:
+     *  评论点赞
+     * @Author weleness
+     *
+     * @Return
+     */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public ResultDTO addCommentLike(String commentId, Long userId) {
+    public ResultDTO addCommentLike(Long commentId, Long userId,Long authId,Long articleId,String articleTitle,String commentContent) {
         //如果已经点赞过了
-        if (user_commentService.checkCommentIsLikeByOneUser(Long.parseLong(commentId), userId).isStatus()) {
+        if (user_commentService.checkCommentIsLikeByOneUser(commentId, userId).isStatus()) {
             return new ResultDTO(ResultCode.OK_CODE.getCode(), "已经点赞过了，不能在点赞了", true);
         }
-        commentDao.addCommentLike(Long.parseLong(commentId));
-        user_commentService.addCommentLike(Long.parseLong(commentId), userId);
-        return new ResultDTO(ResultCode.OK_CODE.getCode(), "点赞成功", false);
+        // 添加评论点赞信息
+        commentDao.addCommentLike(commentId);
+        // 添加到中间表
+        user_commentService.addCommentLike(commentId, userId);
+        // 添加评论点赞消息
+        article_likeNotificationService.addCommentLikeNotificaton(userId,authId,articleId,articleTitle,commentContent,"评论");
+
+        return new ResultDTO(ResultCode.OK_CODE.getCode(), "点赞成功", true);
     }
 
     @Override

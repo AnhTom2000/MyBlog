@@ -1,6 +1,7 @@
 package cc.ccocc.dao;
 
 import cc.ccocc.pojo.User;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -37,4 +38,10 @@ public interface IUser_CommentDao {
      */
     @Insert("INSERT INTO tb_user_comment_like_middle(article_comment_id,user_id) VALUES(#{commentId},#{userId})")
     public Integer addCommentLike(@Param("commentId") Long commentId , @Param("userId") Long userId);
+
+    @Delete("DELETE FROM tb_user_comment_like_middle WHERE user_id = #{userId}")
+    public void deleteByUser(@Param("userId") Long userId);
+
+    @Delete("DELETE FROM tb_user_comment_like_middle WHERE article_comment_id = #{commentId}")
+    public void deleteByCommentId(@Param("commentId") Long commentId);
 }

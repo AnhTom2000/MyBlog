@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
@@ -69,12 +70,15 @@ public class UserServiceImpl implements IUserService {
     private ICommentService commentService;
 
     @Autowired
+    @Qualifier("archiveService")
     private IArchiveService archiveService;
 
     @Autowired
+    @Qualifier("tagService")
     private ITagService tagService;
 
     @Autowired
+    @Qualifier("articleService")
     private IArticleService articleService;
 
     /**
@@ -87,15 +91,19 @@ public class UserServiceImpl implements IUserService {
     @SuppressWarnings("有需要改进的地方")
     @Override
     public UserDTO findUserByOauth(Oauth oauth) {
-        UserDTO userInfo = new UserDTO();
+        UserDTO userInfo = null;
         // 创建cglib提供的beanCopier   第一个参数是被转换对象  第二个是转换对象  第三个是是否使用转换器
         BeanCopier beanCopier = BeanCopier.create(User.class, UserDTO.class, false);
         switch (oauth.getOauthType()) {
             case GITHUB_TYPE:
+                // 查找用户是否使用第三方账号登陆过
                 User user = userDao.findUserByGitHubOpenId(oauth.getGithubOpenId());
                 //转换对象
                 if (user != null) {
+                    userInfo = new UserDTO();
                     beanCopier.copy(user, userInfo, null);
+                    userDao.updateUserLastLogin(user.getUserId(), LocalDateTime.now(Clock.systemDefaultZone()));
+                    userDao.updateUserLoginCount(user.getUserId());
                 }
                 break;
             case QQ_TYPE:
@@ -104,10 +112,6 @@ public class UserServiceImpl implements IUserService {
         return userInfo;
     }
 
-    @Override
-    public ResultDTO doInformationComplete() {
-        return null;
-    }
 
     /**
      * @param username 用户名
@@ -139,7 +143,7 @@ public class UserServiceImpl implements IUserService {
     public ResultDTO checkUserExsitByEmail(String email) {
         ResultDTO result = null;
         if (email == null) {
-            result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("邮箱不能为空").status(false).build();
+            result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("邮箱不能为空").status(false).build();
         } else {
             if (userDao.findUserByEmail(email) != null) {
                 result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("邮箱已经被注册，请输入新的邮箱").status(false).build();
@@ -175,6 +179,7 @@ public class UserServiceImpl implements IUserService {
                         // 产生一个新的cookie
                         Cookie cookie = cookieService.generateCookie(SIMPLE_COOKIE_KEY);
                         request.getSession().setAttribute(cookie.getValue(), oauth.getUser().getUserId());
+                       request.getSession().setMaxInactiveInterval(127800000);
                         response.addCookie(cookie);
                     } else {
                         result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("注册失败，请重试").status(false).build();
@@ -226,24 +231,34 @@ public class UserServiceImpl implements IUserService {
      * @Author weleness
      * @Return
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
     public ResultDTO login(String name, String password, HttpServletRequest request, HttpServletResponse response) {
         User user = userDao.findUserByName(name.trim());
         ResultDTO result = null;
         if (user != null) {
-            //如果密码正确
-            if (MD5Utils.verify(password, user.getPassword())) {
-                // 为用户生成一个cookie
-                Cookie cookie = cookieService.generateCookie(SIMPLE_COOKIE_KEY);
-                //添加进session ， key 是 cookie的值，value 是 用户丶id
-                request.getSession().setAttribute(cookie.getValue(), user.getUserId());
-                // 存进响应
-                response.addCookie(cookie);
-                result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("密码正确").status(true).build();
+            if (!user.getLocked()) {
+                //如果密码正确
+                if (MD5Utils.verify(password, user.getPassword())) {
+                    // 用户登陆次数+1
+                    userDao.updateUserLoginCount(user.getUserId());
+                    // 修改用户最后一次登陆的时间
+                    userDao.updateUserLastLogin(user.getUserId(), LocalDateTime.now(Clock.systemDefaultZone()));
+                    // 为用户生成一个cookie
+                    Cookie cookie = cookieService.generateCookie(SIMPLE_COOKIE_KEY);
+                    //添加进session ， key 是 cookie的值，value 是 用户丶id
+                    HttpSession session = request.getSession();
+                    session.setAttribute(cookie.getValue(), user.getUserId());
+                    session.setMaxInactiveInterval(172800000);
+                    // 存进响应
+                    response.addCookie(cookie);
+                    result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("密码正确").status(true).build();
+                } else {
+                    result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("密码错误").status(false).build();
+                }
             } else {
-                result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("密码错误").status(false).build();
+                result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("账号已被锁定，不可以登陆").status(false).build();
             }
-
         } else
             result = ResultDTO.builder().code(ResultCode.CLIENT_ERROR_CODE.getCode()).message("用户不存在").status(false).build();
         return result;
@@ -271,16 +286,28 @@ public class UserServiceImpl implements IUserService {
                     lastUpdate(now).lastUpdate(now).lastLogin(now).createTime(now).gender(true)
                     .userId(userId).locked(false).build();
             userDao.addDefaultUser(user);
+
+            cookieService.removeCookie(cookieService.getCookie(SIMPLE_COOKIE_KEY, request), response);
+
             // 为用户生成一个cookie
             Cookie cookie = cookieService.generateCookie(SIMPLE_COOKIE_KEY);
             //添加进session ， key 是 cookie的值，value 是 用户丶id
-            request.getSession().setAttribute(cookie.getValue(), user.getUserId());
+            HttpSession session = request.getSession();
+            session.setAttribute(cookie.getValue(), user.getUserId());
+            session.setMaxInactiveInterval(172800000);
             // 存进响应
             response.addCookie(cookie);
         }
         return result;
     }
 
+    /**
+     * @param userID 用户id
+     * @Method Description:
+     * 根据用户id查找用户
+     * @Author weleness
+     * @Return
+     */
     @Override
     public UserDTO findUserById(Long userID) {
         UserDTO userDTO = new UserDTO();
@@ -294,19 +321,30 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
+    /**
+     * @Method Description:
+     * 根据用户名查找用户
+     * @Author weleness
+     * @Return
+     */
     @Override
     public User findUserByName(String userName) {
         return userDao.findUserByName(userName);
     }
 
+    /**
+     * @Method Description:
+     * 添加用户的所有信息
+     * @Author weleness
+     * @Return
+     */
     @Override
     public void findUserInfo(Model model, User user) {
-        model.addAttribute("user", user);
-        model.addAttribute("userArticles", articleService.findArticleByUserId(user.getUserId()));
+        model.addAttribute("author", user);
         model.addAttribute("newComments", commentService.getNewsComment(user.getUserId()));
         model.addAttribute("archive_List", archiveService.findArchives(user.getUserId()));
         model.addAttribute("article_new_List", articleService.findArticleNewByUserId(user.getUserId()));
-        model.addAttribute("user_tag", tagService.findTagByUserId(user.getUserId()));
+        //model.addAttribute("user_tag", tagService.findTagByUserId(user.getUserId()));
     }
 
     /**
@@ -360,12 +398,50 @@ public class UserServiceImpl implements IUserService {
      */
     @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
-    public ResultDTO updateUserPassword(Long userId, String email, String verifyCode, String modifyPassword) {
+    public ResultDTO updateUserPassword(Long userId, String email, String verifyCode, String modifyPassword, HttpServletRequest request, HttpServletResponse response) {
         ResultDTO result = null;
-        if(( result = verifyCodeEmailService.checkEmailVerifyCode(email, verifyCode)).isStatus() &&  userDao.personalPaswwordUpdate(userId,  MD5Utils.generate(modifyPassword)) > 0){
+        if ((result = verifyCodeEmailService.checkEmailVerifyCode(email, verifyCode)).isStatus() && userDao.personalPasswordUpdate(userId, MD5Utils.generate(modifyPassword)) > 0) {
+            System.out.println("e");
+            cookieService.removeCookie(cookieService.getCookie(SIMPLE_COOKIE_KEY, request), response);
             result = ResultDTO.builder().code(ResultCode.OK_CODE.getCode()).message("操作成功").status(true).build();
         }
         return result;
+    }
+
+    /**
+     * @param userId 用户主键
+     * @Method Description:
+     * 用户发布文章，文章数+1
+     * @Author weleness
+     * @Return
+     */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
+    @Override
+    public Integer addUserArticleCount(Long userId) {
+        return userDao.addUserArticleCount(userId);
+    }
+
+    /**
+     * @param userId 用户主键
+     * @Method Description:
+     * 用户删除文章，文章数减一
+     * @Author weleness
+     * @Return
+     */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
+    @Override
+    public Integer devUserArticleCount(Long userId) {
+        return userDao.devUserArticleCount(userId);
+    }
+
+    @Override
+    public User findUserByArticleId(Long articleId) {
+        return userDao.findUserByArticleId(articleId);
+    }
+
+    @Override
+    public User findUserByCommentId(Long commentId) {
+        return userDao.findUserByCommentId(commentId);
     }
 
 

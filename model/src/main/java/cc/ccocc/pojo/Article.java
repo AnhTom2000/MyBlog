@@ -38,8 +38,11 @@ public class Article implements Serializable {
     private User user;
     //文章内容
     private String a_text;
+    //文章归档ID
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long archiveId;
     //是否是markdown写的
-    private boolean markdown;
+    private Boolean markdown;
     //文章发布时间
     private LocalDateTime a_createTime;
     //文章最后一次修改时间
@@ -50,36 +53,32 @@ public class Article implements Serializable {
     private Integer a_viewNums;
     //观看人数
     private Integer a_likeNums;
-
-    //文章所属年份
-    private String a_year;   // mysql 的时间函数 除了 DATE（）  其他都返回LONG类型  这里可以直接用String接收
-    //文章所属月份
-    private String a_month;
     // 文章类别
     private Category category;
+    // 文章是否审核通过
+    Boolean checked;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Article)) return false;
         Article article = (Article) o;
-        return markdown == article.markdown &&
-                Objects.equals(a_id, article.a_id) &&
+        return Objects.equals(a_id, article.a_id) &&
                 Objects.equals(a_Title, article.a_Title) &&
                 Objects.equals(user, article.user) &&
                 Objects.equals(a_text, article.a_text) &&
+                Objects.equals(archiveId, article.archiveId) &&
+                Objects.equals(markdown, article.markdown) &&
                 Objects.equals(a_createTime, article.a_createTime) &&
                 Objects.equals(a_last_update, article.a_last_update) &&
                 Objects.equals(tags, article.tags) &&
                 Objects.equals(a_viewNums, article.a_viewNums) &&
                 Objects.equals(a_likeNums, article.a_likeNums) &&
-                Objects.equals(a_year, article.a_year) &&
-                Objects.equals(a_month, article.a_month) &&
                 Objects.equals(category, article.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(a_id, a_Title, user, a_text, markdown, a_createTime, a_last_update, tags, a_viewNums, a_likeNums, a_year, a_month, category);
+        return Objects.hash(a_id, a_Title, user, a_text, archiveId, markdown, a_createTime, a_last_update, tags, a_viewNums, a_likeNums, category);
     }
 }

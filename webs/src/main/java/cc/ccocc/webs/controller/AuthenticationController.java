@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,12 +50,15 @@ public class AuthenticationController {
     public ModelAndView githubOauthCallback(@RequestParam("code") String code, @RequestParam("state") String state, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView();
         // 如果用户在本平台登陆过了
-         if (!githubOAuthService.callback(state, code, request, response).isStatus()) {
-            // 否则完善信息
-            mv.setViewName("oauth_Information");
-        } else {
+        ResultDTO result = null;
+        if ((result = githubOAuthService.callback(state, code, request, response)).getCode() == 404) {
+            mv.setViewName("redirect:/login");
+        } else if (result.isStatus()) {
             // 直接跳转至主页
             mv.setViewName("redirect:/");
+        } else {
+            // 否则完善信息
+            mv.setViewName("oauth_Information");
         }
         return mv;
     }
@@ -77,7 +79,7 @@ public class AuthenticationController {
                                               @RequestParam("username") String username,
 
                                               @Length(max = 50, message = "邮箱格式不能超过五十位")
-                                              @Email(message = "邮箱格式不正确")
+                                              @Email(regexp = "/^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$/", message = "邮箱格式不正确")
                                               @NotBlank(message = "邮箱不能为空")
                                               @RequestParam("email") String email,
 
@@ -114,7 +116,7 @@ public class AuthenticationController {
                            HttpServletRequest request,
 
                            HttpServletResponse response) {
-        return userService.login(username, password,request,response);
+        return userService.login(username, password, request, response);
     }
 
     /**
@@ -137,7 +139,7 @@ public class AuthenticationController {
                               @RequestParam("password") String password,
 
                               @Length(max = 50, message = "邮箱不能超过50个字符")
-                              @Email(message = "邮箱格式不正确")
+                              @Email(regexp = "/^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$/", message = "邮箱格式不正确")
                               @NotBlank(message = "邮箱不能为空")
                               @RequestParam("email") String email,
 
@@ -146,7 +148,7 @@ public class AuthenticationController {
                               @RequestParam("verificationCode") String verificationCode,
                               HttpServletRequest request,
                               HttpServletResponse response) {
-        return userService.register(username, email, password, verificationCode,request,response);
+        return userService.register(username, email, password, verificationCode, request, response);
     }
 
 }

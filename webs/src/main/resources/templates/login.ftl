@@ -5,16 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="${webInfo.description}">
+    <meta name="keywords" content="${webInfo.keywords}">
     <!-- 响应式meta标签 -->
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;subset=devanagari,latin-ext" rel="stylesheet">
 
-    <title>Weleness | 登陆</title>
+    <title>登陆</title>
 <#setting number_format="#">
     <link rel="shortcut icon"
-          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/imgs/20170730104929_y5Fi2.thumb.700_0.jpeg">
+          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/img/logo/%E4%B8%8B%E8%BD%BD.png">
 
     <!--font-awesome.min.css-->
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/assets/css/font-awesome.min.css">
@@ -36,6 +40,12 @@
 
     <link rel="stylesheet" href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/css/toastr.css">
 
+    <link rel="stylesheet" href="/static/css/NZ-Loading.min.css">
+
+    <link rel="stylesheet" href="/static/css/shCoreRDark.css">
+    <!-- 站点图标 -->
+    <link rel="shortcut icon"
+          href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/img/logo/%E4%B8%8B%E8%BD%BD.png">
 </head>
 
 <body>
@@ -96,7 +106,7 @@
                                 </div>
                                 <div class="c3-2-1 col-md-12   text-center" style="margin-top: 20px;">
 											<span style="margin-right: 20px;display: inline-block">
-											<a href="" title="使用腾讯QQ登录" ><span
+											<a href="" title="使用腾讯QQ登录" onclick="alert('暂不支持qq登陆')" ><span
                                                     class="s1"><svg t="1578110514715" class="icon" viewBox="0 0 1024 1024"
                                                                     version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3965" width="30"
                                                                     height="30">
@@ -168,7 +178,11 @@
 
 <script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/toastr.min.js"></script>
 
-<script src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/js/login.js"></script>
+<script src="/static/js/NZ-Loading.min.js"></script>
+<script src="/static/js/shCore.js"></script>
+<script src="/static/js/shBrushJScript.js"></script>
+
+<script src="/static/js/login.js"></script>
 </body>
 
 </html>

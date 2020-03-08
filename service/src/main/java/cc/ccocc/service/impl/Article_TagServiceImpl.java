@@ -7,6 +7,9 @@ import cc.ccocc.service.IArticle_TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +34,7 @@ public class Article_TagServiceImpl implements IArticle_TagService {
      * @Author weleness
      * @Return
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
     public Integer saveInMiddle(Article article, List<Tag> tags) {
         Integer saveInMiddle = 0;
@@ -50,6 +54,7 @@ public class Article_TagServiceImpl implements IArticle_TagService {
      * @Author weleness
      * @Return
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
     public Integer updateInMiddle(Article article, List<Tag> tags) {
         Integer updateInMiddle = 0;
@@ -73,6 +78,7 @@ public class Article_TagServiceImpl implements IArticle_TagService {
      *
      * @Return
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
     public void deleteInMiddle(Article article) {
         dao.deleteInMiddle(article.getA_id());

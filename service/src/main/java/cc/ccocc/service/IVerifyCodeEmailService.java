@@ -1,5 +1,6 @@
 package cc.ccocc.service;
 
+import cc.ccocc.dto.AdminDTO;
 import cc.ccocc.dto.ResultDTO;
 
 /**
@@ -11,7 +12,7 @@ import cc.ccocc.dto.ResultDTO;
 
 public interface IVerifyCodeEmailService {
 
-    public ResultDTO sendEmailWithVerifyCode(String email ,Long timeOut);
+    public ResultDTO sendEmailWithVerifyCode(String email , Long timeOut);
 
     public ResultDTO checkEmailVerifyCode(String email,String verifyCode);
 }

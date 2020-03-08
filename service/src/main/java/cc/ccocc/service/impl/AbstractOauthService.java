@@ -6,14 +6,10 @@ import cc.ccocc.dto.UserDTO;
 import cc.ccocc.pojo.Oauth;
 import cc.ccocc.service.IOauthService;
 import cc.ccocc.service.IUserService;
-import cc.ccocc.utils.idgenerater.SnowflakeIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

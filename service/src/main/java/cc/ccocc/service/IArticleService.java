@@ -1,13 +1,11 @@
 package cc.ccocc.service;
 
 import cc.ccocc.dto.ArticleDTO;
-import cc.ccocc.dto.CommentDTO;
+import cc.ccocc.dto.PageHelpDTO;
 import cc.ccocc.dto.ResultDTO;
 import cc.ccocc.pojo.Article;
-import org.apache.ibatis.annotations.Param;
+import cc.ccocc.pojo.Tag;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -18,9 +16,11 @@ import java.util.List;
  */
 public interface IArticleService {
 
-    List<Article> findAll();
+    PageHelpDTO<List<Article>> findAll(Integer pageNo , Integer pageSize);
 
     Integer article_Count();
+
+    Integer UserArticle_Count(Long userId);
 
     List<Article> findArticleByTagId(Long tag_id);
 
@@ -34,12 +34,15 @@ public interface IArticleService {
 
     ArticleDTO findArticleById(Long articleId);
 
-    ResultDTO addArticleLike(Long articleId, Long userId);
+    ResultDTO addArticleLike(Long articleId, Long authId,Long userId,String article);
 
     ResultDTO addArticleViewStatistics(Long articleId);
 
-    List<ArticleDTO> findArticleByUserId(Long userId);
+    PageHelpDTO<List<ArticleDTO>> findArticleByUserId(Long userId,Integer pageNo,Integer pageSize);
 
-    ResultDTO deleteArticle(Long articleId);
+    ResultDTO deleteArticle(Long articleId,Long userId);
 
+    public List<ArticleDTO> searchArticle(String articleName);
+
+    public List<ArticleDTO> searchArticleByTag(List<Tag> tags);
 }

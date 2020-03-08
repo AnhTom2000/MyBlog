@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +23,16 @@ import java.util.List;
  * @author Weleness
  */
 @Service("archiveService")
-public class ArchiveServiceImpl implements IArchiveService {
+public class
+ArchiveServiceImpl implements IArchiveService {
     @Autowired
     private IArchiveDao archiveDao;
 
     @Autowired
     @Qualifier("user_archivesService")
     private IUser_ArchivesService user_archivesService;
+
+     private static  final   BeanCopier beanCopier = BeanCopier.create(Archive.class,ArchiveDTO.class,false);
 
     /**
      * @param userId  用户主键  根据用户主键查询用户的归档信息
@@ -43,7 +49,6 @@ public class ArchiveServiceImpl implements IArchiveService {
         List<ArchiveDTO> user_archives = null;
         if(archives != null){
             user_archives = new ArrayList<>();
-            BeanCopier beanCopier = BeanCopier.create(Archive.class,ArchiveDTO.class,false);
             for (Archive archive : archives) {
                 ArchiveDTO archiveDTO = ArchiveDTO.builder().build();
                 beanCopier.copy(archive,archiveDTO,null);
@@ -63,12 +68,13 @@ public class ArchiveServiceImpl implements IArchiveService {
      *
      * @Return
      */
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     @Override
     public void saveArchive(Archive archive,Long userId) {
         // 保存到归档表后返回一个插入的主键
         archiveDao.saveArchive(archive);
         // 将归档主键和用户主键存到中间表
-        user_archivesService.addInUser_Archives(userId,archive.getId());
+        user_archivesService.addInUser_Archives(userId,archive.getArchive_id());
     }
 
     /**
@@ -83,6 +89,35 @@ public class ArchiveServiceImpl implements IArchiveService {
     @Override
     public Archive findArchiveByYear(String year) {
         return archiveDao.findArchiveByYear(year);
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
+    @Override
+    public void addArchiveArticleCount(String year) {
+        archiveDao.addArchiveArticleCount(year);
+    }
+
+    /**
+     * @Method
+     * Description:
+     *  查询所有归档
+     * @Author weleness
+     *
+     * @Return
+     */
+    @Override
+    public List<ArchiveDTO> findAllArchives() {
+        List<Archive> archives = archiveDao.findAllArchives();
+        List<ArchiveDTO> archiveDTOS  = null;
+        if(archives != null){
+            archiveDTOS = new ArrayList<>();
+            for (Archive archive : archives) {
+                ArchiveDTO archiveDTO = new ArchiveDTO();
+                beanCopier.copy(archive,archiveDTO,null);
+                archiveDTOS.add(archiveDTO);
+            }
+        }
+        return archiveDTOS;
     }
 
 

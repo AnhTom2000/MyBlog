@@ -49,5 +49,7 @@ public interface IArticle_UserDao {
     @Insert("INSERT INTO tb_user_article_like_middle(user_id,article_id) VALUES(#{userId},#{articleId})")
     Integer addSourceInMiddle(@Param("userId") Long userId, @Param("articleId") Long articleId);
 
+    @Delete("DELETE FROM tb_user_article_like_middle WHERE user_id = #{userId}")
+    Integer deleteByUser(@Param("userId") Long userId);
 
 }

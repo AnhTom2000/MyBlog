@@ -1,7 +1,5 @@
 package cc.ccocc.service;
 
-import cc.ccocc.dto.ResultDTO;
-
 /**
  * Created on 18:52  22/01/2020
  * Description:

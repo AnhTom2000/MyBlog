@@ -10,8 +10,6 @@
     <!-- 响应式meta标签 -->
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <link rel="stylesheet"
           href="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/css/bootstrap/bootstrap.min.css ">
 
@@ -46,7 +44,97 @@
 <body>
 <#setting number_format="#">
 <div class="container-fluid">
-    <#include "header.ftl">
+    <nav
+            class="navbar navbar-default navbar-expand-sm navbar-expand-lg navbar-expand-xl navbar-light bg-light  navbar-static-top shadow-lg  mb-4 bg-white  ">
+        <div class="navbar-barand ml-auto" width="100">
+            <a href="/">
+                <img src="https://weleness-1300955279.cos.ap-guangzhou.myqcloud.com/cdn/Blog/img/logo/%E4%B8%8B%E8%BD%BD.png"
+                     width="120" height="80"
+                     class=" navbar-brand img-responsive"
+                >
+            </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                1="Toggle navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="container">
+            <div class="collapse navbar-collapse navbar-responsive-collapse " id="navbarSupportedContent">
+                <div class="  d-flex justify-content-center mr-auto">
+                    <ul class="navbar-nav">
+                        <li class="divider"></li>
+                        <li class="nav-item fonts">
+                            <a class="nav-link" href="/">首页</a>
+                        </li>
+
+                        <li class="nav-item fonts">
+                            <a class="nav-link  " id="archive" href="/archives">归档</a>
+                        </li>
+
+                        <li class="nav-item fonts">
+                            <a class="nav-link " href="#">更新</a>
+                        </li>
+
+                        <li class="nav-item fonts">
+                            <a class="nav-link " href="#">关于</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <div class="navbar navbar-start">
+                                <form class=" from-inline " style="display: inline-flex;" role="search">
+                                    <input type="search" placeholder="Search" class="form-control mr-sm-2">
+                                    <svg t="1577948224406"
+                                         class="icon img-thumbnail navbar-brand img-responsive icon-serach "
+                                         role="button" viewBox="0 0 1024 1024" version="1.1"
+                                         xmlns="http://www.w3.org/2000/svg" p-id="2586" width="35" height="31">
+                                        <path
+                                                d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"
+                                                fill="#1afa29" p-id="2587"></path>
+                                    </svg>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="divier"></li>
+                    </ul>
+                </div>
+
+                <#if user??>
+                 <div class="navbar-nav text-justify  text-nowrap text-monospace text-sm-left mr-3">
+                     <a href="/markdown" style="text-decoration: none">
+                         <span class="write-word nav-link" style="font-family: 微软雅黑;">写博客</span>
+                     </a>
+                 </div>
+                 <div class="navbar-barand  dropdown" >
+                     <a href="#" class="dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                         <img src="${user.avatarUrl}"
+                              class="img-thumbnail navbar-brand img-responsive rounded-circle " width="50"
+                              height="60">
+                         <span>${user.userName}</span>
+                     </a>
+                     <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                         <a class="dropdown-item" href="/user/showUser/${user.userName}">博客主页</a>
+                         <a class="dropdown-item" href="/user/PersonalSystem/info">个人中心</a>
+                         <a id="exit" class="dropdown-item" href="javascript:void(0)"> 退出登录</a>
+                     </div>
+                 </div>
+                <#else >
+                  <div class="end mr-5">
+                      <a href="/login" class="btn btn-primary btn-sm active rounded btn-block ">
+                          登陆
+                      </a>
+                  </div>
+                    <div class="end">
+                        <a href="/register" class="btn btn-primary btn-sm active rounded btn-block ">
+                            注册
+                        </a>
+                    </div>
+                </#if>
+            </div>
+    </nav>
+</div>
+
+<div class="container-fluid">
     <div class="row ">
         <div class=" d-sm-block d-sm-none d-md-block ml-3 shadow-lg p-2 mb-1 bg-white col-sm-9 col-lg-9 col-md-9">
             <div class="container">

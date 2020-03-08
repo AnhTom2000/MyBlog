@@ -1,6 +1,5 @@
 package cc.ccocc.service.impl;
 
-import cc.ccocc.dao.IArticle_CommentDao;
 import cc.ccocc.pojo.Counts;
 import cc.ccocc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
